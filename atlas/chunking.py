@@ -20,6 +20,10 @@ class Chunk:
     source_id: str
     section: str
     meta: dict[str, str] = field(default_factory=dict)
+    # Part 4: the block supplied to the model when this chunk matches.
+    parent_id: str | None = None
+    # Part 4: text used for search when it differs from `text`.
+    search_text: str | None = None
 
     @property
     def ref(self) -> str:

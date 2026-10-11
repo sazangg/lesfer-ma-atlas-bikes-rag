@@ -7,18 +7,22 @@ Part 1 (naive RAG):
 
 Part 3 replaces plain-text extraction with conversion and verification:
 
-    Preparing:  parsed documents -> structured documents (+ ingestion report)
-                -> rendered text -> size-based chunks -> ...
+    Preparing:  parsed documents -> structured documents (+ ingestion report) -> ...
+
+Part 4 gives each kind of content a searched form and a supplied form:
+
+    Preparing:  structured documents -> searchable pieces (indexed) + blocks (stored)
+    Answering:  ... top-k pieces -> the blocks they belong to, once each -> prompt ...
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from atlas.chunking import Chunk, size_based_chunks
-from atlas.convert import IngestReport, StructuredDocument, convert, load_corrections
+from atlas.chunking import Chunk
+from atlas.convert import IngestReport, convert, load_corrections
 from atlas.corpus import ParsedDocument, load_corpus
-from atlas.extract import TextSection
+from atlas.evidence import evidence_units
 from atlas.index import VectorIndex
 from atlas.providers import Describer, Embedder, Generator
 from atlas.toy import ToyDescriber, ToyEmbedder, ToyGenerator
@@ -62,6 +66,7 @@ class Assistant:
         self.describer = describer or ToyDescriber()
         self.k = k
         self.index = VectorIndex()
+        self.blocks: dict[str, Chunk] = {}
         self.reports: list[IngestReport] = []
 
     # Preparing the documents ------------------------------------------------
@@ -71,8 +76,10 @@ class Assistant:
         for parsed in documents:
             doc = convert(parsed, self.describer, corrections)
             self.reports.append(doc.report)
-            for chunk in size_based_chunks(doc.source_id, doc.meta, rendered_sections(doc)):
-                self.index.add(chunk, self.embedder.embed(chunk.text))
+            searchable, blocks = evidence_units(doc)
+            self.blocks.update((b.id, b) for b in blocks)
+            for chunk in searchable:
+                self.index.add(chunk, self.embedder.embed(chunk.search_text or chunk.text))
 
     # Answering a question ---------------------------------------------------
 
@@ -82,18 +89,22 @@ class Assistant:
         # Access is enforced before any passage can reach the prompt.
         hits = self.index.search(self.embedder.embed(question), user.groups, self.k)
         trace.retrieved = [(chunk.id, round(score, 3)) for score, chunk in hits]
-        trace.context = [chunk for _, chunk in hits]
+        trace.context = self.supplied_blocks([chunk for _, chunk in hits])
 
         trace.prompt = build_prompt(INSTRUCTIONS, question, trace.context)
         trace.answer = self.generator.generate(trace.prompt)
         return trace
 
-
-def rendered_sections(doc: StructuredDocument) -> list[TextSection]:
-    return [
-        TextSection(s.number, s.title, "\n\n".join(e.render() for e in s.elements))
-        for s in doc.sections
-    ]
+    def supplied_blocks(self, hits: list[Chunk]) -> list[Chunk]:
+        """Replace each searched piece by the block it belongs to, once."""
+        context: list[Chunk] = []
+        seen: set[str] = set()
+        for chunk in hits:
+            block = self.blocks[chunk.parent_id] if chunk.parent_id else chunk
+            if block.id not in seen:
+                seen.add(block.id)
+                context.append(block)
+        return context
 
 
 def build_prompt(instructions: str, question: str, context: list[Chunk]) -> str:

@@ -100,3 +100,36 @@ The reviewer's fix lives in `corpus/corrections.json`, keyed by the parser's ele
 - Find the `E-417` entry.
 
 **Stop here if** your documents are mostly prose with simple layout, and your questions don't depend on tables, exceptions, or figures staying intact.
+
+## part-04: From documents to evidence
+
+**Article:** From documents to evidence
+
+**Lands in:** ingestion, plus one answering step.
+
+What is easy to find is often not what the model needs to read. Each kind of content now gets a **searched form** and a **supplied form** (`evidence.py`):
+
+| Kind | Searched as | Supplied to the model as |
+| --- | --- | --- |
+| paragraph | the paragraph, with its section title | the whole section |
+| table row | the row, with its scope and section | the whole table, header and scope included |
+| figure | caption + description | caption, description, image file, page |
+| slide | title, text, speaker notes | the whole slide |
+
+```
+Preparing:  structured documents -> searchable pieces (indexed) + blocks (stored)
+Answering:  question -> top-5 pieces -> the block each belongs to, once -> prompt
+```
+
+The size-based chunker from part-01 stays in `chunking.py` for comparison; the pipeline no longer uses it.
+
+**Closed gaps:**
+- `Q06-mudguard-exception`: the mudguard rule arrives with its cargo exception, because the model receives section 4.2 whole.
+- `Q07-check-scope`: check R07 arrives inside its table, with "C-3, 36 V battery pack, frame-mounted, standard charger".
+- `Q12-figure-itself`: the model receives the figure (image file and page), so a model that reads images can check the description against the image, and a person can open page 8.
+
+**Worth noticing:** `Q04-every-check` now reports `all present; completeness not guaranteed`. The table is small, so supplying it whole happens to include all eleven checks. Nothing guarantees that for a larger register or for checks spread over several documents. That difference is Part 9's subject.
+
+**Still can't:** find the `E-417` entry. Asked "What does error E-417 mean, and what should I check?", the top result is the battery safety checks table: it matches "check", and the toy embedder can't see the code.
+
+**Stop here if** your questions are answered by finding one passage, table, figure, or slide, and plain wording is enough to find it.
