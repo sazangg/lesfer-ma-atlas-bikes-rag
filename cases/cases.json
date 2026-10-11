@@ -1,0 +1,222 @@
+{
+  "about": "Atlas Bikes questions with their expected behavior. 'expected_from' is the first checkpoint meant to pass the case. Checks inspect the evidence that reached the model, routing, and tool results, not prose quality.",
+  "cases": [
+    {
+      "id": "Q01-current",
+      "question": "What battery warranty applies to a C-3 bought on 15 March 2026?",
+      "expected_from": "part-01",
+      "behavior": "Answer 3 years from WARR-R2, section 2.",
+      "checks": [
+        {
+          "type": "includes_refs",
+          "refs": [
+            "WARR-R2#2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q03-recovery",
+      "question": "How do I get back into the display after forgetting the PIN?",
+      "expected_from": "part-01",
+      "behavior": "The dealer recovery procedure reaches the model despite different wording.",
+      "checks": [
+        {
+          "type": "includes_refs",
+          "refs": [
+            "SERVICE-C3-R4#7"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q02-error-code",
+      "question": "What does error E-417 mean, and what should I check?",
+      "expected_from": "part-05",
+      "behavior": "The E-417 entry reaches the model. Vector search alone can't see exact codes.",
+      "checks": [
+        {
+          "type": "includes_refs",
+          "refs": [
+            "ERR-C3-R2#4.17"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q08-scanned-exception",
+      "question": "Is a rear mudguard required on the cargo version of the C-3?",
+      "expected_from": "part-03",
+      "behavior": "The exception from the scanned guide reaches the model with correct text.",
+      "checks": [
+        {
+          "type": "includes_text",
+          "text": "the rear mudguard is not required"
+        }
+      ]
+    },
+    {
+      "id": "Q09-slide-notes",
+      "question": "What does it mean when the C-3 display blinks twice?",
+      "expected_from": "part-03",
+      "behavior": "The answer, which is only in the slide's speaker notes, reaches the model.",
+      "checks": [
+        {
+          "type": "includes_text",
+          "text": "speed sensor signal is lost"
+        }
+      ]
+    },
+    {
+      "id": "Q11-figure-values",
+      "question": "How much capacity did pack A keep after 500 charge cycles?",
+      "expected_from": "part-03",
+      "behavior": "The value printed only in Figure 2 reaches the model.",
+      "checks": [
+        {
+          "type": "includes_text",
+          "text": "82 percent"
+        }
+      ]
+    },
+    {
+      "id": "Q06-mudguard-exception",
+      "question": "Do I need to fit a rear mudguard on a C-3?",
+      "expected_from": "part-04",
+      "behavior": "The rule arrives together with its cargo-version exception.",
+      "checks": [
+        {
+          "type": "same_block",
+          "contains": [
+            "Fit the rear mudguard",
+            "Exception"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q07-check-scope",
+      "question": "Which battery check applies when the battery casing has been opened?",
+      "expected_from": "part-04",
+      "behavior": "R07 reaches the model with the configuration it applies to.",
+      "checks": [
+        {
+          "type": "block_with",
+          "contains": "R07",
+          "also": "36 V battery pack"
+        }
+      ]
+    },
+    {
+      "id": "Q12-figure-itself",
+      "question": "How much capacity did pack A keep after 500 charge cycles?",
+      "expected_from": "part-04",
+      "behavior": "The model receives the figure itself (image reference and page), not only a description of it.",
+      "checks": [
+        {
+          "type": "includes_text",
+          "text": "figures/TEST-BAT-R1-fig2.svg"
+        }
+      ]
+    },
+    {
+      "id": "Q02-exact-code-first",
+      "question": "What does error E-417 mean, and what should I check?",
+      "expected_from": "part-05",
+      "behavior": "The exact code's entry ranks first, above look-alike codes.",
+      "checks": [
+        {
+          "type": "first_ref",
+          "ref": "ERR-C3-R2#4.17"
+        }
+      ]
+    },
+    {
+      "id": "Q01-applicable-only",
+      "question": "What battery warranty applies to a C-3 bought on 15 March 2026?",
+      "expected_from": "part-06",
+      "behavior": "Only the policy that applies to this product and purchase date reaches the model.",
+      "checks": [
+        {
+          "type": "excludes_refs",
+          "refs": [
+            "WARR-R1#2",
+            "WARR-S2-R1#2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q01-historical",
+      "question": "What battery warranty applies to a C-3 bought on 15 March 2025?",
+      "expected_from": "part-06",
+      "behavior": "Answer 2 years from WARR-R1; the newer policy doesn't apply to 2025 purchases.",
+      "checks": [
+        {
+          "type": "includes_refs",
+          "refs": [
+            "WARR-R1#2"
+          ]
+        },
+        {
+          "type": "excludes_refs",
+          "refs": [
+            "WARR-R2#2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q10-missing-details",
+      "question": "How long is the battery warranty?",
+      "expected_from": "part-06",
+      "behavior": "Ask for the product and purchase date instead of picking a policy.",
+      "checks": [
+        {
+          "type": "status",
+          "equals": "clarify"
+        }
+      ]
+    },
+    {
+      "id": "Q04-every-check",
+      "question": "List all battery safety checks for the C-3 under revision 5.",
+      "expected_from": "part-09",
+      "behavior": "All eleven checks R01-R11, with a guarantee that the list is complete rather than a lucky retrieval.",
+      "checks": [
+        {
+          "type": "includes_ids",
+          "ids": [
+            "R01",
+            "R02",
+            "R03",
+            "R04",
+            "R05",
+            "R06",
+            "R07",
+            "R08",
+            "R09",
+            "R10",
+            "R11"
+          ]
+        },
+        {
+          "type": "complete_by",
+          "route": "enumeration"
+        }
+      ]
+    },
+    {
+      "id": "Q05-pass-rate",
+      "question": "What share of bikes passed final inspection without rework across batches A and B?",
+      "expected_from": "part-10",
+      "behavior": "89 of 110 bikes, about 80.9%, computed rather than averaged.",
+      "checks": [
+        {
+          "type": "answer_contains",
+          "text": "80.9"
+        }
+      ]
+    }
+  ]
+}

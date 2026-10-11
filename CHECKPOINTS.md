@@ -31,3 +31,28 @@ Text comes out of the parser output the quick way (`extract.py`): everything in 
 - Keep the old and new warranty policies apart, or list all eleven battery safety checks.
 
 **Stop here if** your documents are clean digital text, your questions are single facts, and a person reads each answer with its sources.
+
+## part-02: Name the failures before fixing them
+
+**Article:** When a useful answer isn't a correct answer
+
+**Lands in:** around the pipeline. The pipeline itself doesn't change.
+
+- `cases/cases.json` records real questions with their expected behavior and the part meant to handle each one.
+- `python -m atlas check` runs them and labels each result PASS, KNOWN GAP, or REGRESSION.
+- `--save-traces` writes the question, retrieved chunks, prompt, and answer for each case to `traces/`, so you can see where a failure happened.
+
+This is the lightweight start of evaluation. Part 7 builds it into proper measurement.
+
+**Answers:** the same questions as part-01. What changes is that you can see which questions fail, and which part is meant to fix each:
+
+```
+KNOWN GAP -> part-03   Q08-scanned-exception    'the rear mudguard is not required' not supplied
+KNOWN GAP -> part-03   Q09-slide-notes          'speed sensor signal is lost' not supplied
+KNOWN GAP -> part-04   Q06-mudguard-exception   not in the same passage
+KNOWN GAP -> part-05   Q02-error-code           missing ['ERR-C3-R2#4.17']
+KNOWN GAP -> part-06   Q01-applicable-only      also supplied ['WARR-R1#2', 'WARR-S2-R1#2']
+KNOWN GAP -> part-09   Q04-every-check          missing ['R03', 'R04', 'R05']; completeness not guaranteed
+```
+
+**Not a stopping point.** Keep this case file and runner whatever you build next. Every later checkpoint is judged by it.

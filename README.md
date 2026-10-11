@@ -36,6 +36,15 @@ Implement the same methods to plug in a real parser, embedding model, or LLM. Th
 ## Layout
 
 ```
+cases/         questions with their expected behavior
 corpus/        parser output for the Atlas documents, plus figures
 atlas/         the assistant
 ```
+
+## Check a checkpoint
+
+```bash
+python -m atlas check
+```
+
+Each case states the part meant to handle it. Failing cases that a later part will close are reported as known gaps, not errors; a failure the current checkpoint should handle is a regression.
