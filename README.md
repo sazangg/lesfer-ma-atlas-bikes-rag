@@ -39,6 +39,7 @@ Implement the same methods to plug in a real parser, embedding model, or LLM. Th
 cases/         questions with their expected behavior
 corpus/        parser output for the Atlas documents, plus figures
 atlas/         the assistant
+tests/         unit tests (python -m unittest)
 ```
 
 ## Check a checkpoint

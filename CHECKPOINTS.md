@@ -56,3 +56,47 @@ KNOWN GAP -> part-09   Q04-every-check          missing ['R03', 'R04', 'R05']; c
 ```
 
 **Not a stopping point.** Keep this case file and runner whatever you build next. Every later checkpoint is judged by it.
+
+## part-03: From raw files to structured documents
+
+**Article:** From raw files to structured documents
+
+**Lands in:** ingestion. Answering doesn't change.
+
+```
+Preparing:  parsed documents
+            -> convert: drop page furniture, apply reviewed corrections, flag unsure OCR,
+                        rejoin split tables with their scope, keep slide notes,
+                        describe figures with a vision model
+            -> structured documents + ingestion report
+            -> rendered text -> size-based chunks -> index
+```
+
+In many real projects this layer is most of the work. `convert.py` keeps each element's type (paragraph, table, figure, slide). Here it is still rendered to text for the part-01 chunker; part-04 uses the types.
+
+`python -m atlas ingest-report --no-corrections` shows what a person must check before the system is trusted:
+
+```
+ASSEMBLY-C3-R3 (c3-assembly-guide-r3-scan.pdf)
+  - NEEDS REVIEW: e5 (page 9) OCR confidence 0.61: Exception: on the cargo version of the C-3, the rear mudguar...
+SPEC-C3-R5 (c3-specification-r5.pdf)
+  - removed 6 page headers/footers
+  - rejoined 1 table split across pages
+TEST-BAT-R1 (battery-cycle-test-r1.pdf)
+  - removed 2 page headers/footers
+  - described 1 figure(s)
+```
+
+The reviewer's fix lives in `corpus/corrections.json`, keyed by the parser's element ID, so it survives re-ingestion.
+
+**Closed gaps:**
+- `Q08-scanned-exception`: the cargo exception reaches the model as "the rear mudguard is not required", not the OCR's "requlred".
+- `Q09-slide-notes`: the meaning of two blinks, which exists only in speaker notes, reaches the model.
+- `Q11-figure-values`: "82 percent", printed only in the figure, reaches the model through its description.
+
+**Still can't:**
+- Keep the mudguard rule with its cargo exception, or check R07 with its scope: size-based chunks still cut through them.
+- Give the model the figure itself, not only a description of it.
+- Find the `E-417` entry.
+
+**Stop here if** your documents are mostly prose with simple layout, and your questions don't depend on tables, exceptions, or figures staying intact.

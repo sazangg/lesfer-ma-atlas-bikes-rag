@@ -34,3 +34,4 @@ Scanned elements also carry `ocr_confidence`.
 ## Other files
 
 - `figures/*.description.txt`: the description a vision model would produce for a figure. It stands in for that model's output so the examples run offline.
+- `corrections.json`: corrections a person made after reviewing flagged OCR text (used from part-03).

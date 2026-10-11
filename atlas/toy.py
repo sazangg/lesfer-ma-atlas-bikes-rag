@@ -12,6 +12,11 @@ ToyEmbedder
     exaggerates a real weakness of dense retrieval: exact identifiers such as
     E-417 carry little meaning for it.
 
+ToyDescriber
+    Reads a prepared description next to the image instead of looking at it.
+    It stands in for a vision model's output. In a real pipeline a model
+    writes that description and a person spot-checks the numbers.
+
 ToyGenerator
     Doesn't write prose. It repeats the first sentence of each supplied source
     with its label, so you can see what evidence a real model would receive.
@@ -81,6 +86,14 @@ class ToyEmbedder:
         for concept in concepts(text):
             vector[concept] = vector.get(concept, 0.0) + 1.0
         return vector
+
+
+class ToyDescriber:
+    def describe(self, image_path: str, caption: str) -> str:
+        from atlas.corpus import CORPUS_DIR
+
+        sidecar = (CORPUS_DIR / image_path).with_suffix(".description.txt")
+        return sidecar.read_text(encoding="utf-8").strip() if sidecar.exists() else ""
 
 
 class ToyGenerator:

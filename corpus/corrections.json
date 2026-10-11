@@ -1,0 +1,8 @@
+{
+  "about": "Corrections made by a person after the ingestion report flagged low-confidence OCR. Keyed by source ID, then parser element ID. Checked against the scanned page.",
+  "corrections": {
+    "ASSEMBLY-C3-R3": {
+      "e5": "Exception: on the cargo version of the C-3, the rear mudguard is not required because the cargo rack covers the wheel. Keep the rack drainage holes clear."
+    }
+  }
+}

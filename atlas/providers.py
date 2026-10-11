@@ -22,6 +22,12 @@ class Generator(Protocol):
     def generate(self, prompt: str) -> str: ...
 
 
+class Describer(Protocol):
+    """A vision model that turns a figure into text, keeping its values."""
+
+    def describe(self, image_path: str, caption: str) -> str: ...
+
+
 def cosine(a: Vector, b: Vector) -> float:
     dot = sum(weight * b.get(dim, 0.0) for dim, weight in a.items())
     norm_a = sum(w * w for w in a.values()) ** 0.5

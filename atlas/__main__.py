@@ -2,6 +2,7 @@
 
     python -m atlas ask "question" [--show-prompt]
     python -m atlas check [--save-traces]
+    python -m atlas ingest-report [--no-corrections]
 """
 
 from __future__ import annotations
@@ -21,7 +22,21 @@ def main() -> None:
     ask.add_argument("--show-prompt", action="store_true")
     check = commands.add_parser("check", help="run the Atlas cases against this checkpoint")
     check.add_argument("--save-traces", action="store_true", help="write each trace to traces/")
+    report = commands.add_parser("ingest-report", help="show what conversion changed and what needs review")
+    report.add_argument("--no-corrections", action="store_true", help="ignore corpus/corrections.json")
     args = parser.parse_args()
+
+    if args.command == "ingest-report":
+        from atlas.corpus import load_corpus
+        from atlas.pipeline import Assistant
+
+        assistant = Assistant()
+        assistant.ingest(load_corpus(), corrections={} if args.no_corrections else None)
+        for r in assistant.reports:
+            print(f"{r.source_id} ({r.file})")
+            for line in r.lines():
+                print(f"  - {line}")
+        return
 
     if args.command == "ask":
         trace = default_assistant().ask(args.question)
