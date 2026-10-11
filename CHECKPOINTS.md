@@ -133,3 +133,42 @@ The size-based chunker from part-01 stays in `chunking.py` for comparison; the p
 **Still can't:** find the `E-417` entry. Asked "What does error E-417 mean, and what should I check?", the top result is the battery safety checks table: it matches "check", and the toy embedder can't see the code.
 
 **Stop here if** your questions are answered by finding one passage, table, figure, or slide, and plain wording is enough to find it.
+
+## part-05: When search misses the evidence
+
+**Article:** When search misses the evidence
+
+**Lands in:** retrieval. Ingestion now also builds a keyword index next to the vector index.
+
+```
+                       exact code lookup ─────────────────────────┐
+question ─> keyword search (BM25) ┐                                ├─> top-5 pieces -> blocks -> prompt
+         └> vector search ────────┴─> fusion (RRF) -> reranker ───┘
+```
+
+- `KeywordIndex` (BM25) keeps identifiers such as `E-417` as exact terms.
+- An error code in the question resolves directly to its entry. The `error_code` field comes from the HTML heading attributes that part-03's conversion preserved; part-01's plain-text extraction threw them away.
+- Reciprocal rank fusion combines the two searches by position, so their incompatible scores never need to be added.
+- A reranker reads the question and each shortlisted piece together. Two limits now exist: candidates per search (10) and pieces kept (5).
+- Non-text content needs nothing special at this stage: table rows, figure descriptions, and slides are searched through their searched form, and part-04 still supplies the whole block. "Which check covers the battery vent holes?" hits row R08 first, and the model receives the whole table.
+
+**Closed gaps:** `Q02-error-code` and `Q02-exact-code-first`. The `E-417` entry is now first:
+
+```
+    inf  ERR-C3-R2-4.17-p0
+  0.400  TRAIN-C3-2-search
+```
+
+**Two regressions caught while building this checkpoint.** The first reranker scored word overlap divided by passage length, plus a large bonus for every shared identifier. The checker reported:
+
+```
+REGRESSION             Q09-slide-notes          'speed sensor signal is lost' not supplied
+```
+
+Both searches had ranked the right slide first. The reranker demoted it below passages that merely contained "C-3", which the question mentions and the slide doesn't. A second attempt scored how much of the question a passage covers, plus a bonus for identifiers that are rare among the candidates. It failed the same case for the same reason: the bonus still outweighed the content. The version that shipped treats identifiers as ordinary question terms, weighted by rarity, inside the same coverage score. A passage now wins by addressing more of the question. A reranker is a model making judgments; without the case file, either earlier version would have shipped.
+
+**Still can't:**
+- Choose between warranty policies by purchase date: both C-3 policies still reach the model.
+- List every safety check with a guarantee.
+
+**Stop here if** your users ask single-answer questions, some with exact codes or names and some in their own words, and your documents don't come in versions that apply to different situations.

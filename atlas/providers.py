@@ -22,6 +22,12 @@ class Generator(Protocol):
     def generate(self, prompt: str) -> str: ...
 
 
+class Reranker(Protocol):
+    """Scores each (question, passage) pair together, like a cross-encoder."""
+
+    def score(self, question: str, passages: list[str]) -> list[float]: ...
+
+
 class Describer(Protocol):
     """A vision model that turns a figure into text, keeping its values."""
 

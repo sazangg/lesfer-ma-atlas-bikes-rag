@@ -27,6 +27,14 @@ class VectorIndex:
         scored.sort(key=lambda pair: pair[0], reverse=True)
         return scored[:limit]
 
+    def lookup(self, field: str, values: set[str], allowed_groups: set[str]) -> list[Chunk]:
+        """Exact match on a metadata field, such as an error code."""
+        return [
+            chunk
+            for chunk, _ in self._entries
+            if chunk.meta.get(field) in values and _readable(chunk, allowed_groups)
+        ]
+
     def __len__(self) -> int:
         return len(self._entries)
 

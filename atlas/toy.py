@@ -12,6 +12,13 @@ ToyEmbedder
     exaggerates a real weakness of dense retrieval: exact identifiers such as
     E-417 carry little meaning for it.
 
+ToyReranker
+    Reads the question and a passage together and scores how much of the
+    question the passage addresses. Identifiers count as question terms,
+    weighted by how rare they are among the candidates. A real cross-encoder
+    learns this judgment; the toy only shows where the step sits and what it
+    returns.
+
 ToyDescriber
     Reads a prepared description next to the image instead of looking at it.
     It stands in for a vision model's output. In a real pipeline a model
@@ -24,6 +31,7 @@ ToyGenerator
 
 from __future__ import annotations
 
+import math
 import re
 
 from atlas.providers import Vector
@@ -86,6 +94,28 @@ class ToyEmbedder:
         for concept in concepts(text):
             vector[concept] = vector.get(concept, 0.0) + 1.0
         return vector
+
+
+class ToyReranker:
+    def score(self, question: str, passages: list[str]) -> list[float]:
+        question_concepts = set(concepts(question))
+        question_ids = set(re.findall(r"[a-z]+-[a-z]?\d+", question.lower()))
+        passage_ids = [set(re.findall(r"[a-z]+-[a-z]?\d+", p.lower())) for p in passages]
+        # Identifiers count as question terms. A rare one (an error code) counts
+        # almost fully; one found in most candidates (a product name) barely counts.
+        n = len(passages)
+        id_weight = {
+            i: math.log(n / max(1, sum(i in ids for ids in passage_ids))) / math.log(n) if n > 1 else 1.0
+            for i in question_ids
+        }
+        terms = len(question_concepts) + len(question_ids) or 1
+        scores = []
+        for passage, ids in zip(passages, passage_ids):
+            matched = len(question_concepts & set(concepts(passage)))
+            matched += sum(id_weight[i] for i in question_ids & ids)
+            # How much of the question does this passage address?
+            scores.append(matched / terms)
+        return scores
 
 
 class ToyDescriber:
