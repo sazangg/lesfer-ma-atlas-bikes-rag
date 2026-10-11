@@ -1,0 +1,45 @@
+{
+  "source_id": "SERVICE-C3-R4",
+  "file": "c3-dealer-service-manual-r4.docx",
+  "format": "docx",
+  "meta": {
+    "title": "C-3 dealer service manual, revision 4",
+    "product": "C-3",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "6 Factory reset"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "A factory reset erases all settings, ride history, and the display PIN. Use it only when a bike is being scrapped or when Atlas support asks for it."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "7 Recovering display access"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "When the owner's PIN is unavailable, an authorized dealer must check the owner's proof of purchase and set a new PIN with the dealer service tool. This keeps the ride history and settings without a factory reset. It does not unlock a bike reported as stolen."
+    },
+    {
+      "id": "e5",
+      "type": "heading",
+      "level": 2,
+      "text": "8 Changing the display PIN"
+    },
+    {
+      "id": "e6",
+      "type": "paragraph",
+      "text": "Change the PIN from the settings menu during a service visit. The owner must enter the current PIN before choosing a new one. If the current PIN is unavailable, use the dealer recovery procedure instead."
+    }
+  ]
+}

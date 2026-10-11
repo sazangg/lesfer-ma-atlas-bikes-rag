@@ -1,0 +1,151 @@
+{
+  "source_id": "SPEC-C3-R5",
+  "file": "c3-specification-r5.pdf",
+  "format": "pdf",
+  "meta": {
+    "title": "C-3 specification, revision 5",
+    "product": "C-3",
+    "access": "staff",
+    "revision": "5"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "page_header",
+      "page": 12,
+      "text": "Atlas Bikes | C-3 Specification rev. 5 | Internal"
+    },
+    {
+      "id": "e2",
+      "type": "heading",
+      "level": 2,
+      "page": 12,
+      "text": "5 Frame"
+    },
+    {
+      "id": "e3",
+      "type": "paragraph",
+      "page": 12,
+      "text": "The C-3 frame is aluminum with an internal battery tube. The cargo version adds a reinforced rear rack that covers the top of the rear wheel."
+    },
+    {
+      "id": "e4",
+      "type": "page_footer",
+      "page": 12,
+      "text": "Page 12 of 40"
+    },
+    {
+      "id": "e5",
+      "type": "page_header",
+      "page": 13,
+      "text": "Atlas Bikes | C-3 Specification rev. 5 | Internal"
+    },
+    {
+      "id": "e6",
+      "type": "heading",
+      "level": 2,
+      "page": 13,
+      "text": "6 Battery safety checks before delivery"
+    },
+    {
+      "id": "e7",
+      "type": "paragraph",
+      "page": 13,
+      "text": "Scope: C-3, 36 V battery pack, frame-mounted, standard charger."
+    },
+    {
+      "id": "e8",
+      "type": "table",
+      "page": 13,
+      "header": [
+        "ID",
+        "Check"
+      ],
+      "rows": [
+        [
+          "R01",
+          "Check that the battery serial number matches the delivery note."
+        ],
+        [
+          "R02",
+          "Inspect the battery casing for cracks or dents."
+        ],
+        [
+          "R03",
+          "Check that the charging port cover closes fully."
+        ],
+        [
+          "R04",
+          "Measure the resting voltage and write it on the delivery sheet."
+        ],
+        [
+          "R05",
+          "Charge the battery to at least 50 percent before delivery."
+        ]
+      ]
+    },
+    {
+      "id": "e9",
+      "type": "page_footer",
+      "page": 13,
+      "text": "Page 13 of 40"
+    },
+    {
+      "id": "e10",
+      "type": "page_header",
+      "page": 14,
+      "text": "Atlas Bikes | C-3 Specification rev. 5 | Internal"
+    },
+    {
+      "id": "e11",
+      "type": "table",
+      "page": 14,
+      "header": null,
+      "rows": [
+        [
+          "R06",
+          "Check that the battery lock engages and the key turns freely."
+        ],
+        [
+          "R07",
+          "Replace the battery seal wherever the casing has been opened."
+        ],
+        [
+          "R08",
+          "Keep the battery vent holes clear of tape and stickers."
+        ],
+        [
+          "R09",
+          "Record the battery batch number in the bike's service record."
+        ],
+        [
+          "R10",
+          "Report any battery fault found during the final check."
+        ],
+        [
+          "R11",
+          "Complete the battery safety sign-off before handing over the bike."
+        ]
+      ]
+    },
+    {
+      "id": "e12",
+      "type": "heading",
+      "level": 2,
+      "page": 14,
+      "text": "7 Labels"
+    },
+    {
+      "id": "e13",
+      "type": "paragraph",
+      "page": 14,
+      "text": "Each bike carries a label with the model, frame number, and battery type. Cargo versions add a label with the maximum rack load."
+    },
+    {
+      "id": "e14",
+      "type": "page_footer",
+      "page": 14,
+      "text": "Page 14 of 40"
+    }
+  ]
+}

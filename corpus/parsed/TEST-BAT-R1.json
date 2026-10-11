@@ -1,0 +1,44 @@
+{
+  "source_id": "TEST-BAT-R1",
+  "file": "battery-cycle-test-r1.pdf",
+  "format": "pdf",
+  "meta": {
+    "title": "Battery charge-cycle test report, revision 1",
+    "product": "C-3",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "page_header",
+      "page": 8,
+      "text": "Atlas Bikes | Test report TEST-BAT-R1"
+    },
+    {
+      "id": "e2",
+      "type": "heading",
+      "level": 2,
+      "page": 8,
+      "text": "3 Results"
+    },
+    {
+      "id": "e3",
+      "type": "paragraph",
+      "page": 8,
+      "text": "Figure 2 compares the two battery packs after repeated charging. Each pack was tested on ten bikes."
+    },
+    {
+      "id": "e4",
+      "type": "figure",
+      "page": 8,
+      "caption": "Figure 2. Remaining battery capacity after 500 charge cycles",
+      "image": "figures/TEST-BAT-R1-fig2.svg"
+    },
+    {
+      "id": "e5",
+      "type": "page_footer",
+      "page": 8,
+      "text": "Page 8 of 12"
+    }
+  ]
+}

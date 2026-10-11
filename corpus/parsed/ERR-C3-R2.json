@@ -1,0 +1,54 @@
+{
+  "source_id": "ERR-C3-R2",
+  "file": "c3-display-error-codes.html",
+  "format": "html",
+  "meta": {
+    "title": "C-3 display error codes, revision 2",
+    "product": "C-3",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "4.17 E-417",
+      "attrs": {
+        "error_code": "E-417"
+      }
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "E-417: the battery is too hot to charge. Unplug the charger and let the battery cool to room temperature before charging again. If it happens on every charge, test the battery's temperature sensor."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "4.18 E-418",
+      "attrs": {
+        "error_code": "E-418"
+      }
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "E-418: the motor drew too much current and assistance was switched off. Stop, switch the bike off for ten seconds, and restart. Reduce the assistance level on steep climbs with heavy loads."
+    },
+    {
+      "id": "e5",
+      "type": "heading",
+      "level": 2,
+      "text": "4.71 E-471",
+      "attrs": {
+        "error_code": "E-471"
+      }
+    },
+    {
+      "id": "e6",
+      "type": "paragraph",
+      "text": "E-471: the battery is too cold to charge. Bring the bike indoors and wait until the battery warms to room temperature before charging. Charging below 0 degrees Celsius is blocked to protect the cells."
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Horizontal bar chart. Pack A keeps 82 percent of its original capacity after 500 charge cycles. Pack B keeps 91 percent of its original capacity after 500 charge cycles.

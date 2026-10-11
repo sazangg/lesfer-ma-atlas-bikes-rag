@@ -1,0 +1,24 @@
+{
+  "source_id": "WARR-S2-R1",
+  "file": "scooter-battery-warranty-r1.docx",
+  "format": "docx",
+  "meta": {
+    "title": "S-2 scooter battery warranty, revision 1",
+    "product": "S-2",
+    "access": "employees",
+    "applies_from": "2025-01-01"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "2 Warranty term"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "S-2 scooter batteries purchased on or after 1 January 2025 carry a warranty of 18 months from the purchase date."
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "source_id": "ASSEMBLY-C3-R3",
+  "file": "c3-assembly-guide-r3-scan.pdf",
+  "format": "scanned pdf (OCR)",
+  "meta": {
+    "title": "C-3 assembly guide, revision 3",
+    "product": "C-3",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "page": 9,
+      "text": "4.1 Handlebar",
+      "ocr_confidence": 0.97
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "page": 9,
+      "text": "Fit the handlebar so the display faces the rider. Tighten the stem bolts to 5 Nm, alternating between them.",
+      "ocr_confidence": 0.95
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "page": 9,
+      "text": "4.2 Mudguards",
+      "ocr_confidence": 0.96
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "page": 9,
+      "text": "Fit the rear mudguard before the first ride. Use the two bolts supplied, tighten them to 4 Nm, and check that the mudguard does not touch the tyre when the wheel turns.",
+      "ocr_confidence": 0.94
+    },
+    {
+      "id": "e5",
+      "type": "paragraph",
+      "page": 9,
+      "text": "Exception: on the cargo version of the C-3, the rear mudguard is not requlred because the cargo rack covers the wheel. Keep the rack dra1nage holes clear.",
+      "ocr_confidence": 0.61
+    },
+    {
+      "id": "e6",
+      "type": "heading",
+      "level": 2,
+      "page": 10,
+      "text": "4.3 Brake cables",
+      "ocr_confidence": 0.96
+    },
+    {
+      "id": "e7",
+      "type": "paragraph",
+      "page": 10,
+      "text": "Route both brake cables through the frame guides. Check that turning the handlebar fully does not pull on either cable.",
+      "ocr_confidence": 0.93
+    },
+    {
+      "id": "e8",
+      "type": "heading",
+      "level": 2,
+      "page": 10,
+      "text": "4.4 Pedals",
+      "ocr_confidence": 0.97
+    },
+    {
+      "id": "e9",
+      "type": "paragraph",
+      "page": 10,
+      "text": "The left pedal has a reverse thread. Turn it counterclockwise to tighten.",
+      "ocr_confidence": 0.95
+    }
+  ]
+}

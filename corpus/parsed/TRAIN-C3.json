@@ -1,0 +1,36 @@
+{
+  "source_id": "TRAIN-C3",
+  "file": "c3-repair-shop-training.pptx",
+  "format": "pptx",
+  "meta": {
+    "title": "C-3 repair-shop training deck",
+    "product": "C-3",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "s1",
+      "type": "slide",
+      "slide": 1,
+      "title": "C-3 repair basics",
+      "text": "Atlas Bikes repair-shop training. Module 2.",
+      "notes": ""
+    },
+    {
+      "id": "s2",
+      "type": "slide",
+      "slide": 2,
+      "title": "Display blink patterns",
+      "text": "Steady: normal. One blink: low battery. Fast blinking: system fault, stop riding.",
+      "notes": "Two blinks followed by a pause means the speed sensor signal is lost. Check the magnet on the rear wheel before replacing any parts. Three blinks mean the battery needs a firmware update."
+    },
+    {
+      "id": "s3",
+      "type": "slide",
+      "slide": 3,
+      "title": "Before the customer leaves",
+      "text": "Lock the battery and hand over both keys. Confirm the display shows no warning.",
+      "notes": "Take a photo of the bike and attach it to the work order."
+    }
+  ]
+}

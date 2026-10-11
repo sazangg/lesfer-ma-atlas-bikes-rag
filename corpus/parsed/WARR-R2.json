@@ -1,0 +1,24 @@
+{
+  "source_id": "WARR-R2",
+  "file": "battery-warranty-r2.docx",
+  "format": "docx",
+  "meta": {
+    "title": "C-3 battery warranty, revision 2",
+    "product": "C-3",
+    "access": "employees",
+    "applies_from": "2026-01-01"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "2 Warranty term"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "C-3 batteries purchased on or after 1 January 2026 carry a warranty of 3 years from the purchase date. Purchases made before that date keep the term in effect when they were bought."
+    }
+  ]
+}
