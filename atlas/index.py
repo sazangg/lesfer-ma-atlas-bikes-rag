@@ -7,6 +7,8 @@ always returns something.
 
 from __future__ import annotations
 
+from collections.abc import Callable
+
 from atlas.chunking import Chunk
 from atlas.providers import Vector, cosine
 
@@ -18,21 +20,25 @@ class VectorIndex:
     def add(self, chunk: Chunk, vector: Vector) -> None:
         self._entries.append((chunk, vector))
 
-    def search(self, vector: Vector, allowed_groups: set[str], limit: int) -> list[tuple[float, Chunk]]:
+    def search(
+        self, vector: Vector, allowed_groups: set[str], limit: int, where: Callable[[Chunk], bool] | None = None
+    ) -> list[tuple[float, Chunk]]:
         scored = [
             (cosine(vector, chunk_vector), chunk)
             for chunk, chunk_vector in self._entries
-            if _readable(chunk, allowed_groups)
+            if _readable(chunk, allowed_groups) and (where is None or where(chunk))
         ]
         scored.sort(key=lambda pair: pair[0], reverse=True)
         return scored[:limit]
 
-    def lookup(self, field: str, values: set[str], allowed_groups: set[str]) -> list[Chunk]:
+    def lookup(
+        self, field: str, values: set[str], allowed_groups: set[str], where: Callable[[Chunk], bool] | None = None
+    ) -> list[Chunk]:
         """Exact match on a metadata field, such as an error code."""
         return [
             chunk
             for chunk, _ in self._entries
-            if chunk.meta.get(field) in values and _readable(chunk, allowed_groups)
+            if chunk.meta.get(field) in values and _readable(chunk, allowed_groups) and (where is None or where(chunk))
         ]
 
     def __len__(self) -> int:

@@ -1,3 +1,3 @@
 """Atlas Bikes: a reference knowledge assistant that grows one article at a time."""
 
-CHECKPOINT = "part-05"
+CHECKPOINT = "part-06"

@@ -22,6 +22,12 @@ class Generator(Protocol):
     def generate(self, prompt: str) -> str: ...
 
 
+class Extractor(Protocol):
+    """Copies structured facts out of a question. Returns None for anything not stated."""
+
+    def extract(self, question: str) -> dict[str, str | None]: ...
+
+
 class Reranker(Protocol):
     """Scores each (question, passage) pair together, like a cross-encoder."""
 

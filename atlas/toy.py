@@ -24,6 +24,11 @@ ToyDescriber
     It stands in for a vision model's output. In a real pipeline a model
     writes that description and a person spot-checks the numbers.
 
+ToyExtractor
+    Finds a product name and a date with regular expressions. A real
+    implementation asks a model for the same fields, with an instruction to
+    return null rather than guess.
+
 ToyGenerator
     Doesn't write prose. It repeats the first sentence of each supplied source
     with its label, so you can see what evidence a real model would receive.
@@ -126,14 +131,35 @@ class ToyDescriber:
         return sidecar.read_text(encoding="utf-8").strip() if sidecar.exists() else ""
 
 
+_MONTHS = "january february march april may june july august september october november december".split()
+
+
+class ToyExtractor:
+    def extract(self, question: str) -> dict[str, str | None]:
+        product = re.search(r"\b([A-Z]-\d+)\b", question)
+        iso = re.search(r"\b(\d{4})-(\d{2})-(\d{2})\b", question)
+        spoken = re.search(r"\b(\d{1,2}) (" + "|".join(_MONTHS) + r") (\d{4})\b", question.lower())
+        purchase_date = None
+        if iso:
+            purchase_date = iso.group(0)
+        elif spoken:
+            day, month, year = spoken.groups()
+            purchase_date = f"{year}-{_MONTHS.index(month) + 1:02d}-{int(day):02d}"
+        return {"product": product.group(1) if product else None, "purchase_date": purchase_date}
+
+
 class ToyGenerator:
     def generate(self, prompt: str) -> str:
         lines = prompt.splitlines()
         quoted = []
         for i, line in enumerate(lines):
-            if line.startswith("Source:") and i + 1 < len(lines):
-                first_sentence = re.split(r"(?<=[.!?])\s+", lines[i + 1])[0]
-                quoted.append(f"- {first_sentence} ({line.removeprefix('Source: ')})")
+            label = re.match(r"^\[(S\d+)\]", line)
+            if label and i + 1 < len(lines):
+                # Skip a section heading such as "2 Warranty term" to quote the first real sentence.
+                heading = re.match(r"^\d[\d.]* \S", lines[i + 1]) and i + 2 < len(lines)
+                body = lines[i + 2] if heading else lines[i + 1]
+                first_sentence = re.split(r"(?<=[.!?])\s+", body)[0]
+                quoted.append(f"- {first_sentence} [{label.group(1)}]")
         if not quoted:
             return "(toy generator) No sources were supplied."
         return "(toy generator) The supplied sources say:\n" + "\n".join(quoted)

@@ -11,6 +11,7 @@ from __future__ import annotations
 import math
 import re
 from collections import Counter
+from collections.abc import Callable
 
 from atlas.chunking import Chunk
 from atlas.index import _readable
@@ -35,13 +36,15 @@ class KeywordIndex:
     def add(self, chunk: Chunk, text: str) -> None:
         self._entries.append((chunk, Counter(terms(text))))
 
-    def search(self, question: str, allowed_groups: set[str], limit: int) -> list[tuple[float, Chunk]]:
+    def search(
+        self, question: str, allowed_groups: set[str], limit: int, where: Callable[[Chunk], bool] | None = None
+    ) -> list[tuple[float, Chunk]]:
         n = len(self._entries)
         avg_len = sum(sum(c.values()) for _, c in self._entries) / n
         doc_freq = Counter(t for _, counts in self._entries for t in counts)
         scored = []
         for chunk, counts in self._entries:
-            if not _readable(chunk, allowed_groups):
+            if not _readable(chunk, allowed_groups) or (where is not None and not where(chunk)):
                 continue
             length = sum(counts.values())
             score = 0.0

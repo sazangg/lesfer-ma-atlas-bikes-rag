@@ -172,3 +172,37 @@ Both searches had ranked the right slide first. The reranker demoted it below pa
 - List every safety check with a guarantee.
 
 **Stop here if** your users ask single-answer questions, some with exact codes or names and some in their own words, and your documents don't come in versions that apply to different situations.
+
+## part-06: Choosing the evidence that applies
+
+**Article:** Choosing the evidence that applies
+
+**Lands in:** retrieval and context assembly. No new path: every question still flows through the same pipeline.
+
+```
+question -> extract product + purchase date (model proposes, code validates)
+         -> retrieval, every search filtered to pieces that apply to that situation
+         -> best evidence is date-scoped but no date? -> ask for it, stop
+         -> blocks labeled [S1], [S2] ... -> model
+         -> code checks each label and turns it into a document link
+```
+
+- `situation.py`: a piece whose document has `product`, `applies_from`, or `applies_through` metadata is only a candidate when it matches the question's situation. That metadata comes from the document management system and has been in the parsed documents since part-01; nothing used it. This is **metadata filtering**, and it works for any document that applies to a product or a period.
+- Code validates what the model extracts. A product must be one Atlas Bikes sells: in "What does error E-417 mean?", the toy extractor proposes `E-417` as a product, and validation discards it.
+- Clarification is decided by the evidence, not by a warranty rule: if the best match only applies within a date range and the question has no date, the assistant asks. If policies for several products match, it asks for the product.
+- Citations: the prompt labels blocks `[S1]`, the model cites labels, and `resolve_citations` maps them to links. An unknown label withholds the answer. A valid label doesn't prove the block supports the claim; part-07 measures that.
+
+**Closed gaps:**
+- `Q01-applicable-only`: only `WARR-R2` reaches the model for a 2026 C-3 purchase. The 2025 policy and the S-2 scooter policy are filtered out before ranking.
+- `Q01-historical`: a 2025 purchase gets `WARR-R1`, not the newer policy.
+- `Q10-missing-details`: "How long is the battery warranty?" asks "Which product and purchase date is this about?". "What battery warranty applies to a bike bought on 15 March 2026?" asks only for the product, because policies for two products apply on that date.
+
+**How earlier questions flow now:** the error-code, PIN, slide, and figure questions extract no date, so filtering only removes other products' documents and nothing asks for clarification. They retrieve as in part-05.
+
+**Visible in the output:** the 2026 warranty answer also receives the battery safety checks table, because the system always fills five slots and nearest isn't relevant. Part 7 measures how much noise reaches the model; a relevance threshold is one remedy.
+
+**Still can't:**
+- List every safety check with a guarantee (`Q04`): retrieval returns the most relevant few. Part 9 builds a better source to query.
+- Compute an inspection pass rate (`Q05`): Part 10.
+
+**Stop here if** your users ask questions with one answer each, found in passages, tables, figures, or slides, including questions where the right document depends on a product, a date, or another stated condition. **This is the complete core.** Parts 7 and 8 measure it and watch it in production; Parts 9 to 13 are independent modules, so add only the ones your questions need.
