@@ -6,6 +6,25 @@ Atlas Bikes is a fictional e-bike company. This repository builds an assistant o
 
 **The system evolves to close a gap. It is not a destination.** Every checkpoint is a complete system for the questions it answers. If your users' questions stop at Part 5, Part 5 is your system. See [CHECKPOINTS.md](CHECKPOINTS.md) for what each one answers and what it still can't.
 
+## Following the series
+
+Each article has a tag. Check it out to see the system exactly as that article leaves it.
+
+| Part | Article | Tag |
+| --- | --- | --- |
+| 1 | How an AI assistant answers from company documents | `part-01` |
+| 2 | When a useful answer isn't a correct answer | `part-02` |
+| 3 | From raw files to structured documents | `part-03` |
+| 4 | From documents to evidence | `part-04` |
+| 5 | When search misses the evidence | `part-05` |
+| 6 | Choosing the evidence that applies | `part-06` |
+| 7 | Measuring whether it works | coming |
+| 8 | Watching it in production | coming |
+| 9–13 | Modules: an intermediate knowledge base and complete lists, calculations, linked documents, an agent loop, whole documents | coming |
+| 14 | Choosing your system | coming |
+
+Parts 1 to 6 are the core every system needs. Parts 9 to 13 are independent modules: add only the ones your questions need.
+
 ## Run it
 
 Python 3.11+, no dependencies.
