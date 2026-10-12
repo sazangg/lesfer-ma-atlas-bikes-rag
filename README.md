@@ -68,3 +68,7 @@ python -m atlas check
 ```
 
 Each case states the part meant to handle it. Failing cases that a later part will close are reported as known gaps, not errors; a failure the current checkpoint should handle is a regression.
+
+## License
+
+MIT, for the code and the Atlas Bikes documents alike. See [LICENSE](LICENSE). Reuse it freely.
