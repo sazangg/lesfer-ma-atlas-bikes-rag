@@ -1,0 +1,33 @@
+{
+  "source_id": "PRICE-PARTS-2026",
+  "file": "parts-price-list-2026.xlsx",
+  "format": "xlsx",
+  "meta": {
+    "title": "Parts price list 2026",
+    "access": "sales"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "1 Batteries"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "C-3 36 V battery: dealer price 410 EUR. T-7 48 V battery: dealer price 560 EUR. K-1 24 V battery: dealer price 220 EUR."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "2 Chargers"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "Standard charger: dealer price 45 EUR. Fast charger: dealer price 95 EUR."
+    }
+  ]
+}

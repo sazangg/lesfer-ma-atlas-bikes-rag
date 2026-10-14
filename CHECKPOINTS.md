@@ -206,3 +206,45 @@ question -> extract product + purchase date (model proposes, code validates)
 - Compute an inspection pass rate (`Q05`): Part 10.
 
 **Stop here if** your users ask questions with one answer each, found in passages, tables, figures, or slides, including questions where the right document depends on a product, a date, or another stated condition. **This is the complete core.** Parts 7 and 8 measure it and watch it in production; Parts 9 to 13 are independent modules, so add only the ones your questions need.
+
+## part-07: Measuring whether it works
+
+**Article:** Measuring whether it works
+
+**Lands in:** around the pipeline, plus two changes the measurements justified. The corpus grows from the 9-document sample used in Parts 1 to 6 to the full Atlas Bikes collection: 29 documents and 114 searchable pieces, with look-alike products (T-7 trekking, K-1 kids), an owner's manual, an FAQ, a brochure, dealer bulletins, and a price list only sales can read.
+
+The check runner answers "does this case pass?". Measuring asks how well each stage works and where it is weak:
+
+- `python -m atlas measure`: per question, whether a relevant block arrived (**hit**), how many of the relevant blocks arrived (**recall**), how much of what arrived is relevant (**precision**), the rank of the first relevant block, and the approximate prompt size in tokens. Then the same numbers by kind of question, and whether rewordings of key questions keep their result.
+- `cases/held_out.json`: questions never used to tune the system. `measure --held-out` scores them separately.
+- `python -m atlas judge-calibration`: a stand-in judge checks answers against their sources; its verdicts are compared with labels a person gave the same answers (`cases/judged_answers.json`).
+- `measure --export-ragas FILE`: the same questions as a Ragas dataset (`user_input`, `retrieved_contexts`, `response`, `reference`).
+
+**Growing the collection changed the test set too.** "Which battery check applies when the battery casing has been opened?" became ambiguous once the T-7 had its own check R07, so the case now names the C-3. "What does error E-417 mean?" names no bike, so the T-7's E-417 entry now counts as relevant too.
+
+**What the held-out questions found.** Questions about the new documents missed things the development questions never showed:
+
+- H12, "Which chargers are affected by the recall?", missed the recall bulletin. "Recall" is in the bulletin's title, and the searched forms from part-04 didn't include document titles. The searched forms now start with the document title. H12 was used to make that fix, so it moved into the development cases as `Q13-title-only`, and two fresh held-out questions replaced it.
+- H10 ("How often should a T-7 be serviced?") and H17 ("What must be done before installing firmware 3.2?") still miss: "serviced" doesn't match "service", "installing" doesn't match "installation". That is a limitation of the stand-in embedding model; real embedding models handle word forms, but have blind spots of their own, which is what held-out questions are for.
+
+By kind, held-out paraphrase questions have recall 0.75; everything else is 1.00.
+
+**The threshold decision.** A minimum relevance score after reranking, tried with `measure --min-score` on the full collection:
+
+| Minimum score | Development recall | Development precision | Held-out recall | Held-out precision |
+| --- | --- | --- | --- | --- |
+| 0 | 1.00 | 0.33 | 0.94 | 0.19 |
+| 0.3 | 1.00 | 0.33 | 0.88 | 0.21 |
+| 0.4 | 1.00 | 0.40 | 0.88 | 0.35 |
+| 0.5 | 1.00 | 0.54 | 0.88 | 0.48 |
+| 0.6 | 0.82 | 0.56 | 0.65 | 0.45 |
+
+On the development questions, recall holds until 0.5 and drops at 0.6. The default is 0.4, chosen there with a margin. The held-out questions show its cost on new questions: H17's answer ranked second with a low score (0.25) and is cut by any threshold from 0.3 up. That is the expected price, about 1 question in 16, and it was not used to change the choice.
+
+On the 9-document sample, the same threshold lifts development precision from 0.43 to 0.68 (measured with this checkpoint's code on the sample documents only). On the full collection it lifts it only from 0.33 to 0.40, because the remaining noise looks relevant: the FAQ's generic warranty answer, the frame warranty, the T-7's look-alike entries. A threshold can't separate those.
+
+**What the judge showed:** it agreed with the person on 3 of 6 answers. It accepted "2 years" (the right answer is 3) and "eight checks" (there are eleven), because the words matched the sources; it rejected a correct answer phrased differently. A judge needs this kind of calibration before its scores mean anything.
+
+**Still can't:** list every safety check with a guarantee (Part 9) or compute a pass rate (Part 10).
+
+**Not a stopping point.** Like part-02, keep measuring whatever you build. Part 8 watches the same system once real users arrive.

@@ -1,0 +1,192 @@
+{
+  "source_id": "SPEC-T7-R2",
+  "file": "t-7-specification.pdf",
+  "format": "pdf",
+  "meta": {
+    "title": "T-7 specification",
+    "product": "T-7",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "page_header",
+      "page": 12,
+      "text": "Atlas Bikes | T-7 Specification | Internal"
+    },
+    {
+      "id": "e2",
+      "page": 12,
+      "type": "heading",
+      "level": 2,
+      "text": "5 Frame"
+    },
+    {
+      "id": "e3",
+      "page": 12,
+      "type": "paragraph",
+      "text": "The T-7 frame is aluminum with a reinforced down tube for touring loads. It carries front and rear racks."
+    },
+    {
+      "id": "e4",
+      "type": "page_footer",
+      "page": 12,
+      "text": "Page 12"
+    },
+    {
+      "id": "e5",
+      "type": "page_header",
+      "page": 13,
+      "text": "Atlas Bikes | T-7 Specification | Internal"
+    },
+    {
+      "id": "e6",
+      "page": 13,
+      "type": "heading",
+      "level": 2,
+      "text": "6 Battery safety checks before delivery"
+    },
+    {
+      "id": "e7",
+      "page": 13,
+      "type": "paragraph",
+      "text": "Scope: T-7, 48 V battery pack, frame-mounted, fast charger."
+    },
+    {
+      "id": "e8",
+      "page": 13,
+      "type": "table",
+      "header": [
+        "ID",
+        "Check"
+      ],
+      "rows": [
+        [
+          "R01",
+          "Check that the battery serial number matches the delivery note."
+        ],
+        [
+          "R02",
+          "Inspect the battery casing and mounting rail for cracks or dents."
+        ],
+        [
+          "R03",
+          "Check that the charging port cover closes fully."
+        ],
+        [
+          "R04",
+          "Measure the resting voltage and write it on the delivery sheet."
+        ],
+        [
+          "R05",
+          "Charge the battery to at least 60 percent before delivery."
+        ],
+        [
+          "R06",
+          "Check that the battery lock engages and the key turns freely."
+        ]
+      ]
+    },
+    {
+      "id": "e9",
+      "type": "page_footer",
+      "page": 13,
+      "text": "Page 13"
+    },
+    {
+      "id": "e10",
+      "type": "page_header",
+      "page": 14,
+      "text": "Atlas Bikes | T-7 Specification | Internal"
+    },
+    {
+      "id": "e11",
+      "page": 14,
+      "type": "table",
+      "header": null,
+      "rows": [
+        [
+          "R07",
+          "Replace the battery seal wherever the casing has been opened."
+        ],
+        [
+          "R08",
+          "Keep the battery vent holes clear of tape and stickers."
+        ],
+        [
+          "R09",
+          "Confirm the fast charger shows the correct battery type."
+        ],
+        [
+          "R10",
+          "Record the battery batch number in the bike's service record."
+        ],
+        [
+          "R11",
+          "Report any battery fault found during the final check."
+        ],
+        [
+          "R12",
+          "Complete the battery safety sign-off before handing over the bike."
+        ]
+      ]
+    },
+    {
+      "id": "e12",
+      "page": 14,
+      "type": "heading",
+      "level": 2,
+      "text": "7 Labels"
+    },
+    {
+      "id": "e13",
+      "page": 14,
+      "type": "paragraph",
+      "text": "Each bike carries a label with the model, frame number, battery type, and maximum load."
+    },
+    {
+      "id": "e14",
+      "type": "page_footer",
+      "page": 14,
+      "text": "Page 14"
+    },
+    {
+      "id": "e15",
+      "type": "page_header",
+      "page": 15,
+      "text": "Atlas Bikes | T-7 Specification | Internal"
+    },
+    {
+      "id": "e16",
+      "page": 15,
+      "type": "heading",
+      "level": 2,
+      "text": "8 Brakes"
+    },
+    {
+      "id": "e17",
+      "page": 15,
+      "type": "paragraph",
+      "text": "The T-7 uses hydraulic disc brakes. Check pad thickness at every service; replace pads below 1.5 mm."
+    },
+    {
+      "id": "e18",
+      "page": 15,
+      "type": "heading",
+      "level": 2,
+      "text": "9 Lights"
+    },
+    {
+      "id": "e19",
+      "page": 15,
+      "type": "paragraph",
+      "text": "Front and rear lights run from the main battery. The front light must switch on with the display."
+    },
+    {
+      "id": "e20",
+      "type": "page_footer",
+      "page": 15,
+      "text": "Page 15"
+    }
+  ]
+}

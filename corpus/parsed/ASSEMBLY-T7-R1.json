@@ -1,0 +1,67 @@
+{
+  "source_id": "ASSEMBLY-T7-R1",
+  "file": "t7-assembly-guide.docx",
+  "format": "docx",
+  "meta": {
+    "title": "T-7 assembly guide, revision 1",
+    "product": "T-7",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "4.1 Handlebar"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "Fit the handlebar so the display faces the rider. Tighten the stem bolts to 6 Nm, alternating between them."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "4.2 Mudguards"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "Fit both mudguards before the first ride. Use the four bolts supplied and check that neither mudguard touches the tyre when the wheels turn."
+    },
+    {
+      "id": "e5",
+      "type": "heading",
+      "level": 2,
+      "text": "4.3 Racks"
+    },
+    {
+      "id": "e6",
+      "type": "paragraph",
+      "text": "Fit the front rack to the fork eyelets and the rear rack to the frame eyelets. Tighten all rack bolts to 5 Nm. The rear rack carries up to 25 kg."
+    },
+    {
+      "id": "e7",
+      "type": "heading",
+      "level": 2,
+      "text": "4.4 Brake hoses"
+    },
+    {
+      "id": "e8",
+      "type": "paragraph",
+      "text": "Route both brake hoses through the frame guides. Do not kink the hoses; a kinked hose must be replaced."
+    },
+    {
+      "id": "e9",
+      "type": "heading",
+      "level": 2,
+      "text": "4.5 Pedals"
+    },
+    {
+      "id": "e10",
+      "type": "paragraph",
+      "text": "The left pedal has a reverse thread. Turn it counterclockwise to tighten."
+    }
+  ]
+}

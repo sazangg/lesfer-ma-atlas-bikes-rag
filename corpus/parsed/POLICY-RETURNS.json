@@ -1,0 +1,33 @@
+{
+  "source_id": "POLICY-RETURNS",
+  "file": "returns-policy.docx",
+  "format": "docx",
+  "meta": {
+    "title": "Returns policy",
+    "access": "employees"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "1 Return period"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "Customers can return a bike within 30 days of purchase if it has been ridden less than 50 km."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "2 Condition"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "Returned bikes must have all accessories and the original charger. A restocking fee of 10 percent applies to bikes that are not in new condition."
+    }
+  ]
+}

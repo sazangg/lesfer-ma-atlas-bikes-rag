@@ -83,6 +83,7 @@ class Assistant:
         extractor: Extractor | None = None,
         k: int = 5,
         candidates: int = 10,
+        min_score: float = 0.4,  # part-07: chosen by measurement, see `python -m atlas measure --min-score`
     ):
         self.embedder = embedder or ToyEmbedder()
         self.generator = generator or ToyGenerator()
@@ -91,6 +92,7 @@ class Assistant:
         self.extractor = extractor or ToyExtractor()
         self.k = k  # pieces supplied to the model (before expanding to blocks)
         self.candidates = candidates  # pieces each search contributes to the shortlist
+        self.min_score = min_score  # drop reranked pieces scoring below this (0 = keep all)
         self.index = VectorIndex()
         self.keywords = KeywordIndex()
         self.blocks: dict[str, Chunk] = {}
@@ -155,6 +157,7 @@ class Assistant:
 
         scores = self.reranker.score(question, [c.search_text or c.text for c in shortlist])
         ranked = sorted(zip(scores, shortlist), key=lambda pair: pair[0], reverse=True)
+        ranked = [(score, c) for score, c in ranked if score >= self.min_score]
         return ([(float("inf"), c) for c in exact] + ranked)[: self.k]
 
     def supplied_blocks(self, hits: list[Chunk]) -> list[Chunk]:

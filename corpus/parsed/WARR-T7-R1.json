@@ -1,0 +1,36 @@
+{
+  "source_id": "WARR-T7-R1",
+  "file": "t7-battery-warranty-r1.docx",
+  "format": "docx",
+  "meta": {
+    "title": "T-7 battery warranty, revision 1",
+    "product": "T-7",
+    "access": "employees",
+    "applies_from": "2025-01-01",
+    "applies_through": "2025-12-31"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "2 Warranty term"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "T-7 batteries purchased during this policy's eligibility period carry a warranty of 2 years from the purchase date. Later policy revisions do not change the term of these purchases."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "3 Exclusions"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "The warranty does not cover damage from water immersion, use of a non-approved charger, or opening the battery casing outside an authorized workshop."
+    }
+  ]
+}

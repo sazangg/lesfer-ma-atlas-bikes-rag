@@ -1,0 +1,56 @@
+{
+  "source_id": "ASSEMBLY-K1-R1",
+  "file": "k1-assembly-guide.docx",
+  "format": "docx",
+  "meta": {
+    "title": "K-1 assembly guide, revision 1",
+    "product": "K-1",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "4.1 Handlebar"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "Set the handlebar height to suit the child, between the minimum and maximum marks on the stem. Tighten the stem bolts to 5 Nm."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "4.2 Mudguards"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "Fit the rear mudguard before the first ride. The K-1 has no front mudguard."
+    },
+    {
+      "id": "e5",
+      "type": "heading",
+      "level": 2,
+      "text": "4.3 Training wheels"
+    },
+    {
+      "id": "e6",
+      "type": "paragraph",
+      "text": "Training wheels are optional. Fit them to the rear axle and check that both touch the ground evenly."
+    },
+    {
+      "id": "e7",
+      "type": "heading",
+      "level": 2,
+      "text": "4.4 Pedals"
+    },
+    {
+      "id": "e8",
+      "type": "paragraph",
+      "text": "The left pedal has a reverse thread. Turn it counterclockwise to tighten."
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "source_id": "ERR-T7-R1",
+  "file": "t7-display-error-codes.html",
+  "format": "html",
+  "meta": {
+    "title": "T-7 display error codes, revision 1",
+    "product": "T-7",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "5.1 E-412",
+      "attrs": {
+        "error_code": "E-412"
+      }
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "E-412: the battery management system lost contact with one cell group. Switch the bike off and on. If the error stays, test the battery with the dealer service tool."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "5.2 E-417",
+      "attrs": {
+        "error_code": "E-417"
+      }
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "E-417: the battery is too hot to charge. Unplug the fast charger and let the battery cool to room temperature before charging again."
+    },
+    {
+      "id": "e5",
+      "type": "heading",
+      "level": 2,
+      "text": "5.3 E-447",
+      "attrs": {
+        "error_code": "E-447"
+      }
+    },
+    {
+      "id": "e6",
+      "type": "paragraph",
+      "text": "E-447: the fast charger reported a voltage it doesn't support. Check that the charger is the approved T-7 fast charger."
+    },
+    {
+      "id": "e7",
+      "type": "heading",
+      "level": 2,
+      "text": "5.4 E-471",
+      "attrs": {
+        "error_code": "E-471"
+      }
+    },
+    {
+      "id": "e8",
+      "type": "paragraph",
+      "text": "E-471: the battery is too cold to charge. Bring the bike indoors and wait until the battery warms to room temperature before charging."
+    },
+    {
+      "id": "e9",
+      "type": "heading",
+      "level": 2,
+      "text": "5.5 E-714",
+      "attrs": {
+        "error_code": "E-714"
+      }
+    },
+    {
+      "id": "e10",
+      "type": "paragraph",
+      "text": "E-714: the rear light circuit is open. Check the light connector under the rear rack."
+    }
+  ]
+}

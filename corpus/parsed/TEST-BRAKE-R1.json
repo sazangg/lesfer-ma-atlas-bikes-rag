@@ -1,0 +1,37 @@
+{
+  "source_id": "TEST-BRAKE-R1",
+  "file": "brake-test-r1.pdf",
+  "format": "pdf",
+  "meta": {
+    "title": "Brake endurance test report, revision 1",
+    "product": "T-7",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "page_header",
+      "page": 5,
+      "text": "Atlas Bikes | Test report TEST-BRAKE-R1"
+    },
+    {
+      "id": "e2",
+      "page": 5,
+      "type": "heading",
+      "level": 2,
+      "text": "3 Results"
+    },
+    {
+      "id": "e3",
+      "page": 5,
+      "type": "paragraph",
+      "text": "The T-7 hydraulic brakes completed 20,000 stopping cycles. Pad wear averaged 0.9 mm. No hose leaks were found."
+    },
+    {
+      "id": "e4",
+      "type": "page_footer",
+      "page": 5,
+      "text": "Page 5"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "source_id": "BROCHURE-C3",
+  "file": "c3-brochure.pdf",
+  "format": "pdf",
+  "meta": {
+    "title": "C-3 brochure",
+    "product": "C-3",
+    "access": "employees"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "1 The C-3 city e-bike"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "Light, quiet, and built for daily commuting. Up to 90 km of range in Eco mode."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "2 Peace of mind"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "Up to 3 years of battery warranty and 10 years on the frame. Service at more than 200 Atlas dealers."
+    }
+  ]
+}

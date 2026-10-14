@@ -1,0 +1,88 @@
+{
+  "source_id": "FAQ-CUSTOMERS",
+  "file": "customer-faq.html",
+  "format": "html",
+  "meta": {
+    "title": "Atlas Bikes customer FAQ",
+    "access": "employees"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "1 How long does the battery last?"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "Most Atlas batteries keep at least 80 percent of their capacity after 500 full charge cycles. Range depends on riding mode, weather, and load."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "2 Is my battery covered by warranty?"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "Yes. Every Atlas battery has a warranty. The length depends on the model and when you bought it; check the warranty policy for your bike or ask your dealer."
+    },
+    {
+      "id": "e5",
+      "type": "heading",
+      "level": 2,
+      "text": "3 Can I ride in the rain?"
+    },
+    {
+      "id": "e6",
+      "type": "paragraph",
+      "text": "Yes. Atlas bikes are built for rain, but don't submerge them and don't use a pressure washer."
+    },
+    {
+      "id": "e7",
+      "type": "heading",
+      "level": 2,
+      "text": "4 What if I forget my PIN?"
+    },
+    {
+      "id": "e8",
+      "type": "paragraph",
+      "text": "Visit an authorized dealer with your proof of purchase. They can set a new PIN without erasing your ride history."
+    },
+    {
+      "id": "e9",
+      "type": "heading",
+      "level": 2,
+      "text": "5 Why is my display blinking?"
+    },
+    {
+      "id": "e10",
+      "type": "paragraph",
+      "text": "A single blink usually means low battery. Other patterns point to a fault; your dealer can read the error code."
+    },
+    {
+      "id": "e11",
+      "type": "heading",
+      "level": 2,
+      "text": "6 Can I use another charger?"
+    },
+    {
+      "id": "e12",
+      "type": "paragraph",
+      "text": "Only use the approved Atlas charger for your model. Other chargers can damage the battery and are not covered by the warranty."
+    },
+    {
+      "id": "e13",
+      "type": "heading",
+      "level": 2,
+      "text": "7 How often should I service my bike?"
+    },
+    {
+      "id": "e14",
+      "type": "paragraph",
+      "text": "We recommend a service every year, or more often if you ride a lot. Your dealer will check brakes, chain, and battery health."
+    }
+  ]
+}

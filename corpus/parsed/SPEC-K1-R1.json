@@ -1,0 +1,176 @@
+{
+  "source_id": "SPEC-K1-R1",
+  "file": "k-1-specification.pdf",
+  "format": "pdf",
+  "meta": {
+    "title": "K-1 specification",
+    "product": "K-1",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "page_header",
+      "page": 12,
+      "text": "Atlas Bikes | K-1 Specification | Internal"
+    },
+    {
+      "id": "e2",
+      "page": 12,
+      "type": "heading",
+      "level": 2,
+      "text": "5 Frame"
+    },
+    {
+      "id": "e3",
+      "page": 12,
+      "type": "paragraph",
+      "text": "The K-1 is a children's e-bike with a steel frame and a top speed limited to 15 km/h."
+    },
+    {
+      "id": "e4",
+      "type": "page_footer",
+      "page": 12,
+      "text": "Page 12"
+    },
+    {
+      "id": "e5",
+      "type": "page_header",
+      "page": 13,
+      "text": "Atlas Bikes | K-1 Specification | Internal"
+    },
+    {
+      "id": "e6",
+      "page": 13,
+      "type": "heading",
+      "level": 2,
+      "text": "6 Battery safety checks before delivery"
+    },
+    {
+      "id": "e7",
+      "page": 13,
+      "type": "paragraph",
+      "text": "Scope: K-1, 24 V battery pack, frame-mounted, standard charger."
+    },
+    {
+      "id": "e8",
+      "page": 13,
+      "type": "table",
+      "header": [
+        "ID",
+        "Check"
+      ],
+      "rows": [
+        [
+          "R01",
+          "Check that the battery serial number matches the delivery note."
+        ],
+        [
+          "R02",
+          "Inspect the battery casing for cracks or dents."
+        ],
+        [
+          "R03",
+          "Check that the charging port cover closes fully."
+        ],
+        [
+          "R04",
+          "Charge the battery to at least 50 percent before delivery."
+        ],
+        [
+          "R05",
+          "Check that the speed limiter is set to 15 km/h."
+        ],
+        [
+          "R06",
+          "Check that the parental lock code has been set with the buyer."
+        ]
+      ]
+    },
+    {
+      "id": "e9",
+      "type": "page_footer",
+      "page": 13,
+      "text": "Page 13"
+    },
+    {
+      "id": "e10",
+      "type": "page_header",
+      "page": 14,
+      "text": "Atlas Bikes | K-1 Specification | Internal"
+    },
+    {
+      "id": "e11",
+      "page": 14,
+      "type": "table",
+      "header": null,
+      "rows": [
+        [
+          "R07",
+          "Record the battery batch number in the bike's service record."
+        ],
+        [
+          "R08",
+          "Complete the battery safety sign-off before handing over the bike."
+        ]
+      ]
+    },
+    {
+      "id": "e12",
+      "page": 14,
+      "type": "heading",
+      "level": 2,
+      "text": "7 Labels"
+    },
+    {
+      "id": "e13",
+      "page": 14,
+      "type": "paragraph",
+      "text": "Each bike carries a label with the model, frame number, and the maximum rider weight of 50 kg."
+    },
+    {
+      "id": "e14",
+      "type": "page_footer",
+      "page": 14,
+      "text": "Page 14"
+    },
+    {
+      "id": "e15",
+      "type": "page_header",
+      "page": 15,
+      "text": "Atlas Bikes | K-1 Specification | Internal"
+    },
+    {
+      "id": "e16",
+      "page": 15,
+      "type": "heading",
+      "level": 2,
+      "text": "8 Brakes"
+    },
+    {
+      "id": "e17",
+      "page": 15,
+      "type": "paragraph",
+      "text": "The K-1 uses rim brakes with short-reach levers sized for small hands."
+    },
+    {
+      "id": "e18",
+      "page": 15,
+      "type": "heading",
+      "level": 2,
+      "text": "9 Lights"
+    },
+    {
+      "id": "e19",
+      "page": 15,
+      "type": "paragraph",
+      "text": "Reflectors are fitted front, rear, and on both wheels. No powered lights are fitted."
+    },
+    {
+      "id": "e20",
+      "type": "page_footer",
+      "page": 15,
+      "text": "Page 15"
+    }
+  ]
+}

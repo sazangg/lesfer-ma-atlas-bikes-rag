@@ -3,6 +3,8 @@
     python -m atlas ask "question" [--show-prompt]
     python -m atlas check [--save-traces]
     python -m atlas ingest-report [--no-corrections]
+    python -m atlas measure [--held-out] [--min-score X] [--export-ragas FILE]
+    python -m atlas judge-calibration
 """
 
 from __future__ import annotations
@@ -24,7 +26,28 @@ def main() -> None:
     check.add_argument("--save-traces", action="store_true", help="write each trace to traces/")
     report = commands.add_parser("ingest-report", help="show what conversion changed and what needs review")
     report.add_argument("--no-corrections", action="store_true", help="ignore corpus/corrections.json")
+    measure = commands.add_parser("measure", help="retrieval metrics, results by kind, stability")
+    measure.add_argument("--held-out", action="store_true", help="measure the held-out questions instead")
+    measure.add_argument("--min-score", type=float, default=None, help="try a different minimum relevance score")
+    measure.add_argument("--export-ragas", metavar="FILE", help="write the questions as a Ragas dataset (JSON lines)")
+    commands.add_parser("judge-calibration", help="compare the judge's verdicts with human labels")
     args = parser.parse_args()
+
+    if args.command == "measure":
+        _measure(args)
+        return
+
+    if args.command == "judge-calibration":
+        from atlas.judge import ToyJudge, calibrate
+
+        results = calibrate(default_assistant(), ToyJudge())
+        print(f"{'answer':<7} {'person':<8} {'judge':<8} note")
+        for r in results:
+            flag = "" if r.human == r.judge else "  <- disagree"
+            print(f"{r.answer_id:<7} {r.human:<8} {r.judge:<8} {r.note}{flag}")
+        agree = sum(r.human == r.judge for r in results)
+        print(f"\nAgreement with the person: {agree} of {len(results)}")
+        return
 
     if args.command == "ingest-report":
         from atlas.corpus import load_corpus
@@ -58,6 +81,48 @@ def main() -> None:
         gaps = sum(r.label.startswith("KNOWN GAP") for r in results)
         print(f"\n{len(results) - regressions - gaps} passing, {gaps} known gaps, {regressions} regressions")
         sys.exit(1 if regressions else 0)
+
+
+def _measure(args) -> None:
+    from pathlib import Path
+
+    from atlas.checks import CASES_FILE
+    from atlas.corpus import load_corpus
+    from atlas.measure import HELD_OUT_FILE, by_kind, export_ragas, mean, measure, stability
+    from atlas.pipeline import Assistant
+
+    assistant = Assistant() if args.min_score is None else Assistant(min_score=args.min_score)
+    assistant.ingest(load_corpus())
+    path = HELD_OUT_FILE if args.held_out else CASES_FILE
+
+    if args.export_ragas:
+        count = export_ragas(assistant, path, Path(args.export_ragas))
+        print(f"Wrote {count} questions to {args.export_ragas}")
+        return
+
+    def fmt(value) -> str:
+        return "  -  " if value is None else f"{value:5.2f}"
+
+    rows = measure(assistant, path)
+    print(f"{'held-out' if args.held_out else 'development'} questions, min score {assistant.min_score}\n")
+    print(f"{'case':<24} {'kind':<20} {'hit':>5} {'recall':>6} {'prec.':>6} {'rank':>4} {'blocks':>6} {'tokens':>6}")
+    for r in rows:
+        rank = "-" if r.first_relevant is None else str(r.first_relevant)
+        print(f"{r.case_id:<24} {r.kind:<20} {fmt(r.hit):>5} {fmt(r.recall):>6} {fmt(r.precision):>6} {rank:>4} {r.blocks:>6} {r.tokens:>6}")
+    tokens = [r.tokens for r in rows if r.tokens]
+    print(f"\nmean recall {fmt(mean([r.recall for r in rows]))}  mean precision {fmt(mean([r.precision for r in rows]))}"
+          f"  mean prompt ~{sum(tokens) // len(tokens)} tokens")
+
+    print("\nBy kind of question:")
+    for kind, m in by_kind(rows).items():
+        print(f"  {kind:<20} {m['questions']} question(s)  recall {fmt(m['recall'])}  precision {fmt(m['precision'])}")
+
+    if not args.held_out:
+        results = stability(assistant, CASES_FILE)
+        print(f"\nStability: {sum(ok for _, _, ok, _ in results)} of {len(results)} rewordings keep their result")
+        for case_id, variant, ok, detail in results:
+            if not ok:
+                print(f"  CHANGED  {case_id}: {variant!r} ({detail})")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,56 @@
+{
+  "source_id": "SERVICE-T7-R2",
+  "file": "t7-dealer-service-manual.docx",
+  "format": "docx",
+  "meta": {
+    "title": "T-7 dealer service manual, revision 2",
+    "product": "T-7",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "6 Factory reset"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "A factory reset erases all settings, ride history, saved routes, and the display PIN. Use it only when a bike is being scrapped or when Atlas support asks for it."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "7 Recovering display access"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "When the owner's PIN is unavailable, an authorized dealer must check the owner's proof of purchase and set a new PIN with the dealer service tool. Saved routes and ride history are kept."
+    },
+    {
+      "id": "e5",
+      "type": "heading",
+      "level": 2,
+      "text": "8 Service intervals"
+    },
+    {
+      "id": "e6",
+      "type": "paragraph",
+      "text": "Service the T-7 every 2,000 km or every 12 months, whichever comes first. Each service includes a brake check, a chain check, and a battery health test."
+    },
+    {
+      "id": "e7",
+      "type": "heading",
+      "level": 2,
+      "text": "9 Battery health test"
+    },
+    {
+      "id": "e8",
+      "type": "paragraph",
+      "text": "Run the battery health test from the dealer service tool. A battery below 70 percent of its original capacity can be replaced under warranty if the warranty is still valid."
+    }
+  ]
+}

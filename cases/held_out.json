@@ -1,0 +1,141 @@
+{
+  "about": "Held-out questions: written after Parts 1-6 were built and never used to tune them. `measure` scores them separately to show how the system handles questions it wasn't built around. Don't tune on these; when you do, move them to cases.json and write new ones.",
+  "cases": [
+    {
+      "id": "H01",
+      "kind": "exact code",
+      "question": "What should I do when the display shows E-471?",
+      "relevant": [
+        "ERR-C3-R2#4.71"
+      ]
+    },
+    {
+      "id": "H02",
+      "kind": "table row",
+      "question": "Which check makes sure the charging port is covered?",
+      "relevant": [
+        "SPEC-C3-R5#6"
+      ]
+    },
+    {
+      "id": "H03",
+      "kind": "paraphrase",
+      "question": "How tight should the stem bolts be?",
+      "relevant": [
+        "ASSEMBLY-C3-R3#4.1"
+      ]
+    },
+    {
+      "id": "H04",
+      "kind": "rule with exception",
+      "question": "Does a cargo C-3 need a mudguard at the back?",
+      "relevant": [
+        "ASSEMBLY-C3-R3#4.2"
+      ]
+    },
+    {
+      "id": "H05",
+      "kind": "paraphrase",
+      "question": "What happens to ride history after a factory reset?",
+      "relevant": [
+        "SERVICE-C3-R4#6"
+      ]
+    },
+    {
+      "id": "H06",
+      "kind": "figure",
+      "question": "Which battery pack kept more capacity in the charge cycle test?",
+      "relevant": [
+        "TEST-BAT-R1#3"
+      ]
+    },
+    {
+      "id": "H07",
+      "kind": "versioned policy",
+      "question": "How long is the battery warranty for an S-2 scooter bought on 10 June 2025?",
+      "relevant": [
+        "WARR-S2-R1#2"
+      ]
+    },
+    {
+      "id": "H08",
+      "kind": "slide notes",
+      "question": "What do three blinks on the C-3 display mean?",
+      "relevant": [
+        "TRAIN-C3#2"
+      ]
+    },
+    {
+      "id": "H09",
+      "kind": "exact code",
+      "question": "What does E-447 mean on a T-7?",
+      "relevant": [
+        "ERR-T7-R1#5.3"
+      ]
+    },
+    {
+      "id": "H10",
+      "kind": "paraphrase",
+      "question": "How often should a T-7 be serviced?",
+      "relevant": [
+        "SERVICE-T7-R2#8"
+      ]
+    },
+    {
+      "id": "H11",
+      "kind": "paraphrase",
+      "question": "What can parents do if they forget the K-1 parental lock code?",
+      "relevant": [
+        "SERVICE-K1-R1#6"
+      ]
+    },
+    {
+      "id": "H13",
+      "kind": "paraphrase",
+      "question": "How should I store the battery over winter?",
+      "relevant": [
+        "MANUAL-C3-OWNER#5"
+      ]
+    },
+    {
+      "id": "H14",
+      "kind": "slide notes",
+      "question": "What does it mean when a T-7 display blinks twice?",
+      "relevant": [
+        "TRAIN-T7#2"
+      ]
+    },
+    {
+      "id": "H15",
+      "kind": "paraphrase",
+      "question": "Can a customer return a bike after three weeks?",
+      "relevant": [
+        "POLICY-RETURNS#1"
+      ]
+    },
+    {
+      "id": "H16",
+      "kind": "versioned policy",
+      "question": "How long is the warranty on the frame?",
+      "relevant": [
+        "WARR-FRAME-R1#2"
+      ]
+    },
+    {
+      "id": "H17",
+      "kind": "paraphrase",
+      "question": "What must be done before installing firmware 3.2?",
+      "relevant": [
+        "BULLETIN-2026-05#2"
+      ]
+    },
+    {
+      "id": "H18",
+      "kind": "paraphrase",
+      "question": "How much weight can the T-7 rear rack carry?",
+      "relevant": [
+        "ASSEMBLY-T7-R1#4.3"
+      ]
+    }
+  ]
+}

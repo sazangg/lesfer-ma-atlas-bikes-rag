@@ -1,0 +1,47 @@
+{
+  "about": "Answers written by a person and labeled by a person: does the answer state only what the supplied sources support, and is it right? Used to calibrate a judge before trusting it. The context is whatever the assistant supplies for the question.",
+  "answers": [
+    {
+      "id": "J01",
+      "question": "What battery warranty applies to a C-3 bought on 15 March 2026?",
+      "answer": "The battery has a warranty of 3 years from the purchase date.",
+      "human": "correct",
+      "note": "Matches WARR-R2."
+    },
+    {
+      "id": "J02",
+      "question": "What battery warranty applies to a C-3 bought on 15 March 2026?",
+      "answer": "The battery has a warranty of 2 years from the purchase date.",
+      "human": "wrong",
+      "note": "Wrong number: 2 years is the 2025 policy."
+    },
+    {
+      "id": "J03",
+      "question": "What does error E-417 mean, and what should I check?",
+      "answer": "The battery is too hot to charge. Unplug the charger and let it cool to room temperature.",
+      "human": "correct",
+      "note": "Matches the E-417 entry."
+    },
+    {
+      "id": "J04",
+      "question": "What does error E-417 mean, and what should I check?",
+      "answer": "The battery is too cold to charge. Bring the bike indoors to warm up.",
+      "human": "wrong",
+      "note": "That is E-471, the opposite fault."
+    },
+    {
+      "id": "J05",
+      "question": "Is a rear mudguard required on the cargo version of the C-3?",
+      "answer": "No. On cargo bikes the rack already shields the back wheel, so you can skip it.",
+      "human": "correct",
+      "note": "Correct, in different words from the guide."
+    },
+    {
+      "id": "J06",
+      "question": "List all battery safety checks for the C-3 under revision 5.",
+      "answer": "There are eight battery safety checks before delivery.",
+      "human": "wrong",
+      "note": "There are eleven."
+    }
+  ]
+}

@@ -17,6 +17,10 @@ Each JSON file is what a **layout-aware document parser** returns for one source
 
 Document-level metadata (`product`, `access`, `applies_from`, `applies_through`) comes from the document management system, not from the text. Warranty policies are readable by all `employees`; the other documents by service `staff`.
 
+## The full collection (from part-07)
+
+Parts 1 to 6 work on the nine sample documents above. From part-07 the collection grows to 29 documents, the way a real company's would: look-alike products (the T-7 trekking bike and the K-1 kids' bike, each with its own warranty, specification, assembly guide, service manual, and the T-7 with its own error codes and training slides), the same topics written for different readers (a C-3 owner's manual, a customer FAQ, a brochure), dealer bulletins, a returns policy, a frame warranty for all bikes, a brake test report, and a parts price list that only `sales` can read. The nine sample documents are unchanged.
+
 ## Element types
 
 ```text

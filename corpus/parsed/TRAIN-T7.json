@@ -1,0 +1,36 @@
+{
+  "source_id": "TRAIN-T7",
+  "file": "t7-repair-shop-training.pptx",
+  "format": "pptx",
+  "meta": {
+    "title": "T-7 repair-shop training deck",
+    "product": "T-7",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "s1",
+      "type": "slide",
+      "slide": 1,
+      "title": "T-7 repair basics",
+      "text": "Atlas Bikes repair-shop training. Touring models.",
+      "notes": ""
+    },
+    {
+      "id": "s2",
+      "type": "slide",
+      "slide": 2,
+      "title": "Display blink patterns",
+      "text": "Steady: normal. One blink: low battery. Fast blinking: system fault, stop riding.",
+      "notes": "On the T-7, two blinks followed by a pause means a brake sensor fault: the motor cuts out when braking is detected. Check the brake sensor cable before replacing parts."
+    },
+    {
+      "id": "s3",
+      "type": "slide",
+      "slide": 3,
+      "title": "Hydraulic brakes",
+      "text": "Bleed the brakes every two years or when the lever feels soft.",
+      "notes": "Use mineral oil only. Brake fluid destroys the seals."
+    }
+  ]
+}

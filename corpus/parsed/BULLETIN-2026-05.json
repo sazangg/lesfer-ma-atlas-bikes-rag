@@ -1,0 +1,33 @@
+{
+  "source_id": "BULLETIN-2026-05",
+  "file": "dealer-bulletin-2026-05.docx",
+  "format": "docx",
+  "meta": {
+    "title": "Dealer bulletin 2026-05: firmware 3.2",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "1 Summary"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "Firmware 3.2 improves range estimates and fixes a display freeze after a factory reset. Install it at the next service with the dealer service tool."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "2 Installation"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "Charge the battery to at least 40 percent before updating. The update takes about 10 minutes; do not switch the bike off during it."
+    }
+  ]
+}

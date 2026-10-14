@@ -1,0 +1,34 @@
+{
+  "source_id": "SERVICE-K1-R1",
+  "file": "k1-dealer-service-manual.docx",
+  "format": "docx",
+  "meta": {
+    "title": "K-1 dealer service manual, revision 1",
+    "product": "K-1",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "6 Parental lock"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "The parental lock limits speed and assistance. If parents forget the parental lock code, an authorized dealer resets it after checking proof of purchase."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "7 Service intervals"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "Service the K-1 every 6 months. Children grow quickly: check saddle and handlebar height at every service."
+    }
+  ]
+}

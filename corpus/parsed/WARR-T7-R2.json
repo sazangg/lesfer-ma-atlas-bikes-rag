@@ -1,0 +1,35 @@
+{
+  "source_id": "WARR-T7-R2",
+  "file": "t7-battery-warranty-r2.docx",
+  "format": "docx",
+  "meta": {
+    "title": "T-7 battery warranty, revision 2",
+    "product": "T-7",
+    "access": "employees",
+    "applies_from": "2026-01-01"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "2 Warranty term"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "T-7 batteries purchased on or after 1 January 2026 carry a warranty of 3 years from the purchase date, or 1,000 full charge cycles, whichever comes first."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "3 Exclusions"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "The warranty does not cover damage from water immersion, use of a non-approved charger, or opening the battery casing outside an authorized workshop."
+    }
+  ]
+}

@@ -28,6 +28,8 @@ def evidence_units(doc: StructuredDocument) -> tuple[list[Chunk], list[Chunk]]:
     for section in doc.sections:
         meta = {**doc.meta, **section.meta}
         heading = f"{section.number} {section.title}".strip()
+        # part-07: the document title is searched too ("Dealer bulletin 2026-02: charger recall").
+        title = doc.meta.get("title", "")
 
         def block(suffix: str, text: str, kind: str) -> Chunk:
             b = Chunk(f"{doc.source_id}-{section.number}{suffix}", text, doc.source_id, section.number,
@@ -41,7 +43,7 @@ def evidence_units(doc: StructuredDocument) -> tuple[list[Chunk], list[Chunk]]:
             for n, element in enumerate(prose):
                 searchable.append(Chunk(
                     f"{parent.id}-p{n}", element.render(), doc.source_id, section.number, meta,
-                    parent_id=parent.id, search_text=f"{section.title}\n{element.render()}",
+                    parent_id=parent.id, search_text=f"{title}\n{section.title}\n{element.render()}",
                 ))
 
         for n, element in enumerate(e for e in section.elements if e.kind != "paragraph"):
@@ -53,7 +55,7 @@ def evidence_units(doc: StructuredDocument) -> tuple[list[Chunk], list[Chunk]]:
                     searchable.append(Chunk(
                         f"{table.id}-{record_id}", row, doc.source_id, section.number,
                         {**meta, "record_id": record_id},
-                        parent_id=table.id, search_text=f"{section.title}\n{d['scope']}\n{row}",
+                        parent_id=table.id, search_text=f"{title}\n{section.title}\n{d['scope']}\n{row}",
                     ))
             elif element.kind == "figure":
                 figure = block(f"-figure{n}", (
@@ -62,12 +64,12 @@ def evidence_units(doc: StructuredDocument) -> tuple[list[Chunk], list[Chunk]]:
                 ), "figure")
                 searchable.append(Chunk(
                     f"{figure.id}-search", d["caption"], doc.source_id, section.number, meta,
-                    parent_id=figure.id, search_text=f"{d['caption']}\n{d['description']}",
+                    parent_id=figure.id, search_text=f"{title}\n{d['caption']}\n{d['description']}",
                 ))
             elif element.kind == "slide":
                 slide = block("", f"Slide {d['slide']}: {element.render()}", "slide")
                 searchable.append(Chunk(
                     f"{slide.id}-search", d["title"], doc.source_id, section.number, meta,
-                    parent_id=slide.id, search_text=element.render(),
+                    parent_id=slide.id, search_text=f"{title}\n{element.render()}",
                 ))
     return searchable, blocks

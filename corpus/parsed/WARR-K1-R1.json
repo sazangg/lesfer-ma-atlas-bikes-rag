@@ -1,0 +1,35 @@
+{
+  "source_id": "WARR-K1-R1",
+  "file": "k1-battery-warranty-r1.docx",
+  "format": "docx",
+  "meta": {
+    "title": "K-1 battery warranty, revision 1",
+    "product": "K-1",
+    "access": "employees",
+    "applies_from": "2025-06-01"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "2 Warranty term"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "K-1 batteries purchased on or after 1 June 2025 carry a warranty of 1 year from the purchase date."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "3 Exclusions"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "Damage caused by leaving the battery fully discharged for more than three months is not covered."
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "about": "Atlas Bikes questions with their expected behavior. 'expected_from' is the first checkpoint meant to pass the case. Checks inspect the evidence that reached the model, routing, and tool results, not prose quality.",
+  "about": "Atlas Bikes questions with their expected behavior. 'expected_from' is the first checkpoint meant to pass the case. Checks inspect the evidence that reached the model, routing, and tool results, not prose quality. 'kind' and 'relevant' (the blocks that answer the question) are used by `measure` from part-07; 'variants' are rewordings used to test stability.",
   "cases": [
     {
       "id": "Q01-current",
@@ -13,6 +13,13 @@
             "WARR-R2#2"
           ]
         }
+      ],
+      "kind": "versioned policy",
+      "relevant": [
+        "WARR-R2#2"
+      ],
+      "variants": [
+        "My C-3 was bought on 15 March 2026. How many years of battery warranty do I have?"
       ]
     },
     {
@@ -27,6 +34,13 @@
             "SERVICE-C3-R4#7"
           ]
         }
+      ],
+      "kind": "paraphrase",
+      "relevant": [
+        "SERVICE-C3-R4#7"
+      ],
+      "variants": [
+        "I forgot my display PIN, how can I unlock it?"
       ]
     },
     {
@@ -41,6 +55,15 @@
             "ERR-C3-R2#4.17"
           ]
         }
+      ],
+      "kind": "exact code",
+      "relevant": [
+        "ERR-C3-R2#4.17",
+        "ERR-T7-R1#5.2"
+      ],
+      "variants": [
+        "E-417 on the display, what does that mean?",
+        "What is error code E-417?"
       ]
     },
     {
@@ -53,6 +76,10 @@
           "type": "includes_text",
           "text": "the rear mudguard is not required"
         }
+      ],
+      "kind": "scanned document",
+      "relevant": [
+        "ASSEMBLY-C3-R3#4.2"
       ]
     },
     {
@@ -65,6 +92,13 @@
           "type": "includes_text",
           "text": "speed sensor signal is lost"
         }
+      ],
+      "kind": "slide notes",
+      "relevant": [
+        "TRAIN-C3#2"
+      ],
+      "variants": [
+        "The C-3 screen flashes two times. What is wrong?"
       ]
     },
     {
@@ -77,6 +111,10 @@
           "type": "includes_text",
           "text": "82 percent"
         }
+      ],
+      "kind": "figure",
+      "relevant": [
+        "TEST-BAT-R1#3"
       ]
     },
     {
@@ -92,11 +130,15 @@
             "Exception"
           ]
         }
+      ],
+      "kind": "rule with exception",
+      "relevant": [
+        "ASSEMBLY-C3-R3#4.2"
       ]
     },
     {
       "id": "Q07-check-scope",
-      "question": "Which battery check applies when the battery casing has been opened?",
+      "question": "Which battery check applies when the battery casing of a C-3 has been opened?",
       "expected_from": "part-04",
       "behavior": "R07 reaches the model with the configuration it applies to.",
       "checks": [
@@ -105,6 +147,10 @@
           "contains": "R07",
           "also": "36 V battery pack"
         }
+      ],
+      "kind": "table row",
+      "relevant": [
+        "SPEC-C3-R5#6"
       ]
     },
     {
@@ -164,6 +210,10 @@
             "WARR-R2#2"
           ]
         }
+      ],
+      "kind": "versioned policy",
+      "relevant": [
+        "WARR-R1#2"
       ]
     },
     {
@@ -176,7 +226,9 @@
           "type": "status",
           "equals": "clarify"
         }
-      ]
+      ],
+      "kind": "needs clarification",
+      "relevant": []
     },
     {
       "id": "Q04-every-check",
@@ -204,6 +256,10 @@
           "type": "complete_by",
           "route": "enumeration"
         }
+      ],
+      "kind": "complete list",
+      "relevant": [
+        "SPEC-C3-R5#6"
       ]
     },
     {
@@ -215,6 +271,26 @@
         {
           "type": "answer_contains",
           "text": "80.9"
+        }
+      ],
+      "kind": "calculation",
+      "relevant": []
+    },
+    {
+      "id": "Q13-title-only",
+      "question": "Which chargers are affected by the recall?",
+      "expected_from": "part-07",
+      "kind": "paraphrase",
+      "relevant": [
+        "BULLETIN-2026-02#1"
+      ],
+      "behavior": "The recall bulletin reaches the model, although the word 'recall' appears only in its title. Was held-out H12 until part-07 used it to fix the searched forms.",
+      "checks": [
+        {
+          "type": "includes_refs",
+          "refs": [
+            "BULLETIN-2026-02#1"
+          ]
         }
       ]
     }

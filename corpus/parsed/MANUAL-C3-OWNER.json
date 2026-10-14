@@ -1,0 +1,67 @@
+{
+  "source_id": "MANUAL-C3-OWNER",
+  "file": "c3-owners-manual.pdf",
+  "format": "pdf",
+  "meta": {
+    "title": "C-3 owner's manual",
+    "product": "C-3",
+    "access": "employees"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "2 Charging"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "Charge the battery indoors at room temperature. A full charge takes about 5 hours with the standard charger. You can charge the battery on or off the bike."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "3 The display"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "The display shows speed, assistance level, and battery charge. A blinking battery icon means the charge is low; charge soon."
+    },
+    {
+      "id": "e5",
+      "type": "heading",
+      "level": 2,
+      "text": "4 Riding modes"
+    },
+    {
+      "id": "e6",
+      "type": "paragraph",
+      "text": "Eco gives the longest range. Tour balances range and support. Boost gives the most support for hills and uses the battery fastest."
+    },
+    {
+      "id": "e7",
+      "type": "heading",
+      "level": 2,
+      "text": "5 Winter storage"
+    },
+    {
+      "id": "e8",
+      "type": "paragraph",
+      "text": "Store the battery indoors at about 50 percent charge. Check it every two months and top it up if it falls below 30 percent."
+    },
+    {
+      "id": "e9",
+      "type": "heading",
+      "level": 2,
+      "text": "6 Cleaning"
+    },
+    {
+      "id": "e10",
+      "type": "paragraph",
+      "text": "Clean the bike with a damp cloth. Never use a pressure washer: water can enter the motor and the battery contacts."
+    }
+  ]
+}

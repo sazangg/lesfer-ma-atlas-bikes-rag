@@ -1,0 +1,33 @@
+{
+  "source_id": "WARR-FRAME-R1",
+  "file": "frame-warranty.docx",
+  "format": "docx",
+  "meta": {
+    "title": "Frame warranty, all bikes",
+    "access": "employees"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "2 Warranty term"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "Atlas Bikes frames carry a warranty of 10 years from the purchase date against manufacturing defects. Paint and finish are covered for 2 years."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "3 Claims"
+    },
+    {
+      "id": "e4",
+      "type": "paragraph",
+      "text": "Frame claims need the frame number, proof of purchase, and photos of the defect. The dealer sends them to Atlas warranty services."
+    }
+  ]
+}
