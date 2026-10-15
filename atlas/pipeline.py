@@ -183,7 +183,7 @@ class Assistant:
 
         # An exact identifier in the question resolves directly to its entry.
         with span(trace, "search.exact") as s:
-            codes = set(re.findall(r"\b[A-Z]+-[A-Z]?\d+\b", question))
+            codes = error_codes(question)
             exact = self.index.lookup("error_code", codes, groups, where)
             s.update(codes=sorted(codes), found=[c.id for c in exact])
 
@@ -214,6 +214,11 @@ class Assistant:
                 seen.add(block.id)
                 context.append(block)
         return context
+
+
+def error_codes(question: str) -> set[str]:
+    """Codes as the catalog writes them. part-08: users also type "E417"; production traffic showed it."""
+    return {f"{prefix}-{number}" for prefix, number in re.findall(r"\b([A-Z]+)-?([A-Z]?\d+)\b", question)}
 
 
 def situation_from(fields: dict[str, str | None], known_products: set[str]) -> Situation:

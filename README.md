@@ -19,7 +19,7 @@ Each article has a tag. Check it out to see the system exactly as that article l
 | 5 | When search misses the evidence | `part-05` |
 | 6 | Choosing the evidence that applies | `part-06` |
 | 7 | Measuring whether it works | `part-07` |
-| 8 | Watching it in production | coming |
+| 8 | Watching it in production | `part-08` |
 | 9–13 | Modules: an intermediate knowledge base and complete lists, calculations, linked documents, an agent loop, whole documents | coming |
 | 14 | Choosing your system | coming |
 
@@ -67,6 +67,9 @@ tests/         unit tests (python -m unittest)
 python -m atlas check
 python -m atlas measure            # from part-07: retrieval metrics, results by kind, stability
 python -m atlas judge-calibration  # from part-07: compare a judge with human labels
+python -m atlas simulate           # from part-08: replay a week of traffic with logging on
+python -m atlas stats              # from part-08: what happened, and the review queue
+python -m atlas trace r007         # from part-08: one request, stage by stage
 ```
 
 Each case states the part meant to handle it. Failing cases that a later part will close are reported as known gaps, not errors; a failure the current checkpoint should handle is a regression.

@@ -293,6 +293,25 @@
           ]
         }
       ]
+    },
+    {
+      "id": "Q14-code-without-dash",
+      "question": "What does E417 mean?",
+      "expected_from": "part-08",
+      "kind": "exact code",
+      "relevant": [
+        "ERR-C3-R2#4.17",
+        "ERR-T7-R1#5.2"
+      ],
+      "behavior": "The E-417 entries reach the model even when the code is typed without its dash. Promoted from production request r007 (thumbs down).",
+      "checks": [
+        {
+          "type": "includes_refs",
+          "refs": [
+            "ERR-C3-R2#4.17"
+          ]
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,39 @@
+{
+  "about": "Draft test cases promoted from production requests. A person completes each one from the source documents (expected behavior, checks, expected_from) before moving it into cases.json.",
+  "cases": [
+    {
+      "id": "P-r010",
+      "from_request": "r010",
+      "question": "How long does the battery warranty last on a C-5 bought in May 2026?",
+      "observed": {
+        "status": "clarify",
+        "supplied": [],
+        "why_flagged": [
+          "thumbs down",
+          "asked for clarification"
+        ]
+      },
+      "behavior": "Say that Atlas Bikes doesn't sell a C-5 and name the models it does, instead of asking for a product the user already gave. Also read 'May 2026' as a purchase month.",
+      "checks": [],
+      "triage": "Accepted, not fixed yet. Needs checks before moving into cases.json."
+    },
+    {
+      "id": "P-r006",
+      "from_request": "r006",
+      "question": "What is the dealer price of a T-7 battery?",
+      "observed": {
+        "status": "answered",
+        "supplied": [
+          "SERVICE-T7-R2#9",
+          "SERVICE-T7-R2#8",
+          "ERR-T7-R1#5.1",
+          "SPEC-T7-R2#6"
+        ],
+        "why_flagged": []
+      },
+      "behavior": "Say that price information isn't available with this user's access, instead of answering from unrelated T-7 documents.",
+      "checks": [],
+      "triage": "Accepted, not fixed yet. Needs checks before moving into cases.json."
+    }
+  ]
+}

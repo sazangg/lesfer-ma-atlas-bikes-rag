@@ -248,3 +248,32 @@ On the 9-document sample, the same threshold lifts development precision from 0.
 **Still can't:** list every safety check with a guarantee (Part 9) or compute a pass rate (Part 10).
 
 **Not a stopping point.** Like part-02, keep measuring whatever you build. Part 8 watches the same system once real users arrive.
+
+
+## part-08: Watching it in production
+
+**Article:** Watching it in production
+
+**Lands in:** around the pipeline. Every stage now reports what it did; the answering logic doesn't change, apart from one fix the production log pointed to.
+
+- Every request records a **span** per stage (field extraction, exact lookup, keyword search, vector search, fusion, reranking, the clarification check, assembly, the model call, citations), with timing and the details that explain the stage's result.
+- `Assistant(log_path=...)` appends one line per request to `logs/requests.jsonl`: question, status, retrieved pieces and scores, supplied blocks, prompt size, answer, spans, and the settings and stand-ins in use. The user is stored as a pseudonym; feedback arrives later as separate events.
+- `python -m atlas simulate` replays a week of staff and sales questions (`traffic/week-1.json`), written without looking at what the system would do with them.
+- `python -m atlas stats`: outcomes, weak searches, withheld answers, feedback, time per stage, prompt size, products asked about, repeated questions, and a **review queue** of requests that deserve a person's look.
+- `python -m atlas trace r007`: one request, stage by stage.
+- `python -m atlas promote r007`: a draft test case in `cases/candidates.json` for a person to complete.
+
+**What the week showed.** 24 requests, 22 answered and 2 clarifications, 4 thumbs up and 2 down. Four findings, of which the automatic signals caught only part:
+
+- **r007, "What does E417 mean?" (thumbs down).** The trace shows `search.exact codes=[]`: typed without its dash, the code wasn't recognized, and the model received blink-pattern and display passages, all reranked at a confident 1.0. A high score didn't mean a right answer. **r020 asked the same question, left no feedback, and nothing flagged it.**
+- **r010, a "C-5" bought in "May 2026" (thumbs down).** Atlas doesn't sell a C-5, so validation dropped it, and the stand-in extractor doesn't read month-and-year dates. The assistant asked for a product and a date the user had already given.
+- **r006, a dealer price asked by service staff.** Access control worked: the price list never reached the model. But the assistant answered anyway, from four unrelated T-7 blocks scored 0.6. No signal flagged it; only reading a sample of requests would.
+- **r008, the T-7 delivery checks**, flagged as a weak search (0.406), actually supplied the right table. Signals are hints for review, not verdicts.
+
+**What changed.** The trace pointed at one stage, so the fix is small: codes are recognized with or without the dash and normalized to the catalog's form (`error_codes` in `pipeline.py`). r007 became `Q14-code-without-dash` in `cases.json`. r010 and r006 stay in `cases/candidates.json` with their expected behavior written down, accepted but not fixed yet.
+
+The fix is a separate commit. `git checkout part-08~1` shows the system as it was during the week, and `python -m atlas simulate` then `python -m atlas trace r007` reproduces the failure.
+
+**A note on timing.** The stand-ins answer in about 2 milliseconds, so the time per stage here only shows where time is measured. With a real embedding model, reranker, and language model, the model calls take most of the time, often seconds; that is what the same spans would reveal.
+
+**Not a stopping point.** Keep logging, reviewing a sample, and promoting confirmed failures into test cases. Parts 9 to 13 are independent modules: add only the ones your questions need.
