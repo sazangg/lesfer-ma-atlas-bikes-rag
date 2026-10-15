@@ -5,6 +5,7 @@
     python -m atlas ingest-report [--no-corrections]
     python -m atlas measure [--held-out] [--min-score X] [--export-ragas FILE]
     python -m atlas judge-calibration
+    python -m atlas simulate | stats | trace ID | promote ID
 """
 
 from __future__ import annotations
@@ -31,7 +32,19 @@ def main() -> None:
     measure.add_argument("--min-score", type=float, default=None, help="try a different minimum relevance score")
     measure.add_argument("--export-ragas", metavar="FILE", help="write the questions as a Ragas dataset (JSON lines)")
     commands.add_parser("judge-calibration", help="compare the judge's verdicts with human labels")
+    commands.add_parser("simulate", help="replay a week of simulated traffic with logging on")
+    commands.add_parser("stats", help="summarize the request log")
+    trace_cmd = commands.add_parser("trace", help="show one logged request stage by stage")
+    trace_cmd.add_argument("request_id")
+    promote = commands.add_parser("promote", help="turn a logged request into a draft test case")
+    promote.add_argument("request_id")
     args = parser.parse_args()
+
+    if args.command in ("simulate", "stats", "trace", "promote"):
+        from atlas import ops
+
+        getattr(ops, args.command)(args)
+        return
 
     if args.command == "measure":
         _measure(args)

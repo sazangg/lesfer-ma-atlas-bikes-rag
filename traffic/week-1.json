@@ -1,0 +1,29 @@
+{
+  "about": "A simulated first week of real use: questions from service staff and the sales desk, in their own words, with the feedback some of them left. Written without looking at what the system does with them. `python -m atlas simulate` replays them through the assistant with logging on.",
+  "requests": [
+    {"id": "r001", "at": "2026-10-19T08:12:00", "user": "staff", "question": "What battery warranty applies to a C-3 bought on 15 March 2026?", "feedback": {"rating": "up"}},
+    {"id": "r002", "at": "2026-10-19T08:40:00", "user": "staff", "question": "battery warranty"},
+    {"id": "r003", "at": "2026-10-19T09:05:00", "user": "staff", "question": "What does error E-417 mean, and what should I check?"},
+    {"id": "r004", "at": "2026-10-19T10:30:00", "user": "staff", "question": "Customer forgot the display PIN on her C-3, how do I unlock it?", "feedback": {"rating": "up"}},
+    {"id": "r005", "at": "2026-10-19T14:02:00", "user": "sales", "question": "What is the dealer price of a T-7 battery?"},
+    {"id": "r006", "at": "2026-10-19T14:20:00", "user": "staff", "question": "What is the dealer price of a T-7 battery?"},
+    {"id": "r007", "at": "2026-10-20T09:15:00", "user": "staff", "question": "What does E417 mean?", "feedback": {"rating": "down", "comment": "Didn't explain the error at all"}},
+    {"id": "r008", "at": "2026-10-20T09:48:00", "user": "staff", "question": "Which checks do I need before delivering a T-7?"},
+    {"id": "r009", "at": "2026-10-20T11:03:00", "user": "staff", "question": "Is a rear mudguard required on the cargo version of the C-3?"},
+    {"id": "r010", "at": "2026-10-20T15:30:00", "user": "staff", "question": "How long does the battery warranty last on a C-5 bought in May 2026?", "feedback": {"rating": "down", "comment": "It asked me which product, I told it the C-5"}},
+    {"id": "r011", "at": "2026-10-21T08:55:00", "user": "staff", "question": "Can I clean a bike with a pressure washer?"},
+    {"id": "r012", "at": "2026-10-21T10:10:00", "user": "staff", "question": "The display blinks twice on a T-7, what is it?", "feedback": {"rating": "up"}},
+    {"id": "r013", "at": "2026-10-21T13:45:00", "user": "staff", "question": "Which chargers are affected by the recall?"},
+    {"id": "r014", "at": "2026-10-21T16:20:00", "user": "staff", "question": "How do I set the speed limiter on a K-1?"},
+    {"id": "r015", "at": "2026-10-22T09:00:00", "user": "staff", "question": "What battery warranty applies to a C-3 bought on 15 March 2026?"},
+    {"id": "r016", "at": "2026-10-22T09:35:00", "user": "staff", "question": "How much capacity does a battery keep after 500 charge cycles?", "feedback": {"rating": "up"}},
+    {"id": "r017", "at": "2026-10-22T11:20:00", "user": "staff", "question": "What's the return policy for a bike ridden 80 km?"},
+    {"id": "r018", "at": "2026-10-22T14:05:00", "user": "staff", "question": "E-447 on the screen after charging, what now?"},
+    {"id": "r019", "at": "2026-10-23T08:30:00", "user": "staff", "question": "How tight should the stem bolts be on a T-7?"},
+    {"id": "r020", "at": "2026-10-23T10:12:00", "user": "staff", "question": "What does E417 mean?"},
+    {"id": "r021", "at": "2026-10-23T13:50:00", "user": "staff", "question": "How do I update the firmware?"},
+    {"id": "r022", "at": "2026-10-23T15:40:00", "user": "staff", "question": "Is the frame covered by warranty if the paint chips after 3 years?"},
+    {"id": "r023", "at": "2026-10-24T09:05:00", "user": "staff", "question": "What does error E-417 mean, and what should I check?"},
+    {"id": "r024", "at": "2026-10-24T11:30:00", "user": "staff", "question": "Who do I call when a customer's bike was stolen?"}
+  ]
+}

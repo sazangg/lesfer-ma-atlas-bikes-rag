@@ -39,6 +39,7 @@ from atlas.corpus import ParsedDocument, load_corpus
 from atlas.evidence import evidence_units
 from atlas.index import VectorIndex
 from atlas.keyword import KeywordIndex, reciprocal_rank_fusion
+from atlas.observe import append, log_record, span
 from atlas.providers import Describer, Embedder, Extractor, Generator, Reranker
 from atlas.situation import Situation, missing_details
 from atlas.toy import ToyDescriber, ToyEmbedder, ToyExtractor, ToyGenerator, ToyReranker
@@ -56,6 +57,7 @@ class User:
 
 
 STAFF = User("service staff", {"employees", "staff"})
+SALES = User("sales desk", {"employees", "sales"})
 
 
 @dataclass
@@ -71,6 +73,10 @@ class Trace:
     raw_answer: str = ""
     answer: str = ""
     status: str = "answered"
+    # part-08: what a production log needs
+    request_id: str = ""
+    at: str = ""
+    spans: list[dict] = field(default_factory=list)
 
 
 class Assistant:
@@ -84,6 +90,7 @@ class Assistant:
         k: int = 5,
         candidates: int = 10,
         min_score: float = 0.4,  # part-07: chosen by measurement, see `python -m atlas measure --min-score`
+        log_path=None,  # part-08: append one record per request to this file
     ):
         self.embedder = embedder or ToyEmbedder()
         self.generator = generator or ToyGenerator()
@@ -98,6 +105,7 @@ class Assistant:
         self.blocks: dict[str, Chunk] = {}
         self.reports: list[IngestReport] = []
         self.products: set[str] = set()  # the catalog, for validating extracted fields
+        self.log_path = log_path
 
     # Preparing the documents ------------------------------------------------
 
@@ -117,48 +125,84 @@ class Assistant:
 
     # Answering a question ---------------------------------------------------
 
-    def ask(self, question: str, user: User = STAFF) -> Trace:
-        trace = Trace(question)
+    def ask(self, question: str, user: User = STAFF, request_id: str = "", at: str = "") -> Trace:
+        trace = Trace(question, request_id=request_id, at=at)
+        with span(trace, "total"):
+            self._answer(trace, user)
+        if self.log_path:
+            append(log_record(trace, user, self.settings()), self.log_path)
+        return trace
+
+    def _answer(self, trace: Trace, user: User) -> None:
+        question = trace.question
 
         # The model proposes facts; code checks them before they filter anything.
-        trace.fields = self.extractor.extract(question)
-        situation = situation_from(trace.fields, self.products)
+        with span(trace, "extract") as s:
+            trace.fields = self.extractor.extract(question)
+            situation = situation_from(trace.fields, self.products)
+            s.update(product=situation.product, on_date=str(situation.on_date) if situation.on_date else None)
 
-        hits = self.retrieve(question, user, situation)
+        hits = self.retrieve(question, user, situation, trace)
         trace.retrieved = [(chunk.id, round(score, 3)) for score, chunk in hits]
 
-        missing = missing_details(situation, [chunk for _, chunk in hits])
+        with span(trace, "clarify-check") as s:
+            missing = missing_details(situation, [chunk for _, chunk in hits])
+            s["missing"] = missing
         if missing:
             trace.status = "clarify"
             trace.answer = f"Which {' and '.join(missing)} is this about?"
-            return trace
+            return
 
-        trace.context = self.supplied_blocks([chunk for _, chunk in hits])
-        trace.citations = {f"S{n}": block.ref for n, block in enumerate(trace.context, start=1)}
-        trace.prompt = build_prompt(INSTRUCTIONS, question, situation, trace.context)
-        trace.raw_answer = self.generator.generate(trace.prompt)
-        trace.answer, unknown = resolve_citations(trace.raw_answer, trace.citations)
+        with span(trace, "assemble") as s:
+            trace.context = self.supplied_blocks([chunk for _, chunk in hits])
+            trace.citations = {f"S{n}": block.ref for n, block in enumerate(trace.context, start=1)}
+            trace.prompt = build_prompt(INSTRUCTIONS, question, situation, trace.context)
+            s.update(blocks=[b.ref for b in trace.context], prompt_tokens=max(1, len(trace.prompt) // 4))
+        with span(trace, "generate", model=type(self.generator).__name__):
+            trace.raw_answer = self.generator.generate(trace.prompt)
+        with span(trace, "citations") as s:
+            trace.answer, unknown = resolve_citations(trace.raw_answer, trace.citations)
+            s["unknown_labels"] = unknown
         if unknown:
             trace.status = "format_error"
             trace.answer = f"The answer cited unknown sources {unknown} and was withheld."
-        return trace
 
-    def retrieve(self, question: str, user: User, situation: Situation) -> list[tuple[float, Chunk]]:
+    def settings(self) -> dict:
+        """What a log record needs to reproduce a request: versions, stand-ins, and settings."""
+        from atlas import CHECKPOINT
+
+        return {
+            "checkpoint": CHECKPOINT, "k": self.k, "candidates": self.candidates, "min_score": self.min_score,
+            "embedder": type(self.embedder).__name__, "reranker": type(self.reranker).__name__,
+            "generator": type(self.generator).__name__,
+        }
+
+    def retrieve(self, question: str, user: User, situation: Situation, trace: Trace | None = None) -> list[tuple[float, Chunk]]:
         """Return the top-k applicable pieces. Access and situation filter every search."""
         groups, where = user.groups, situation.allows
 
         # An exact identifier in the question resolves directly to its entry.
-        codes = set(re.findall(r"\b[A-Z]+-[A-Z]?\d+\b", question))
-        exact = self.index.lookup("error_code", codes, groups, where)
+        with span(trace, "search.exact") as s:
+            codes = set(re.findall(r"\b[A-Z]+-[A-Z]?\d+\b", question))
+            exact = self.index.lookup("error_code", codes, groups, where)
+            s.update(codes=sorted(codes), found=[c.id for c in exact])
 
-        lexical = [c for _, c in self.keywords.search(question, groups, self.candidates, where)]
-        dense = [c for _, c in self.index.search(self.embedder.embed(question), groups, self.candidates, where)]
-        shortlist = [c for c in reciprocal_rank_fusion(lexical, dense) if c not in exact]
+        with span(trace, "search.keyword") as s:
+            lexical = [c for _, c in self.keywords.search(question, groups, self.candidates, where)]
+            s["top"] = [c.id for c in lexical[:3]]
+        with span(trace, "search.vector") as s:
+            dense = [c for _, c in self.index.search(self.embedder.embed(question), groups, self.candidates, where)]
+            s["top"] = [c.id for c in dense[:3]]
+        with span(trace, "fusion") as s:
+            shortlist = [c for c in reciprocal_rank_fusion(lexical, dense) if c not in exact]
+            s["shortlist"] = len(shortlist)
 
-        scores = self.reranker.score(question, [c.search_text or c.text for c in shortlist])
-        ranked = sorted(zip(scores, shortlist), key=lambda pair: pair[0], reverse=True)
-        ranked = [(score, c) for score, c in ranked if score >= self.min_score]
-        return ([(float("inf"), c) for c in exact] + ranked)[: self.k]
+        with span(trace, "rerank") as s:
+            scores = self.reranker.score(question, [c.search_text or c.text for c in shortlist])
+            ranked = sorted(zip(scores, shortlist), key=lambda pair: pair[0], reverse=True)
+            kept = [(score, c) for score, c in ranked if score >= self.min_score]
+            s.update(top_score=round(ranked[0][0], 3) if ranked else None, dropped_below_min=len(ranked) - len(kept))
+        return ([(float("inf"), c) for c in exact] + kept)[: self.k]
 
     def supplied_blocks(self, hits: list[Chunk]) -> list[Chunk]:
         """Replace each searched piece by the block it belongs to, once."""
