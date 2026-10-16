@@ -144,6 +144,15 @@
       "relevant": [
         "SPEC-K1-R1#6"
       ]
+    },
+    {
+      "id": "H20",
+      "kind": "calculation",
+      "question": "What percentage of C-3 bikes passed final inspection without rework?",
+      "relevant": [
+        "QA-INSPECT-2026#1",
+        "QA-INSPECT-2026#2"
+      ]
     }
   ]
 }

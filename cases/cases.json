@@ -266,7 +266,7 @@
       "id": "Q05-pass-rate",
       "question": "What share of bikes passed final inspection without rework across batches A and B?",
       "expected_from": "part-10",
-      "behavior": "89 of 110 bikes, about 80.9%, computed rather than averaged.",
+      "behavior": "89 of 110 bikes, about 80.9%, computed from the counts rather than averaging the two batch rates (85%).",
       "checks": [
         {
           "type": "answer_contains",
@@ -274,7 +274,10 @@
         }
       ],
       "kind": "calculation",
-      "relevant": []
+      "relevant": [
+        "QA-INSPECT-2026#1",
+        "QA-INSPECT-2026#2"
+      ]
     },
     {
       "id": "Q13-title-only",
@@ -402,6 +405,58 @@
           "type": "includes_refs",
           "refs": [
             "ERR-C3-R2#4.17"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q18-rate-by-product",
+      "question": "What share of T-7 bikes passed final inspection without rework?",
+      "expected_from": "part-10",
+      "kind": "calculation",
+      "relevant": [
+        "QA-INSPECT-2026#1",
+        "QA-INSPECT-2026#2"
+      ],
+      "behavior": "The T-7 batches C and D: 56 of 65, about 86.2%. Averaging their rates would give 85%.",
+      "checks": [
+        {
+          "type": "answer_contains",
+          "text": "86.2%"
+        }
+      ]
+    },
+    {
+      "id": "Q19-missing-count",
+      "question": "What share of K-1 bikes passed final inspection without rework?",
+      "expected_from": "part-10",
+      "kind": "calculation",
+      "behavior": "Batch F has no passed count yet, so there is no K-1 rate. Not batch E alone, and not F counted as zero.",
+      "checks": [
+        {
+          "type": "status",
+          "equals": "cannot_compute"
+        }
+      ]
+    },
+    {
+      "id": "Q20-definition-stays-search",
+      "question": "How is the pass rate defined?",
+      "expected_from": "part-10",
+      "kind": "paraphrase",
+      "relevant": [
+        "QA-INSPECT-2026#1"
+      ],
+      "behavior": "Asking what a rate means is not asking for its value: this stays on the search path.",
+      "checks": [
+        {
+          "type": "route",
+          "equals": "search"
+        },
+        {
+          "type": "includes_refs",
+          "refs": [
+            "QA-INSPECT-2026#1"
           ]
         }
       ]

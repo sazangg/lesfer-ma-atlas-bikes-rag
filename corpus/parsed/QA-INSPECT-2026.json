@@ -1,0 +1,95 @@
+{
+  "source_id": "QA-INSPECT-2026",
+  "file": "final-inspection-2026.xlsx",
+  "format": "xlsx",
+  "meta": {
+    "title": "Final inspection results 2026",
+    "access": "staff"
+  },
+  "elements": [
+    {
+      "id": "e1",
+      "type": "heading",
+      "level": 2,
+      "text": "1 Definitions"
+    },
+    {
+      "id": "e2",
+      "type": "paragraph",
+      "text": "Pass rate: the share of inspected bikes that passed final inspection without rework. A bike that needed rework counts as inspected but not passed."
+    },
+    {
+      "id": "e3",
+      "type": "heading",
+      "level": 2,
+      "text": "2 Final inspection by batch"
+    },
+    {
+      "id": "e4",
+      "type": "table",
+      "header": [
+        "Batch",
+        "Product",
+        "Month",
+        "Bikes inspected",
+        "Passed without rework",
+        "Pass rate"
+      ],
+      "rows": [
+        [
+          "A",
+          "C-3",
+          "2026-07",
+          "100",
+          "80",
+          "80%"
+        ],
+        [
+          "B",
+          "C-3",
+          "2026-08",
+          "10",
+          "9",
+          "90%"
+        ],
+        [
+          "C",
+          "T-7",
+          "2026-07",
+          "40",
+          "36",
+          "90%"
+        ],
+        [
+          "D",
+          "T-7",
+          "2026-08",
+          "25",
+          "20",
+          "80%"
+        ],
+        [
+          "E",
+          "K-1",
+          "2026-08",
+          "30",
+          "27",
+          "90%"
+        ],
+        [
+          "F",
+          "K-1",
+          "2026-09",
+          "12",
+          "",
+          ""
+        ]
+      ]
+    },
+    {
+      "id": "e5",
+      "type": "paragraph",
+      "text": "Batch F is still being inspected. Its results are entered when the inspection ends."
+    }
+  ]
+}

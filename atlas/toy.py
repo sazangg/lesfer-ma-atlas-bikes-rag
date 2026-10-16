@@ -33,10 +33,12 @@ ToyRouter
     Recognizes a list question with a few rules: words like "list", "every",
     or "how many", and a record type it knows (error codes, battery checks).
     A real router asks a model to choose among the same paths, with a
-    structured output.
+    structured output. From part-10 it also recognizes a question asking for
+    a share or rate, and the batches it names.
 
 ToyGenerator
-    Doesn't write prose. It repeats the first sentence of each supplied source
+    Repeats a result computed by code first, word for word (part-10).
+    Otherwise it doesn't write prose. It repeats the first sentence of each supplied source
     with its label, so you can see what evidence a real model would receive.
 """
 
@@ -157,7 +159,12 @@ class ToyExtractor:
 class ToyRouter:
     def route(self, question: str) -> dict[str, str | None]:
         q = question.lower()
-        record_type = "error_code" if re.search(r"\bcodes?\b", q) else "check" if re.search(r"\bchecks?\b", q) else None
+        # part-10: a share or rate of something counted asks for a calculation, unless it asks what the rate means.
+        if re.search(r"\b(share|percentage|pass rate)\b", q) and not re.search(r"\b(defined|definition|means?)\b", q):
+            named = re.search(r"\bbatch(?:es)?\s+((?:[A-Z]\b(?:,\s*|\s+and\s+)?)+)", question)
+            return {"path": "calculate", "metric": "pass_rate" if re.search(r"\b(pass|passed|inspection)\b", q) else None,
+                    "batches": re.findall(r"[A-Z]", named.group(1)) if named else []}
+        record_type ="error_code" if re.search(r"\bcodes?\b", q) else "check" if re.search(r"\bchecks?\b", q) else None
         # A list question asks for a set: "list", "every", "all", "how many", or "which" with a plural.
         wants_set = re.search(r"\b(list|every|all|how many)\b", q) or re.search(r"^which\b.*\b(codes|checks)\b", q)
         if not (record_type and wants_set):
@@ -179,6 +186,11 @@ class ToyGenerator:
                 body = lines[i + 2] if heading else lines[i + 1]
                 first_sentence = re.split(r"(?<=[.!?])\s+", body)[0]
                 quoted.append(f"- {first_sentence} [{label.group(1)}]")
+        # part-10: a computed result comes first, word for word, as the instructions ask.
+        prefix = "Result (computed by code): "
+        result = next((line.removeprefix(prefix) for line in lines if line.startswith(prefix)), None)
+        if result:
+            quoted.insert(0, f"- {result}")
         if not quoted:
             return "(toy generator) No sources were supplied."
         return "(toy generator) The supplied sources say:\n" + "\n".join(quoted)

@@ -35,7 +35,13 @@ CURATED_FILE = Path(__file__).resolve().parent.parent / "knowledge" / "curated.j
 RECORD_TYPES = {
     "error_code": "display error codes",
     "check": "battery safety checks",
+    "inspection": "inspection batches",  # part-10
 }
+
+# part-10: inspection rows become records with numeric fields, named by column.
+# The table's own "Pass rate" column is left out: a rate is computed from the counts, never read.
+INSPECTION_COLUMNS = {"Batch": "batch", "Product": "product", "Month": "month",
+                      "Bikes inspected": "inspected", "Passed without rework": "passed"}
 
 # What a code is about, by the first of these words in its meaning. A real system
 # asks a model to fill this field, and a person reviews it: list filters trust it.
@@ -87,6 +93,22 @@ def extract_records(doc: StructuredDocument) -> list[Chunk]:
                         doc.source_id, section.number,
                         {**base, "record_type": "check", "check_id": check_id},
                     ))
+
+        if "inspection" in section.title.lower():
+            for element in section.elements:
+                if element.kind != "table" or "Bikes inspected" not in element.data["header"]:
+                    continue
+                columns = element.data["header"]
+                for row in element.data["rows"]:
+                    fields = {INSPECTION_COLUMNS[c]: v for c, v in zip(columns, row) if c in INSPECTION_COLUMNS}
+                    passed = f"{fields['passed']} passed without rework" if fields["passed"] else "passed count not recorded"
+                    records.append(Chunk(
+                        f"{doc.source_id}-{section.number}-{fields['batch']}-record",
+                        f"Batch {fields['batch']} ({fields['product']}, {fields['month']}): "
+                        f"{fields['inspected']} bikes inspected, {passed}.",
+                        doc.source_id, section.number,
+                        {**base, "record_type": "inspection", **fields},
+                    ))
     return records
 
 
@@ -120,7 +142,16 @@ def completeness_report(docs: list[StructuredDocument], records: list[Chunk]) ->
         if rows:
             got = sum(r.meta["record_type"] == "check" for r in found)
             lines.append(f"{doc.source_id}: {got} of {len(rows)} check rows")
+        batches = [row for s in doc.sections if "inspection" in s.title.lower()
+                   for e in s.elements if e.kind == "table" for row in e.data["rows"]]
+        if batches:
+            got = sum(r.meta["record_type"] == "inspection" for r in found)
+            lines.append(f"{doc.source_id}: {got} of {len(batches)} inspection rows")
         for r in found:
+            if r.meta["record_type"] == "inspection":
+                empty = [f for f in ("inspected", "passed") if not r.meta.get(f, "").isdigit()]
+                if empty:
+                    lines.append(f"NEEDS REVIEW: batch {r.meta['batch']} in {doc.source_id} has no {' or '.join(empty)} count")
             if r.meta["record_type"] == "error_code" and not r.meta.get("component"):
                 lines.append(f"NEEDS REVIEW: {r.meta['code']} in {doc.source_id} has no component")
 
@@ -137,6 +168,6 @@ def completeness_report(docs: list[StructuredDocument], records: list[Chunk]) ->
 def save(records: list[Chunk], path: Path = RECORDS_FILE) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     rows = [{"id": r.id, "type": r.meta["record_type"], "source": r.ref, "access": r.meta.get("access", ""),
-             **{k: r.meta[k] for k in ("code", "component", "check_id", "product", "revision", "curated") if r.meta.get(k)},
+             **{k: r.meta[k] for k in ("code", "component", "check_id", "batch", "month", "inspected", "passed", "product", "revision", "curated") if r.meta.get(k)},
              "text": r.text} for r in records]
     path.write_text(json.dumps({"records": rows}, indent=2) + "\n", encoding="utf-8")

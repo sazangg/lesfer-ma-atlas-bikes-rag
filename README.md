@@ -21,7 +21,8 @@ Each article has a tag. Check it out to see the system exactly as that article l
 | 7 | Measuring whether it works | `part-07` |
 | 8 | Watching it in production | `part-08` |
 | 9 | When the question needs every match | `part-09` |
-| 10–13 | Modules: calculations, linked documents, an agent loop, whole documents | coming |
+| 10 | When the answer must be calculated | `part-10` |
+| 11–13 | Modules: linked documents, an agent loop, whole documents | coming |
 | 14 | Choosing your system | coming |
 
 Parts 1 to 6 are the core every system needs. Parts 9 to 13 are independent modules: add only the ones your questions need.

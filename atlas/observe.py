@@ -93,8 +93,10 @@ def review_reasons(record: dict, feedback: dict | None) -> list[str]:
         reasons.append("thumbs down")
     if record["status"] == "clarify":
         reasons.append("asked for clarification")
-    elif record["status"] == "format_error":
+    elif record["status"] in ("format_error", "number_mismatch"):
         reasons.append("answer withheld")
+    elif record["status"] == "cannot_compute":  # part-10
+        reasons.append("could not compute")
     elif not record["blocks"]:
         reasons.append("nothing supplied")
     elif not record["exact_match"] and (record["top_score"] or 0) < WEAK_SCORE:

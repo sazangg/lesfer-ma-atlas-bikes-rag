@@ -302,3 +302,28 @@ The fix is a separate commit. `git checkout part-08~1` shows the system as it wa
 - Compute anything from the records, such as a pass rate. That is Part 10.
 
 **Stop here if** your list questions are about a few kinds of things with a fixed shape (codes, checks, products, contacts) and someone can own their records.
+
+## part-10: When the answer must be calculated
+
+**Article:** When the answer must be calculated
+
+**Module.** Add it if your users ask for numbers that no document states: a rate, a total, an average over records.
+
+**Lands in:** the records from part-09 and the router. Search doesn't change.
+
+- **A new document**: `QA-INSPECT-2026`, final inspection results by batch. Search already finds its table for "What share of bikes passed final inspection without rework across batches A and B?"; the gap is the arithmetic. The table shows each batch's rate (80% and 90%), and averaging them gives 85%. The right answer adds the counts first: 89 of 110, 80.9%.
+- **Inspection records** with numeric fields (`inspected`, `passed`), one per batch. The table's own pass rate column is not copied: rates are computed, never read. The completeness report flags batch F, whose passed count is blank.
+- **Metrics defined in code** (`atlas/calculate.py`): `pass_rate` = sum of `passed` / sum of `inspected` over the inspection records in scope, with the document section that defines it. A blank count means no result (`incomplete_data`), an unknown batch is reported (`unknown_scope`), and a zero denominator gives no rate.
+- **A third route**, `calculate`, with the metric and the batches named. "How is the pass rate defined?" stays on search.
+- **The calculate path**: code computes the result; the model receives it as a sentence with the definition and the records used, and explains it. A **number check** then withholds any answer containing a number that appears nowhere in the result or the sources, such as an averaged 85%.
+
+**Answers:** Q05 (80.9% for batches A and B), the T-7 rate (56 of 65, 86.2%), and refusals that say why: "What share of K-1 bikes passed?" can't be computed while batch F's count is blank.
+
+**Measured:** 23 passing, 0 known gaps, 0 regressions. The remaining modules bring their own questions.
+
+**Still can't:**
+- Compute a metric nobody defined. Each metric is a deliberate addition: a formula, the records it reads, and tests.
+- Answer questions whose evidence is spread across documents that refer to each other. That is Part 11.
+
+**Stop here if** your numeric questions are about a known set of metrics over records you can extract and own.
+

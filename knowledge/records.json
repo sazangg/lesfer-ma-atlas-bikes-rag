@@ -81,6 +81,77 @@
       "text": "E-714 (T-7): the rear light circuit is open. Check the light connector under the rear rack."
     },
     {
+      "id": "QA-INSPECT-2026-2-A-record",
+      "type": "inspection",
+      "source": "QA-INSPECT-2026#2",
+      "access": "staff",
+      "batch": "A",
+      "month": "2026-07",
+      "inspected": "100",
+      "passed": "80",
+      "product": "C-3",
+      "text": "Batch A (C-3, 2026-07): 100 bikes inspected, 80 passed without rework."
+    },
+    {
+      "id": "QA-INSPECT-2026-2-B-record",
+      "type": "inspection",
+      "source": "QA-INSPECT-2026#2",
+      "access": "staff",
+      "batch": "B",
+      "month": "2026-08",
+      "inspected": "10",
+      "passed": "9",
+      "product": "C-3",
+      "text": "Batch B (C-3, 2026-08): 10 bikes inspected, 9 passed without rework."
+    },
+    {
+      "id": "QA-INSPECT-2026-2-C-record",
+      "type": "inspection",
+      "source": "QA-INSPECT-2026#2",
+      "access": "staff",
+      "batch": "C",
+      "month": "2026-07",
+      "inspected": "40",
+      "passed": "36",
+      "product": "T-7",
+      "text": "Batch C (T-7, 2026-07): 40 bikes inspected, 36 passed without rework."
+    },
+    {
+      "id": "QA-INSPECT-2026-2-D-record",
+      "type": "inspection",
+      "source": "QA-INSPECT-2026#2",
+      "access": "staff",
+      "batch": "D",
+      "month": "2026-08",
+      "inspected": "25",
+      "passed": "20",
+      "product": "T-7",
+      "text": "Batch D (T-7, 2026-08): 25 bikes inspected, 20 passed without rework."
+    },
+    {
+      "id": "QA-INSPECT-2026-2-E-record",
+      "type": "inspection",
+      "source": "QA-INSPECT-2026#2",
+      "access": "staff",
+      "batch": "E",
+      "month": "2026-08",
+      "inspected": "30",
+      "passed": "27",
+      "product": "K-1",
+      "text": "Batch E (K-1, 2026-08): 30 bikes inspected, 27 passed without rework."
+    },
+    {
+      "id": "QA-INSPECT-2026-2-F-record",
+      "type": "inspection",
+      "source": "QA-INSPECT-2026#2",
+      "access": "staff",
+      "batch": "F",
+      "month": "2026-09",
+      "inspected": "12",
+      "product": "K-1",
+      "text": "Batch F (K-1, 2026-09): 12 bikes inspected, passed count not recorded."
+    },
+    {
       "id": "SPEC-C3-R5-6-R01-record",
       "type": "check",
       "source": "SPEC-C3-R5#6",
