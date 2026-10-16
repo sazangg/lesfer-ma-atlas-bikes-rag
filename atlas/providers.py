@@ -28,6 +28,13 @@ class Extractor(Protocol):
     def extract(self, question: str) -> dict[str, str | None]: ...
 
 
+class Router(Protocol):
+    """Part 9: chooses the path for a question. Returns {"path": "search" | "list",
+    "record_type": ..., "component": ...}; code validates the choice before using it."""
+
+    def route(self, question: str) -> dict[str, str | None]: ...
+
+
 class Reranker(Protocol):
     """Scores each (question, passage) pair together, like a cross-encoder."""
 

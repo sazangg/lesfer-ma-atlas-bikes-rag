@@ -52,6 +52,8 @@ def stats(args) -> None:
     for status, n in outcomes.most_common():
         print(f"  {status:<12} {n:>3}  ({100 * n // len(records)}%)")
     print(f"  answered with nothing supplied: {nothing}")
+    routes = Counter(r.get("route", "search") for r in records)
+    print("Routes:", ", ".join(f"{route} {n}" for route, n in routes.most_common()))
 
     reasons = {r["id"]: review_reasons(r, feedback.get(r["id"])) for r in records}
     weak = sum(any(x.startswith("weak search") for x in v) for v in reasons.values())

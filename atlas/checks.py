@@ -63,6 +63,8 @@ def evaluate(trace: Trace, check: dict) -> tuple[bool, str]:
     if kind == "answer_contains":
         ok = check["text"] in trace.answer
         return ok, "found in answer" if ok else "not in answer"
+    if kind == "route":
+        return trace.route == check["equals"], f"route {trace.route}"
     if kind == "complete_by":
         complete_by = getattr(trace, "complete_by", None)
         ok = complete_by == check["route"]

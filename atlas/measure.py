@@ -44,7 +44,8 @@ class Row:
 
 
 def retrieval_row(case: dict, trace: Trace) -> Row:
-    supplied = [block.ref for block in trace.context]
+    # part-09: records from the list path can share a source section; count each section once
+    supplied = list(dict.fromkeys(block.ref for block in trace.context))
     relevant = set(case.get("relevant", []))
     found = relevant & set(supplied)
     if relevant:

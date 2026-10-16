@@ -29,6 +29,12 @@ ToyExtractor
     implementation asks a model for the same fields, with an instruction to
     return null rather than guess.
 
+ToyRouter
+    Recognizes a list question with a few rules: words like "list", "every",
+    or "how many", and a record type it knows (error codes, battery checks).
+    A real router asks a model to choose among the same paths, with a
+    structured output.
+
 ToyGenerator
     Doesn't write prose. It repeats the first sentence of each supplied source
     with its label, so you can see what evidence a real model would receive.
@@ -146,6 +152,19 @@ class ToyExtractor:
             day, month, year = spoken.groups()
             purchase_date = f"{year}-{_MONTHS.index(month) + 1:02d}-{int(day):02d}"
         return {"product": product.group(1) if product else None, "purchase_date": purchase_date}
+
+
+class ToyRouter:
+    def route(self, question: str) -> dict[str, str | None]:
+        q = question.lower()
+        record_type = "error_code" if re.search(r"\bcodes?\b", q) else "check" if re.search(r"\bchecks?\b", q) else None
+        # A list question asks for a set: "list", "every", "all", "how many", or "which" with a plural.
+        wants_set = re.search(r"\b(list|every|all|how many)\b", q) or re.search(r"^which\b.*\b(codes|checks)\b", q)
+        if not (record_type and wants_set):
+            return {"path": "search", "record_type": None, "component": None}
+        rest = re.sub(r"battery safety checks?", "", q)
+        component = next((c for c in ("battery", "charger", "motor", "light", "sensor") if re.search(rf"\b{c}", rest)), None)
+        return {"path": "list", "record_type": record_type, "component": component}
 
 
 class ToyGenerator:

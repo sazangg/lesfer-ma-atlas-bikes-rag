@@ -48,6 +48,7 @@ def log_record(trace, user, settings: dict) -> dict:
         "groups": sorted(user.groups),
         "question": trace.question,
         "status": trace.status,
+        "route": trace.route,  # part-09
         "fields": trace.fields,
         "retrieved": [[cid, None if score == float("inf") else score] for cid, score in trace.retrieved],
         "exact_match": any(score == float("inf") for _, score in trace.retrieved),

@@ -277,3 +277,28 @@ The fix is a separate commit. `git checkout part-08~1` shows the system as it wa
 **A note on timing.** The stand-ins answer in about 2 milliseconds, so the time per stage here only shows where time is measured. With a real embedding model, reranker, and language model, the model calls take most of the time, often seconds; that is what the same spans would reveal.
 
 **Not a stopping point.** Keep logging, reviewing a sample, and promoting confirmed failures into test cases. Parts 9 to 13 are independent modules: add only the ones your questions need.
+
+## part-09: When the question needs every match
+
+**Article:** When the question needs every match
+
+**Module.** Add it if your users ask for lists or counts: every error code, all the checks for a bike, how many of something there are.
+
+**Lands in:** ingestion and the start of answering. Search itself doesn't change.
+
+- **Records** (`atlas/records.py`): at ingestion, content with a fixed shape is also copied into records with fields. One per error code entry (`code`, `product`, `component`) and one per row of a battery safety check table (`check_id`, `product`). Each record keeps its document's access groups and points to its source section, so citations work as before.
+- **A completeness report**: `python -m atlas records` compares the records with the documents, counted a second way, and flags codes mentioned anywhere without an entry. It writes `knowledge/records.json`, so a change in the documents shows up as a diff in review.
+- **Curated records** (`knowledge/curated.json`): records a person writes, with their source and the reason they exist. The report found E-519, which firmware bulletin 2026-05 introduces before the error code documents list it; two curated records cover it until the next revision.
+- **A router** (`Router` in `providers.py`, `ToyRouter` in `toy.py`): reads the question first and proposes a path, `search` or `list`, with a record type and an optional component. Code validates the proposal; anything it can't use falls back to search.
+- **The list path**: every record of that type that the user may read and that fits the situation, not the best few. The prompt states how many there are.
+
+**Answers:** "List every display error code" (10 entries, where search supplies 5), "How many error codes does the T-7 have?" (6, where search shows the model 5 because k is 5), "Which checks do I need before delivering a T-7?" (all 12), and Q04's eleven C-3 checks with completeness guaranteed.
+
+**Measured:** 19 passing, 1 known gap, 0 regressions. In the replayed week, r008 (the Part 8 false alarm) now takes the list path, and there are no weak searches.
+
+**Still can't:**
+- Answer a list question about something that has no records. A question about "every bike affected by the recall" still goes to search.
+- Guarantee more than the records do. The list is complete relative to the records, and the records are only as complete as their extraction and review.
+- Compute anything from the records, such as a pass rate. That is Part 10.
+
+**Stop here if** your list questions are about a few kinds of things with a fixed shape (codes, checks, products, contacts) and someone can own their records.

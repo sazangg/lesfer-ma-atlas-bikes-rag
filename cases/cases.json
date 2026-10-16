@@ -312,6 +312,99 @@
           ]
         }
       ]
+    },
+    {
+      "id": "Q15-every-code",
+      "question": "List every display error code.",
+      "expected_from": "part-09",
+      "kind": "complete list",
+      "relevant": [
+        "ERR-C3-R2#4.17",
+        "ERR-C3-R2#4.18",
+        "ERR-C3-R2#4.71",
+        "ERR-T7-R1#5.1",
+        "ERR-T7-R1#5.2",
+        "ERR-T7-R1#5.3",
+        "ERR-T7-R1#5.4",
+        "ERR-T7-R1#5.5",
+        "BULLETIN-2026-05#3"
+      ],
+      "behavior": "Every error code entry reaches the model, including E-519, which only the firmware bulletin mentions so far. Search returns the best five and says nothing about the rest.",
+      "checks": [
+        {
+          "type": "includes_refs",
+          "refs": [
+            "ERR-C3-R2#4.17",
+            "ERR-C3-R2#4.18",
+            "ERR-C3-R2#4.71",
+            "ERR-T7-R1#5.1",
+            "ERR-T7-R1#5.2",
+            "ERR-T7-R1#5.3",
+            "ERR-T7-R1#5.4",
+            "ERR-T7-R1#5.5",
+            "BULLETIN-2026-05#3"
+          ]
+        },
+        {
+          "type": "complete_by",
+          "route": "enumeration"
+        }
+      ]
+    },
+    {
+      "id": "Q16-count",
+      "question": "How many error codes does the T-7 have?",
+      "expected_from": "part-09",
+      "kind": "complete list",
+      "relevant": [
+        "ERR-T7-R1#5.1",
+        "ERR-T7-R1#5.2",
+        "ERR-T7-R1#5.3",
+        "ERR-T7-R1#5.4",
+        "ERR-T7-R1#5.5",
+        "BULLETIN-2026-05#3"
+      ],
+      "behavior": "All six T-7 entries, counted by code. With search, the model sees five because k is 5.",
+      "checks": [
+        {
+          "type": "includes_refs",
+          "refs": [
+            "ERR-T7-R1#5.1",
+            "ERR-T7-R1#5.2",
+            "ERR-T7-R1#5.3",
+            "ERR-T7-R1#5.4",
+            "ERR-T7-R1#5.5",
+            "BULLETIN-2026-05#3"
+          ]
+        },
+        {
+          "type": "complete_by",
+          "route": "enumeration"
+        }
+      ]
+    },
+    {
+      "id": "Q17-single-stays-search",
+      "question": "Which error code means the battery is too hot?",
+      "expected_from": "part-09",
+      "kind": "keyword",
+      "relevant": [
+        "ERR-C3-R2#4.17",
+        "ERR-T7-R1#5.2"
+      ],
+      "behavior": "'Which' doesn't always ask for a list: this question has one answer and stays on the search path.",
+      "checks": [
+        {
+          "type": "route",
+          "equals": "search"
+        },
+        {
+          "type": "includes_refs",
+          "refs": [
+            "ERR-C3-R2#4.17"
+          ]
+        }
+      ]
     }
   ]
 }

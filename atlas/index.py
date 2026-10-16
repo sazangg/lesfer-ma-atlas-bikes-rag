@@ -26,7 +26,7 @@ class VectorIndex:
         scored = [
             (cosine(vector, chunk_vector), chunk)
             for chunk, chunk_vector in self._entries
-            if _readable(chunk, allowed_groups) and (where is None or where(chunk))
+            if readable(chunk, allowed_groups) and (where is None or where(chunk))
         ]
         scored.sort(key=lambda pair: pair[0], reverse=True)
         return scored[:limit]
@@ -38,13 +38,13 @@ class VectorIndex:
         return [
             chunk
             for chunk, _ in self._entries
-            if chunk.meta.get(field) in values and _readable(chunk, allowed_groups) and (where is None or where(chunk))
+            if chunk.meta.get(field) in values and readable(chunk, allowed_groups) and (where is None or where(chunk))
         ]
 
     def __len__(self) -> int:
         return len(self._entries)
 
 
-def _readable(chunk: Chunk, groups: set[str]) -> bool:
+def readable(chunk: Chunk, groups: set[str]) -> bool:
     access = {g.strip() for g in chunk.meta.get("access", "").split(",") if g.strip()}
     return bool(access & groups)

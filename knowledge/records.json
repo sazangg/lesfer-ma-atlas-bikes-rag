@@ -1,0 +1,396 @@
+{
+  "records": [
+    {
+      "id": "ERR-C3-R2-4.17-record",
+      "type": "error_code",
+      "source": "ERR-C3-R2#4.17",
+      "access": "staff",
+      "code": "E-417",
+      "component": "battery",
+      "product": "C-3",
+      "text": "E-417 (C-3): the battery is too hot to charge. Unplug the charger and let the battery cool to room temperature before charging again. If it happens on every charge, test the battery's temperature sensor."
+    },
+    {
+      "id": "ERR-C3-R2-4.18-record",
+      "type": "error_code",
+      "source": "ERR-C3-R2#4.18",
+      "access": "staff",
+      "code": "E-418",
+      "component": "motor",
+      "product": "C-3",
+      "text": "E-418 (C-3): the motor drew too much current and assistance was switched off. Stop, switch the bike off for ten seconds, and restart. Reduce the assistance level on steep climbs with heavy loads."
+    },
+    {
+      "id": "ERR-C3-R2-4.71-record",
+      "type": "error_code",
+      "source": "ERR-C3-R2#4.71",
+      "access": "staff",
+      "code": "E-471",
+      "component": "battery",
+      "product": "C-3",
+      "text": "E-471 (C-3): the battery is too cold to charge. Bring the bike indoors and wait until the battery warms to room temperature before charging. Charging below 0 degrees Celsius is blocked to protect the cells."
+    },
+    {
+      "id": "ERR-T7-R1-5.1-record",
+      "type": "error_code",
+      "source": "ERR-T7-R1#5.1",
+      "access": "staff",
+      "code": "E-412",
+      "component": "battery",
+      "product": "T-7",
+      "text": "E-412 (T-7): the battery management system lost contact with one cell group. Switch the bike off and on. If the error stays, test the battery with the dealer service tool."
+    },
+    {
+      "id": "ERR-T7-R1-5.2-record",
+      "type": "error_code",
+      "source": "ERR-T7-R1#5.2",
+      "access": "staff",
+      "code": "E-417",
+      "component": "battery",
+      "product": "T-7",
+      "text": "E-417 (T-7): the battery is too hot to charge. Unplug the fast charger and let the battery cool to room temperature before charging again."
+    },
+    {
+      "id": "ERR-T7-R1-5.3-record",
+      "type": "error_code",
+      "source": "ERR-T7-R1#5.3",
+      "access": "staff",
+      "code": "E-447",
+      "component": "charger",
+      "product": "T-7",
+      "text": "E-447 (T-7): the fast charger reported a voltage it doesn't support. Check that the charger is the approved T-7 fast charger."
+    },
+    {
+      "id": "ERR-T7-R1-5.4-record",
+      "type": "error_code",
+      "source": "ERR-T7-R1#5.4",
+      "access": "staff",
+      "code": "E-471",
+      "component": "battery",
+      "product": "T-7",
+      "text": "E-471 (T-7): the battery is too cold to charge. Bring the bike indoors and wait until the battery warms to room temperature before charging."
+    },
+    {
+      "id": "ERR-T7-R1-5.5-record",
+      "type": "error_code",
+      "source": "ERR-T7-R1#5.5",
+      "access": "staff",
+      "code": "E-714",
+      "component": "light",
+      "product": "T-7",
+      "text": "E-714 (T-7): the rear light circuit is open. Check the light connector under the rear rack."
+    },
+    {
+      "id": "SPEC-C3-R5-6-R01-record",
+      "type": "check",
+      "source": "SPEC-C3-R5#6",
+      "access": "staff",
+      "check_id": "R01",
+      "product": "C-3",
+      "revision": "5",
+      "text": "R01 (C-3): Check that the battery serial number matches the delivery note."
+    },
+    {
+      "id": "SPEC-C3-R5-6-R02-record",
+      "type": "check",
+      "source": "SPEC-C3-R5#6",
+      "access": "staff",
+      "check_id": "R02",
+      "product": "C-3",
+      "revision": "5",
+      "text": "R02 (C-3): Inspect the battery casing for cracks or dents."
+    },
+    {
+      "id": "SPEC-C3-R5-6-R03-record",
+      "type": "check",
+      "source": "SPEC-C3-R5#6",
+      "access": "staff",
+      "check_id": "R03",
+      "product": "C-3",
+      "revision": "5",
+      "text": "R03 (C-3): Check that the charging port cover closes fully."
+    },
+    {
+      "id": "SPEC-C3-R5-6-R04-record",
+      "type": "check",
+      "source": "SPEC-C3-R5#6",
+      "access": "staff",
+      "check_id": "R04",
+      "product": "C-3",
+      "revision": "5",
+      "text": "R04 (C-3): Measure the resting voltage and write it on the delivery sheet."
+    },
+    {
+      "id": "SPEC-C3-R5-6-R05-record",
+      "type": "check",
+      "source": "SPEC-C3-R5#6",
+      "access": "staff",
+      "check_id": "R05",
+      "product": "C-3",
+      "revision": "5",
+      "text": "R05 (C-3): Charge the battery to at least 50 percent before delivery."
+    },
+    {
+      "id": "SPEC-C3-R5-6-R06-record",
+      "type": "check",
+      "source": "SPEC-C3-R5#6",
+      "access": "staff",
+      "check_id": "R06",
+      "product": "C-3",
+      "revision": "5",
+      "text": "R06 (C-3): Check that the battery lock engages and the key turns freely."
+    },
+    {
+      "id": "SPEC-C3-R5-6-R07-record",
+      "type": "check",
+      "source": "SPEC-C3-R5#6",
+      "access": "staff",
+      "check_id": "R07",
+      "product": "C-3",
+      "revision": "5",
+      "text": "R07 (C-3): Replace the battery seal wherever the casing has been opened."
+    },
+    {
+      "id": "SPEC-C3-R5-6-R08-record",
+      "type": "check",
+      "source": "SPEC-C3-R5#6",
+      "access": "staff",
+      "check_id": "R08",
+      "product": "C-3",
+      "revision": "5",
+      "text": "R08 (C-3): Keep the battery vent holes clear of tape and stickers."
+    },
+    {
+      "id": "SPEC-C3-R5-6-R09-record",
+      "type": "check",
+      "source": "SPEC-C3-R5#6",
+      "access": "staff",
+      "check_id": "R09",
+      "product": "C-3",
+      "revision": "5",
+      "text": "R09 (C-3): Record the battery batch number in the bike's service record."
+    },
+    {
+      "id": "SPEC-C3-R5-6-R10-record",
+      "type": "check",
+      "source": "SPEC-C3-R5#6",
+      "access": "staff",
+      "check_id": "R10",
+      "product": "C-3",
+      "revision": "5",
+      "text": "R10 (C-3): Report any battery fault found during the final check."
+    },
+    {
+      "id": "SPEC-C3-R5-6-R11-record",
+      "type": "check",
+      "source": "SPEC-C3-R5#6",
+      "access": "staff",
+      "check_id": "R11",
+      "product": "C-3",
+      "revision": "5",
+      "text": "R11 (C-3): Complete the battery safety sign-off before handing over the bike."
+    },
+    {
+      "id": "SPEC-K1-R1-6-R01-record",
+      "type": "check",
+      "source": "SPEC-K1-R1#6",
+      "access": "staff",
+      "check_id": "R01",
+      "product": "K-1",
+      "text": "R01 (K-1): Check that the battery serial number matches the delivery note."
+    },
+    {
+      "id": "SPEC-K1-R1-6-R02-record",
+      "type": "check",
+      "source": "SPEC-K1-R1#6",
+      "access": "staff",
+      "check_id": "R02",
+      "product": "K-1",
+      "text": "R02 (K-1): Inspect the battery casing for cracks or dents."
+    },
+    {
+      "id": "SPEC-K1-R1-6-R03-record",
+      "type": "check",
+      "source": "SPEC-K1-R1#6",
+      "access": "staff",
+      "check_id": "R03",
+      "product": "K-1",
+      "text": "R03 (K-1): Check that the charging port cover closes fully."
+    },
+    {
+      "id": "SPEC-K1-R1-6-R04-record",
+      "type": "check",
+      "source": "SPEC-K1-R1#6",
+      "access": "staff",
+      "check_id": "R04",
+      "product": "K-1",
+      "text": "R04 (K-1): Charge the battery to at least 50 percent before delivery."
+    },
+    {
+      "id": "SPEC-K1-R1-6-R05-record",
+      "type": "check",
+      "source": "SPEC-K1-R1#6",
+      "access": "staff",
+      "check_id": "R05",
+      "product": "K-1",
+      "text": "R05 (K-1): Check that the speed limiter is set to 15 km/h."
+    },
+    {
+      "id": "SPEC-K1-R1-6-R06-record",
+      "type": "check",
+      "source": "SPEC-K1-R1#6",
+      "access": "staff",
+      "check_id": "R06",
+      "product": "K-1",
+      "text": "R06 (K-1): Check that the parental lock code has been set with the buyer."
+    },
+    {
+      "id": "SPEC-K1-R1-6-R07-record",
+      "type": "check",
+      "source": "SPEC-K1-R1#6",
+      "access": "staff",
+      "check_id": "R07",
+      "product": "K-1",
+      "text": "R07 (K-1): Record the battery batch number in the bike's service record."
+    },
+    {
+      "id": "SPEC-K1-R1-6-R08-record",
+      "type": "check",
+      "source": "SPEC-K1-R1#6",
+      "access": "staff",
+      "check_id": "R08",
+      "product": "K-1",
+      "text": "R08 (K-1): Complete the battery safety sign-off before handing over the bike."
+    },
+    {
+      "id": "SPEC-T7-R2-6-R01-record",
+      "type": "check",
+      "source": "SPEC-T7-R2#6",
+      "access": "staff",
+      "check_id": "R01",
+      "product": "T-7",
+      "text": "R01 (T-7): Check that the battery serial number matches the delivery note."
+    },
+    {
+      "id": "SPEC-T7-R2-6-R02-record",
+      "type": "check",
+      "source": "SPEC-T7-R2#6",
+      "access": "staff",
+      "check_id": "R02",
+      "product": "T-7",
+      "text": "R02 (T-7): Inspect the battery casing and mounting rail for cracks or dents."
+    },
+    {
+      "id": "SPEC-T7-R2-6-R03-record",
+      "type": "check",
+      "source": "SPEC-T7-R2#6",
+      "access": "staff",
+      "check_id": "R03",
+      "product": "T-7",
+      "text": "R03 (T-7): Check that the charging port cover closes fully."
+    },
+    {
+      "id": "SPEC-T7-R2-6-R04-record",
+      "type": "check",
+      "source": "SPEC-T7-R2#6",
+      "access": "staff",
+      "check_id": "R04",
+      "product": "T-7",
+      "text": "R04 (T-7): Measure the resting voltage and write it on the delivery sheet."
+    },
+    {
+      "id": "SPEC-T7-R2-6-R05-record",
+      "type": "check",
+      "source": "SPEC-T7-R2#6",
+      "access": "staff",
+      "check_id": "R05",
+      "product": "T-7",
+      "text": "R05 (T-7): Charge the battery to at least 60 percent before delivery."
+    },
+    {
+      "id": "SPEC-T7-R2-6-R06-record",
+      "type": "check",
+      "source": "SPEC-T7-R2#6",
+      "access": "staff",
+      "check_id": "R06",
+      "product": "T-7",
+      "text": "R06 (T-7): Check that the battery lock engages and the key turns freely."
+    },
+    {
+      "id": "SPEC-T7-R2-6-R07-record",
+      "type": "check",
+      "source": "SPEC-T7-R2#6",
+      "access": "staff",
+      "check_id": "R07",
+      "product": "T-7",
+      "text": "R07 (T-7): Replace the battery seal wherever the casing has been opened."
+    },
+    {
+      "id": "SPEC-T7-R2-6-R08-record",
+      "type": "check",
+      "source": "SPEC-T7-R2#6",
+      "access": "staff",
+      "check_id": "R08",
+      "product": "T-7",
+      "text": "R08 (T-7): Keep the battery vent holes clear of tape and stickers."
+    },
+    {
+      "id": "SPEC-T7-R2-6-R09-record",
+      "type": "check",
+      "source": "SPEC-T7-R2#6",
+      "access": "staff",
+      "check_id": "R09",
+      "product": "T-7",
+      "text": "R09 (T-7): Confirm the fast charger shows the correct battery type."
+    },
+    {
+      "id": "SPEC-T7-R2-6-R10-record",
+      "type": "check",
+      "source": "SPEC-T7-R2#6",
+      "access": "staff",
+      "check_id": "R10",
+      "product": "T-7",
+      "text": "R10 (T-7): Record the battery batch number in the bike's service record."
+    },
+    {
+      "id": "SPEC-T7-R2-6-R11-record",
+      "type": "check",
+      "source": "SPEC-T7-R2#6",
+      "access": "staff",
+      "check_id": "R11",
+      "product": "T-7",
+      "text": "R11 (T-7): Report any battery fault found during the final check."
+    },
+    {
+      "id": "SPEC-T7-R2-6-R12-record",
+      "type": "check",
+      "source": "SPEC-T7-R2#6",
+      "access": "staff",
+      "check_id": "R12",
+      "product": "T-7",
+      "text": "R12 (T-7): Complete the battery safety sign-off before handing over the bike."
+    },
+    {
+      "id": "CURATED-E-519-C-3",
+      "type": "error_code",
+      "source": "BULLETIN-2026-05#3",
+      "access": "staff",
+      "code": "E-519",
+      "component": "sensor",
+      "product": "C-3",
+      "curated": "yes",
+      "text": "E-519 (C-3): the speed sensor signal was lost while riding. Check the magnet on the rear wheel and the sensor cable."
+    },
+    {
+      "id": "CURATED-E-519-T-7",
+      "type": "error_code",
+      "source": "BULLETIN-2026-05#3",
+      "access": "staff",
+      "code": "E-519",
+      "component": "sensor",
+      "product": "T-7",
+      "curated": "yes",
+      "text": "E-519 (T-7): the speed sensor signal was lost while riding. Check the magnet on the rear wheel and the sensor cable."
+    }
+  ]
+}

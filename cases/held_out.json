@@ -136,6 +136,14 @@
       "relevant": [
         "ASSEMBLY-T7-R1#4.3"
       ]
+    },
+    {
+      "id": "H19",
+      "kind": "complete list",
+      "question": "Which battery safety checks apply to the K-1?",
+      "relevant": [
+        "SPEC-K1-R1#6"
+      ]
     }
   ]
 }

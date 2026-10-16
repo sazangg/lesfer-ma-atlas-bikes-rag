@@ -28,6 +28,17 @@
       "id": "e4",
       "type": "paragraph",
       "text": "Charge the battery to at least 40 percent before updating. The update takes about 10 minutes; do not switch the bike off during it."
+    },
+    {
+      "id": "e5",
+      "type": "heading",
+      "level": 2,
+      "text": "3 New error code"
+    },
+    {
+      "id": "e6",
+      "type": "paragraph",
+      "text": "Firmware 3.2 adds error code E-519 on the C-3 and the T-7: the speed sensor signal was lost while riding. Check the magnet on the rear wheel and the sensor cable. The error code documents will list it at their next revision."
     }
   ]
 }

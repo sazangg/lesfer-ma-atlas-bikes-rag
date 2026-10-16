@@ -6,6 +6,7 @@
     python -m atlas measure [--held-out] [--min-score X] [--export-ragas FILE]
     python -m atlas judge-calibration
     python -m atlas simulate | stats | trace ID | promote ID
+    python -m atlas records
 """
 
 from __future__ import annotations
@@ -32,6 +33,7 @@ def main() -> None:
     measure.add_argument("--min-score", type=float, default=None, help="try a different minimum relevance score")
     measure.add_argument("--export-ragas", metavar="FILE", help="write the questions as a Ragas dataset (JSON lines)")
     commands.add_parser("judge-calibration", help="compare the judge's verdicts with human labels")
+    commands.add_parser("records", help="build the records, check them against the documents, write knowledge/records.json")
     commands.add_parser("simulate", help="replay a week of simulated traffic with logging on")
     commands.add_parser("stats", help="summarize the request log")
     trace_cmd = commands.add_parser("trace", help="show one logged request stage by stage")
@@ -44,6 +46,21 @@ def main() -> None:
         from atlas import ops
 
         getattr(ops, args.command)(args)
+        return
+
+    if args.command == "records":
+        from collections import Counter
+
+        from atlas.records import RECORDS_FILE, completeness_report, save
+
+        assistant = default_assistant()
+        counts = Counter(r.meta["record_type"] for r in assistant.records)
+        curated = sum(r.meta.get("curated") == "yes" for r in assistant.records)
+        print("Records: " + ", ".join(f"{n} {t}" for t, n in counts.items()) + f" ({curated} curated by a person)")
+        for line in completeness_report(assistant.documents, assistant.records):
+            print(f"  {line}")
+        save(assistant.records)
+        print(f"Wrote {RECORDS_FILE.relative_to(RECORDS_FILE.parent.parent)}")
         return
 
     if args.command == "measure":

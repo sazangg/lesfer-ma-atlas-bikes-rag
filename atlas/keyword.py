@@ -14,7 +14,7 @@ from collections import Counter
 from collections.abc import Callable
 
 from atlas.chunking import Chunk
-from atlas.index import _readable
+from atlas.index import readable
 
 _STOPWORDS = set("a an and are as at be by do does for how i in is it of on or the this to what when with".split())
 
@@ -44,7 +44,7 @@ class KeywordIndex:
         doc_freq = Counter(t for _, counts in self._entries for t in counts)
         scored = []
         for chunk, counts in self._entries:
-            if not _readable(chunk, allowed_groups) or (where is not None and not where(chunk)):
+            if not readable(chunk, allowed_groups) or (where is not None and not where(chunk)):
                 continue
             length = sum(counts.values())
             score = 0.0

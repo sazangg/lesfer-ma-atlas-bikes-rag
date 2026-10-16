@@ -1,0 +1,27 @@
+{
+  "about": "Records written by a person, for knowledge the extracted records miss. Each one cites its source and says why it exists. Reviewed like code: changes go through a pull request. Remove a record once the documents it stands in for are revised.",
+  "records": [
+    {
+      "id": "CURATED-E-519-C-3",
+      "type": "error_code",
+      "code": "E-519",
+      "product": "C-3",
+      "component": "sensor",
+      "access": "staff",
+      "source": "BULLETIN-2026-05#3",
+      "text": "E-519 (C-3): the speed sensor signal was lost while riding. Check the magnet on the rear wheel and the sensor cable.",
+      "note": "Added by firmware 3.2. ERR-C3-R2 doesn't list it yet; remove once the next revision does."
+    },
+    {
+      "id": "CURATED-E-519-T-7",
+      "type": "error_code",
+      "code": "E-519",
+      "product": "T-7",
+      "component": "sensor",
+      "access": "staff",
+      "source": "BULLETIN-2026-05#3",
+      "text": "E-519 (T-7): the speed sensor signal was lost while riding. Check the magnet on the rear wheel and the sensor cable.",
+      "note": "Added by firmware 3.2. ERR-T7-R1 doesn't list it yet; remove once the next revision does."
+    }
+  ]
+}
