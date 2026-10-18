@@ -28,6 +28,7 @@ from pathlib import Path
 
 from atlas.chunking import Chunk
 from atlas.convert import StructuredDocument
+from atlas.graph import part_numbers
 
 RECORDS_FILE = Path(__file__).resolve().parent.parent / "knowledge" / "records.json"
 CURATED_FILE = Path(__file__).resolve().parent.parent / "knowledge" / "curated.json"
@@ -36,7 +37,11 @@ RECORD_TYPES = {
     "error_code": "display error codes",
     "check": "battery safety checks",
     "inspection": "inspection batches",  # part-10
+    "recall": "recalled serial ranges",  # part-12
 }
+
+# part-12: a recall that gives a serial range becomes one record per part, so a serial can be checked in code.
+SERIAL_RANGE = re.compile(r"serial numbers (\d{4}-\d{4}) to (\d{4}-\d{4})")
 
 # part-10: inspection rows become records with numeric fields, named by column.
 # The table's own "Pass rate" column is left out: a rate is computed from the counts, never read.
@@ -92,6 +97,18 @@ def extract_records(doc: StructuredDocument) -> list[Chunk]:
                         f"{check_id} ({product}): {' '.join(cells)}",
                         doc.source_id, section.number,
                         {**base, "record_type": "check", "check_id": check_id},
+                    ))
+
+        if "recall" in doc.meta.get("title", "").lower():
+            for element in section.elements:
+                found = SERIAL_RANGE.search(element.data.get("text", "")) if element.kind == "paragraph" else None
+                for part in sorted(part_numbers(element.data["text"])) if found else []:
+                    first, last = found.groups()
+                    records.append(Chunk(
+                        f"{doc.source_id}-{section.number}-{part}-record",
+                        f"Recall {doc.source_id}: {part} packs with serial numbers {first} to {last}.",
+                        doc.source_id, section.number,
+                        {**base, "record_type": "recall", "part": part, "first": first, "last": last},
                     ))
 
         if "inspection" in section.title.lower():
@@ -168,6 +185,6 @@ def completeness_report(docs: list[StructuredDocument], records: list[Chunk]) ->
 def save(records: list[Chunk], path: Path = RECORDS_FILE) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     rows = [{"id": r.id, "type": r.meta["record_type"], "source": r.ref, "access": r.meta.get("access", ""),
-             **{k: r.meta[k] for k in ("code", "component", "check_id", "batch", "month", "inspected", "passed", "product", "revision", "curated") if r.meta.get(k)},
+             **{k: r.meta[k] for k in ("code", "component", "check_id", "batch", "month", "inspected", "passed", "part", "first", "last", "product", "revision", "curated") if r.meta.get(k)},
              "text": r.text} for r in records]
     path.write_text(json.dumps({"records": rows}, indent=2) + "\n", encoding="utf-8")

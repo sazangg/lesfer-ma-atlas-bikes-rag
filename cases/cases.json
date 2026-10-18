@@ -488,6 +488,56 @@
           ]
         }
       ]
+    },
+    {
+      "id": "Q22-serial-affected",
+      "question": "A customer's C-3 has battery serial 2509-0412. Is it affected by a recall, and what should I do?",
+      "expected_from": "part-12",
+      "kind": "multi-step",
+      "relevant": [
+        "SPEC-C3-R5#8",
+        "BULLETIN-2026-09#1",
+        "BULLETIN-2026-09#2"
+      ],
+      "behavior": "Find the C-3's pack (BP-36-2), check the serial against its recall in code (inside 2509-0001 to 2509-0800), then read what to do and what to record.",
+      "checks": [
+        {
+          "type": "includes_refs",
+          "refs": [
+            "SPEC-C3-R5#8",
+            "BULLETIN-2026-09#1",
+            "BULLETIN-2026-09#2"
+          ]
+        },
+        {
+          "type": "answer_contains",
+          "text": "affected: yes"
+        }
+      ]
+    },
+    {
+      "id": "Q23-other-pack",
+      "question": "A customer's T-7 has battery serial 2509-0412. Is it affected by a recall, and what should I do?",
+      "expected_from": "part-12",
+      "kind": "multi-step",
+      "relevant": [
+        "SPEC-T7-R2#10"
+      ],
+      "behavior": "Same serial, different bike: the T-7 uses BP-48-1, which has no recall. The battery recall must not be supplied as if it applied.",
+      "checks": [
+        {
+          "type": "includes_refs",
+          "refs": [
+            "SPEC-T7-R2#10"
+          ]
+        },
+        {
+          "type": "excludes_refs",
+          "refs": [
+            "BULLETIN-2026-09#1"
+          ]
+        }
+      ]
     }
   ]
 }

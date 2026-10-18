@@ -353,3 +353,28 @@ The fix is a separate commit. `git checkout part-08~1` shows the system as it wa
 
 **Stop here if** the links your questions need run through identifiers you can extract reliably (part numbers, product codes, contract IDs) and one hop is enough.
 
+## part-12: When the next step depends on what you find
+
+**Article:** When the next step depends on what you find
+
+**Module.** Add it if some questions need a sequence of lookups whose next step depends on what the previous one found, and the fixed routes can't express that.
+
+**Lands in:** a fifth route, `agent`, and recall records. The other routes don't change.
+
+- **The gap**, on part-11 code: "A customer's C-3 has battery serial 2509-0412. Is it affected by a recall, and what should I do?" gets the battery recall, but not the C-3 specification that says the C-3 uses BP-36-2, nor the recall's "what to record" section, and the serial comparison is left to the model. The same question about a **T-7** gets the same recall, and the serial is inside its range: a model would very likely say "affected", but the T-7 uses BP-48-1.
+- **Recall records**: a recall that states a serial range becomes a record per part (`part`, `first`, `last`), so a serial can be checked in code.
+- **Tools** (`atlas/agent.py`): `search(query)`, `recall_status(part, serial)` (checked in code), `read(source_id)`, and `finish(evidence)` or `finish(clarify)`. Every tool applies the user's access.
+- **The loop**: a planner (`Planner` in `providers.py`, `ToyPlanner` in `toy.py`) chooses each call after seeing the previous result. Code stops it after 6 steps or on a repeated call, and keeps only cited evidence that a tool actually showed. Each step is a span with the planner's stated reason, the call, and what it saw.
+- **The answer** is built like the other routes: the cited evidence, the steps taken and the code-checked result as facts, then the number check and citations.
+
+**Answers:** the affected C-3 (search, check, read: 5 model calls), a C-3 serial outside the range (search, check: 4), the T-7 (no recall for BP-48-1), and a question without a product (asks which product).
+
+**Measured:** 26 passing, 0 known gaps, 0 regressions.
+
+**Still can't:**
+- Act: the tools only read. Creating the replacement order or updating the service record is a different problem, with different risks (a later series).
+- Plan beyond its tools. A question that needs a tool nobody wrote gets a partial answer or none.
+- Be cheaper than a route. Each step is a model call; send only the questions that need it.
+
+**Stop here if** a handful of tools covers your multi-step questions, and the budget and guards are acceptable for the share of traffic that needs them.
+

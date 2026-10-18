@@ -36,6 +36,11 @@ ToyRouter
     structured output. From part-10 it also recognizes a question asking for
     a share or rate, and the batches it names.
 
+ToyPlanner
+    Chooses the next tool call in the agent loop (part-12) with a few rules
+    over the question and what earlier steps returned. A real planner is a
+    model given the same tool descriptions, choosing by tool calling.
+
 ToyGenerator
     Repeats a result computed by code first, word for word (part-10).
     Otherwise it doesn't write prose. It repeats the first sentence of each supplied source
@@ -159,6 +164,9 @@ class ToyExtractor:
 class ToyRouter:
     def route(self, question: str) -> dict[str, str | None]:
         q = question.lower()
+        # part-12: a battery serial number means a path no fixed route knows in advance.
+        if re.search(r"\b\d{4}-\d{4}\b", question):
+            return {"path": "agent"}
         # part-11: "which bikes/products ..." asks for things the evidence may only reach through a link.
         if re.search(r"^which (bikes|models|products)\b", q):
             return {"path": "follow"}
@@ -175,6 +183,48 @@ class ToyRouter:
         rest = re.sub(r"battery safety checks?", "", q)
         component = next((c for c in ("battery", "charger", "motor", "light", "sensor") if re.search(rf"\b{c}", rest)), None)
         return {"path": "list", "record_type": record_type, "component": component}
+
+
+class ToyPlanner:
+    """Decides each step from what the earlier steps returned, with a few rules a real model would replace."""
+
+    def next_step(self, question: str, steps: list, tools: dict[str, str]) -> dict:
+        from atlas.graph import part_numbers
+
+        product = re.search(r"\b([A-Z]-\d+)\b", question)
+        serial = re.search(r"\b\d{4}-\d{4}\b", question)
+        if not (product and serial):
+            missing = " and ".join(x for x, found in (("product", product), ("battery serial number", serial)) if not found)
+            return {"thought": f"I can't start without the {missing}.", "tool": "finish",
+                    "args": {"clarify": f"Which {missing} is this about?"}}
+        product, serial = product.group(1), serial.group(0)
+        done = {s.tool: s for s in steps}
+
+        if "search" not in done:
+            return {"thought": f"The serial alone doesn't say which pack it is. Find the pack the {product} uses.",
+                    "tool": "search", "args": {"query": f"{product} battery pack"}}
+        # Only a passage about this product says which pack it uses.
+        mine = [b for b in done["search"].blocks if b.meta.get("product") == product and part_numbers(b.text)]
+        if not mine:
+            return {"thought": f"No passage says which pack the {product} uses.", "tool": "finish", "args": {"evidence": []}}
+        part = sorted(part_numbers(mine[0].text))[0]
+        evidence = [mine[0].ref]
+
+        if "recall_status" not in done:
+            return {"thought": f"The {product} uses {part}. Check serial {serial} against recalls of {part}.",
+                    "tool": "recall_status", "args": {"part": part, "serial": serial}}
+        check = done["recall_status"]
+        evidence += [b.ref for b in check.blocks]
+        if check.observation.startswith("affected: yes"):
+            source = check.blocks[0].source_id
+            if "read" not in done:
+                return {"thought": f"It is affected. Read {source} for what to do.", "tool": "read",
+                        "args": {"source_id": source}}
+            evidence += [b.ref for b in done["read"].blocks]
+            return {"thought": "I have the pack, the recall check, and the instructions.", "tool": "finish",
+                    "args": {"evidence": list(dict.fromkeys(evidence))}}
+        return {"thought": "It is not affected; nothing more to look up.", "tool": "finish",
+                "args": {"evidence": list(dict.fromkeys(evidence))}}
 
 
 class ToyGenerator:

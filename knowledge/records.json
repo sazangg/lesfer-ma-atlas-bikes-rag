@@ -1,6 +1,16 @@
 {
   "records": [
     {
+      "id": "BULLETIN-2026-09-1-BP-36-2-record",
+      "type": "recall",
+      "source": "BULLETIN-2026-09#1",
+      "access": "staff",
+      "part": "BP-36-2",
+      "first": "2509-0001",
+      "last": "2509-0800",
+      "text": "Recall BULLETIN-2026-09: BP-36-2 packs with serial numbers 2509-0001 to 2509-0800."
+    },
+    {
       "id": "ERR-C3-R2-4.17-record",
       "type": "error_code",
       "source": "ERR-C3-R2#4.17",

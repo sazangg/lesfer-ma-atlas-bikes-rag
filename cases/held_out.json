@@ -161,6 +161,16 @@
       "relevant": [
         "SPEC-T7-R2#10"
       ]
+    },
+    {
+      "id": "H22",
+      "kind": "multi-step",
+      "question": "My C-3's battery has serial number 2509-0777. Do I need to replace it?",
+      "relevant": [
+        "SPEC-C3-R5#8",
+        "BULLETIN-2026-09#1",
+        "BULLETIN-2026-09#2"
+      ]
     }
   ]
 }

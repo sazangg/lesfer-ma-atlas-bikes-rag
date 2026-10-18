@@ -32,7 +32,9 @@ Part 9 adds a second path. A router reads the question first:
                        ├─ list:   records of one type, filtered -> every match -> model
                        ├─ calculate (part-10): records in scope -> metric computed in code
                        │                       -> result + records -> model explains -> numbers checked
-                       └─ follow (part-11): search -> best evidence -> blocks that mention the same part -> model
+                       ├─ follow (part-11): search -> best evidence -> blocks that mention the same part -> model
+                       └─ agent (part-12): [model picks a tool -> code runs it -> model sees the result] x up to 6
+                                           -> evidence the tools showed -> model
 """
 
 from __future__ import annotations
@@ -45,15 +47,17 @@ from atlas.chunking import Chunk
 from atlas.convert import IngestReport, convert, load_corrections
 from atlas.corpus import ParsedDocument, load_corpus
 from atlas.evidence import evidence_units
+from atlas.agent import MAX_STEPS, Tools, observed
+from atlas.agent import run as run_agent
 from atlas.graph import LinkGraph
 from atlas.index import VectorIndex, readable
 from atlas.keyword import KeywordIndex, reciprocal_rank_fusion
 from atlas.observe import append, log_record, span
-from atlas.providers import Describer, Embedder, Extractor, Generator, Reranker, Router
+from atlas.providers import Describer, Embedder, Extractor, Generator, Planner, Reranker, Router
 from atlas.calculate import METRICS, calculate, result_sentence
 from atlas.records import COMPONENTS, RECORD_TYPES, extract_records, load_curated
 from atlas.situation import Situation, missing_details
-from atlas.toy import ToyDescriber, ToyEmbedder, ToyExtractor, ToyGenerator, ToyReranker, ToyRouter
+from atlas.toy import ToyDescriber, ToyEmbedder, ToyExtractor, ToyGenerator, ToyPlanner, ToyReranker, ToyRouter
 
 INSTRUCTIONS = """Answer the question using the supplied sources and known facts.
 Cite the source label, for example [S1], beside each supported claim.
@@ -112,6 +116,7 @@ class Assistant:
         reranker: Reranker | None = None,
         extractor: Extractor | None = None,
         router: Router | None = None,
+        planner: Planner | None = None,
         k: int = 5,
         candidates: int = 10,
         min_score: float = 0.4,  # part-07: chosen by measurement, see `python -m atlas measure --min-score`
@@ -123,6 +128,7 @@ class Assistant:
         self.reranker = reranker or ToyReranker()
         self.extractor = extractor or ToyExtractor()
         self.router = router or ToyRouter()
+        self.planner = planner or ToyPlanner()
         self.k = k  # pieces supplied to the model (before expanding to blocks)
         self.candidates = candidates  # pieces each search contributes to the shortlist
         self.min_score = min_score  # drop reranked pieces scoring below this (0 = keep all)
@@ -189,6 +195,9 @@ class Assistant:
         if trace.route == "follow":
             self._follow(trace, user, situation)
             return
+        if trace.route == "agent":
+            self._agent(trace, user, situation)
+            return
         if trace.route == "list":
             self._list(trace, user, situation, route)
             return
@@ -243,6 +252,52 @@ class Assistant:
             s.update(records=len(matches), prompt_tokens=max(1, len(trace.prompt) // 4))
         with span(trace, "generate", model=type(self.generator).__name__):
             trace.raw_answer = self.generator.generate(trace.prompt)
+        with span(trace, "citations") as s:
+            trace.answer, unknown = resolve_citations(trace.raw_answer, trace.citations)
+            s["unknown_labels"] = unknown
+        if unknown:
+            trace.status = "format_error"
+            trace.answer = f"The answer cited unknown sources {unknown} and was withheld."
+
+    def _agent(self, trace: Trace, user: User, situation: Situation) -> None:
+        """The model picks each step; code runs the tools, keeps the budget, and checks what is cited."""
+        outcome = run_agent(trace.question, self.planner, Tools(self, user), trace)
+        if outcome.status == "clarify":
+            trace.status, trace.answer = "clarify", outcome.clarify
+            return
+        if outcome.status != "finished":
+            trace.status = "gave_up"
+            reason = {"stuck": "the same step came up twice", "out_of_steps": f"all {MAX_STEPS} steps were used"}
+            trace.answer = f"I couldn't finish this: {reason[outcome.status]}. A person should look at it."
+            return
+
+        # The model may only cite what a tool showed it.
+        with span(trace, "evidence") as s:
+            seen = observed(outcome.steps)
+            trace.context = [seen[ref] for ref in outcome.evidence if ref in seen]
+            s.update(cited=[b.ref for b in trace.context], dropped=[r for r in outcome.evidence if r not in seen])
+        if not trace.context:
+            trace.answer = "I couldn't find evidence for this in the documents you can read."
+            return
+
+        with span(trace, "assemble") as s:
+            trace.retrieved = [(b.id, float("inf")) for b in trace.context]
+            trace.citations = {f"S{n}": b.ref for n, b in enumerate(trace.context, start=1)}
+            steps = "; ".join(f"{n}. {st.tool}({', '.join(map(str, st.args.values()))})"
+                              for n, st in enumerate(outcome.steps, start=1))
+            trace.prompt = build_prompt(INSTRUCTIONS, trace.question, situation, trace.context,
+                                        extra=[f"steps taken: {steps}"], result=outcome.result or None)
+            s.update(blocks=[b.ref for b in trace.context], prompt_tokens=max(1, len(trace.prompt) // 4),
+                     model_calls=len(outcome.steps) + 2)  # each step's choice, the finish, and the answer
+        with span(trace, "generate", model=type(self.generator).__name__):
+            trace.raw_answer = self.generator.generate(trace.prompt)
+        with span(trace, "numbers") as s:
+            unsupported = unsupported_numbers(trace.raw_answer, trace.prompt)
+            s["unsupported"] = unsupported
+        if unsupported:
+            trace.status = "number_mismatch"
+            trace.answer = f"The answer contained numbers the evidence doesn't support {unsupported} and was withheld."
+            return
         with span(trace, "citations") as s:
             trace.answer, unknown = resolve_citations(trace.raw_answer, trace.citations)
             s["unknown_labels"] = unknown
@@ -368,8 +423,8 @@ def validate_route(proposed: dict) -> dict:
     """Use the list path only for a record type that exists; ignore an unknown component.
     part-10: use the calculate path only for a defined metric.
     part-11: the follow path needs no parameters."""
-    if proposed.get("path") == "follow":
-        return {"path": "follow"}
+    if proposed.get("path") in ("follow", "agent"):  # part-12: the agent loop needs none either
+        return {"path": proposed["path"]}
     if proposed.get("path") == "calculate":
         if proposed.get("metric") not in METRICS:
             return {"path": "search", "record_type": None, "component": None}

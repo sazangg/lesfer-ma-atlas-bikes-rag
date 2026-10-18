@@ -35,6 +35,13 @@ class Router(Protocol):
     def route(self, question: str) -> dict[str, str | None]: ...
 
 
+class Planner(Protocol):
+    """Part 12: chooses the next tool call from the question and the steps so far.
+    Returns {"thought": ..., "tool": ..., "args": {...}}; "finish" ends the loop."""
+
+    def next_step(self, question: str, steps: list, tools: dict[str, str]) -> dict: ...
+
+
 class Reranker(Protocol):
     """Scores each (question, passage) pair together, like a cross-encoder."""
 
