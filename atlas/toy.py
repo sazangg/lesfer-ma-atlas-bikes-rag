@@ -159,6 +159,9 @@ class ToyExtractor:
 class ToyRouter:
     def route(self, question: str) -> dict[str, str | None]:
         q = question.lower()
+        # part-11: "which bikes/products ..." asks for things the evidence may only reach through a link.
+        if re.search(r"^which (bikes|models|products)\b", q):
+            return {"path": "follow"}
         # part-10: a share or rate of something counted asks for a calculation, unless it asks what the rate means.
         if re.search(r"\b(share|percentage|pass rate)\b", q) and not re.search(r"\b(defined|definition|means?)\b", q):
             named = re.search(r"\bbatch(?:es)?\s+((?:[A-Z]\b(?:,\s*|\s+and\s+)?)+)", question)

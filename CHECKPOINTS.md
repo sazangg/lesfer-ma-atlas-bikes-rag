@@ -327,3 +327,29 @@ The fix is a separate commit. `git checkout part-08~1` shows the system as it wa
 
 **Stop here if** your numeric questions are about a known set of metrics over records you can extract and own.
 
+## part-11: When the answer spans documents
+
+**Article:** When the answer spans documents
+
+**Module.** Add it if answers depend on documents that refer to each other through a shared name: a part number, a product, a customer, a contract.
+
+**Lands in:** ingestion (a link graph) and a fourth route. Search doesn't change.
+
+- **New evidence**: `BULLETIN-2026-09`, a battery recall that names only part BP-36-2. The specifications now give each bike's battery pack, the price list names them, and the S-2 warranty mentions `BP36-2`.
+- **The gap**, on part-10 code: "Which products are affected by the battery recall?" supplies the recall and, next to it, the *charger* recall's list of affected models (C-3 and K-1). Nothing in the question leads to the C-3 specification or the S-2 warranty, so the right products never arrive, and a wrong list sits beside the evidence.
+- **A link graph** (`atlas/graph.py`): every block is scanned for part numbers at ingestion; blocks that mention the same part are linked through it.
+- **Entity resolution, simplest form**: part numbers are normalized before linking (`BP36-2` -> `BP-36-2`); without it, the S-2 is missed.
+- **A fourth route**, `follow`, for "which bikes/models/products ..." questions: search as usual, take the best evidence, follow its part numbers one hop to every other block that mentions them, under the same access and situation filters. The prompt states the links followed.
+- **Access applies to links**: the price list mentions BP-36-2 too, and only users in `sales` reach it.
+
+**Answers:** the battery recall question with C-3 and S-2, each with the document that links it, and without the charger recall. "Which bikes use the BP-48-1 battery pack?" (held out).
+
+**Measured:** 24 passing, 0 known gaps, 0 regressions.
+
+**Still can't:**
+- Choose where to start: links are followed from the best search result only. If that result is wrong, the chain is wrong.
+- Follow more than one hop, or decide the next step from what it finds. That is Part 12.
+- Link names that differ by more than spelling ("the removable 36 V battery" in the owner's manual). That needs an alias list or a model, with review.
+
+**Stop here if** the links your questions need run through identifiers you can extract reliably (part numbers, product codes, contract IDs) and one hop is enough.
+

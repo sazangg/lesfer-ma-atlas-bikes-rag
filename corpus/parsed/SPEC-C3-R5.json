@@ -146,6 +146,19 @@
       "type": "page_footer",
       "page": 14,
       "text": "Page 14 of 40"
+    },
+    {
+      "id": "e15",
+      "type": "heading",
+      "level": 2,
+      "page": 15,
+      "text": "8 Battery"
+    },
+    {
+      "id": "e16",
+      "type": "paragraph",
+      "page": 15,
+      "text": "The C-3 uses the 36 V battery pack BP-36-2, mounted in the frame's battery tube. Capacity: 540 Wh."
     }
   ]
 }

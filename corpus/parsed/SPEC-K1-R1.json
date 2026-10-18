@@ -171,6 +171,19 @@
       "type": "page_footer",
       "page": 15,
       "text": "Page 15"
+    },
+    {
+      "id": "e21",
+      "type": "heading",
+      "level": 2,
+      "page": 16,
+      "text": "10 Battery"
+    },
+    {
+      "id": "e22",
+      "type": "paragraph",
+      "page": 16,
+      "text": "The K-1 uses the 24 V battery pack BP-24-1, mounted under the seat. Capacity: 250 Wh."
     }
   ]
 }

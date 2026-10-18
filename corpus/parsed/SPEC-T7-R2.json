@@ -187,6 +187,19 @@
       "type": "page_footer",
       "page": 15,
       "text": "Page 15"
+    },
+    {
+      "id": "e21",
+      "type": "heading",
+      "level": 2,
+      "page": 16,
+      "text": "10 Battery"
+    },
+    {
+      "id": "e22",
+      "type": "paragraph",
+      "page": 16,
+      "text": "The T-7 uses the 48 V battery pack BP-48-1, mounted on the down tube. Capacity: 720 Wh."
     }
   ]
 }

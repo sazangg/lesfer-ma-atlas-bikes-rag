@@ -460,6 +460,34 @@
           ]
         }
       ]
+    },
+    {
+      "id": "Q21-linked-products",
+      "question": "Which products are affected by the battery recall?",
+      "expected_from": "part-11",
+      "kind": "linked",
+      "relevant": [
+        "BULLETIN-2026-09#1",
+        "SPEC-C3-R5#8",
+        "WARR-S2-R1#2"
+      ],
+      "behavior": "The recall names only part BP-36-2. The C-3 specification and the S-2 warranty (which writes BP36-2) say which products use it. The charger recall's list of affected models must not stand in for it.",
+      "checks": [
+        {
+          "type": "includes_refs",
+          "refs": [
+            "BULLETIN-2026-09#1",
+            "SPEC-C3-R5#8",
+            "WARR-S2-R1#2"
+          ]
+        },
+        {
+          "type": "excludes_refs",
+          "refs": [
+            "BULLETIN-2026-02#2"
+          ]
+        }
+      ]
     }
   ]
 }

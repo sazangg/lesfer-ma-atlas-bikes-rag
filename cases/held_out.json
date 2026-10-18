@@ -153,6 +153,14 @@
         "QA-INSPECT-2026#1",
         "QA-INSPECT-2026#2"
       ]
+    },
+    {
+      "id": "H21",
+      "kind": "linked",
+      "question": "Which bikes use the BP-48-1 battery pack?",
+      "relevant": [
+        "SPEC-T7-R2#10"
+      ]
     }
   ]
 }

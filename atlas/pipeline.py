@@ -30,8 +30,9 @@ Part 9 adds a second path. A router reads the question first:
 
     question -> router ┬─ search: everything above (the best few pieces)
                        ├─ list:   records of one type, filtered -> every match -> model
-                       └─ calculate (part-10): records in scope -> metric computed in code
-                                               -> result + records -> model explains -> numbers checked
+                       ├─ calculate (part-10): records in scope -> metric computed in code
+                       │                       -> result + records -> model explains -> numbers checked
+                       └─ follow (part-11): search -> best evidence -> blocks that mention the same part -> model
 """
 
 from __future__ import annotations
@@ -44,6 +45,7 @@ from atlas.chunking import Chunk
 from atlas.convert import IngestReport, convert, load_corrections
 from atlas.corpus import ParsedDocument, load_corpus
 from atlas.evidence import evidence_units
+from atlas.graph import LinkGraph
 from atlas.index import VectorIndex, readable
 from atlas.keyword import KeywordIndex, reciprocal_rank_fusion
 from atlas.observe import append, log_record, span
@@ -131,6 +133,7 @@ class Assistant:
         self.products: set[str] = set()  # the catalog, for validating extracted fields
         self.records: list[Chunk] = []  # part-09: the intermediate knowledge base
         self.documents = []  # part-09: kept to check the records against them
+        self.graph = LinkGraph()  # part-11: which blocks mention the same part
         self.log_path = log_path
 
     # Preparing the documents ------------------------------------------------
@@ -146,6 +149,8 @@ class Assistant:
             self.records.extend(extract_records(doc))
             searchable, blocks = evidence_units(doc)
             self.blocks.update((b.id, b) for b in blocks)
+            for b in blocks:
+                self.graph.add(b)
             for chunk in searchable:
                 text = chunk.search_text or chunk.text
                 self.index.add(chunk, self.embedder.embed(text))
@@ -180,6 +185,9 @@ class Assistant:
             s.update(**route)
         if trace.route == "calculate":
             self._calculate(trace, user, situation, route)
+            return
+        if trace.route == "follow":
+            self._follow(trace, user, situation)
             return
         if trace.route == "list":
             self._list(trace, user, situation, route)
@@ -233,6 +241,32 @@ class Assistant:
             count = f"{len(matches)} matching {RECORD_TYPES[route['record_type']]} (the complete list)"
             trace.prompt = build_prompt(LIST_INSTRUCTIONS, trace.question, situation, matches, extra=[count])
             s.update(records=len(matches), prompt_tokens=max(1, len(trace.prompt) // 4))
+        with span(trace, "generate", model=type(self.generator).__name__):
+            trace.raw_answer = self.generator.generate(trace.prompt)
+        with span(trace, "citations") as s:
+            trace.answer, unknown = resolve_citations(trace.raw_answer, trace.citations)
+            s["unknown_labels"] = unknown
+        if unknown:
+            trace.status = "format_error"
+            trace.answer = f"The answer cited unknown sources {unknown} and was withheld."
+
+    def _follow(self, trace: Trace, user: User, situation: Situation) -> None:
+        """Search as usual, then follow links from the best evidence to the blocks that mention the same parts."""
+        hits = self.retrieve(trace.question, user, situation, trace)
+        trace.retrieved = [(chunk.id, round(score, 3)) for score, chunk in hits]
+        start = self.supplied_blocks([chunk for _, chunk in hits[:1]])
+        with span(trace, "links") as s:
+            links = self.graph.follow(start, user.groups, situation.allows)
+            s.update(start=[b.ref for b in start], linked=[f"{part} -> {b.ref}" for part, b in links])
+
+        with span(trace, "assemble") as s:
+            trace.context = start + [b for _, b in links]
+            trace.citations = {f"S{n}": b.ref for n, b in enumerate(trace.context, start=1)}
+            followed = "; ".join(f"{part} also appears in {b.ref} ({b.meta.get('product') or 'no product'})"
+                                 for part, b in links)
+            facts = [f"links followed from {start[0].ref}: {followed or 'none'}"] if start else []
+            trace.prompt = build_prompt(INSTRUCTIONS, trace.question, situation, trace.context, extra=facts)
+            s.update(blocks=[b.ref for b in trace.context], prompt_tokens=max(1, len(trace.prompt) // 4))
         with span(trace, "generate", model=type(self.generator).__name__):
             trace.raw_answer = self.generator.generate(trace.prompt)
         with span(trace, "citations") as s:
@@ -332,7 +366,10 @@ def error_codes(question: str) -> set[str]:
 
 def validate_route(proposed: dict) -> dict:
     """Use the list path only for a record type that exists; ignore an unknown component.
-    part-10: use the calculate path only for a defined metric."""
+    part-10: use the calculate path only for a defined metric.
+    part-11: the follow path needs no parameters."""
+    if proposed.get("path") == "follow":
+        return {"path": "follow"}
     if proposed.get("path") == "calculate":
         if proposed.get("metric") not in METRICS:
             return {"path": "search", "record_type": None, "component": None}
