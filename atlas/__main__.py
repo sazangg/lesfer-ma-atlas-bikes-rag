@@ -7,6 +7,7 @@
     python -m atlas judge-calibration
     python -m atlas simulate | stats | trace ID | promote ID
     python -m atlas records
+    python -m atlas needs FILE
 """
 
 from __future__ import annotations
@@ -34,7 +35,10 @@ def main() -> None:
     measure.add_argument("--export-ragas", metavar="FILE", help="write the questions as a Ragas dataset (JSON lines)")
     commands.add_parser("judge-calibration", help="compare the judge's verdicts with human labels")
     commands.add_parser("records", help="build the records, check them against the documents, write knowledge/records.json")
-    commands.add_parser("simulate", help="replay a week of simulated traffic with logging on")
+    needs_cmd = commands.add_parser("needs", help="which parts of the series a list of questions needs")
+    needs_cmd.add_argument("file", help="a JSON file of requests or cases, or a text file with one question per line")
+    simulate = commands.add_parser("simulate", help="replay a week of simulated traffic with logging on")
+    simulate.add_argument("--routes", help="build only these modules, e.g. list,calculate (none = the core alone)")
     commands.add_parser("stats", help="summarize the request log")
     trace_cmd = commands.add_parser("trace", help="show one logged request stage by stage")
     trace_cmd.add_argument("request_id")
@@ -46,6 +50,12 @@ def main() -> None:
         from atlas import ops
 
         getattr(ops, args.command)(args)
+        return
+
+    if args.command == "needs":
+        from atlas.needs import needs
+
+        needs(args)
         return
 
     if args.command == "records":

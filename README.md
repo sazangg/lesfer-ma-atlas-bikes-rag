@@ -25,7 +25,7 @@ Each article has a tag. Check it out to see the system exactly as that article l
 | 11 | When the answer spans documents | `part-11` |
 | 12 | When the next step depends on what you find | `part-12` |
 | 13 | When the model should read whole documents | `part-13` |
-| 14 | Choosing your system | coming |
+| 14 | Choosing your system | `part-14` |
 
 Parts 1 to 6 are the core every system needs. Parts 9 to 13 are independent modules: add only the ones your questions need.
 
@@ -75,6 +75,8 @@ python -m atlas simulate           # from part-08: replay a week of traffic with
 python -m atlas stats              # from part-08: what happened, and the review queue
 python -m atlas trace r007         # from part-08: one request, stage by stage
 python -m atlas records            # from part-09: build the records and check them against the documents
+python -m atlas needs traffic/week-1.json   # from part-14: which parts a list of questions needs
+python -m atlas simulate --routes list      # from part-14: replay the week with only the modules you built
 ```
 
 Each case states the part meant to handle it. Failing cases that a later part will close are reported as known gaps, not errors; a failure the current checkpoint should handle is a regression.

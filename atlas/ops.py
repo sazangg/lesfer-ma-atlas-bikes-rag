@@ -26,7 +26,9 @@ def simulate(args) -> None:
     from atlas.pipeline import SALES, STAFF, Assistant
 
     LOG_FILE.unlink(missing_ok=True)
-    assistant = Assistant(log_path=LOG_FILE)
+    # part-14: --routes list,calculate builds only those modules; --routes none is the core alone
+    routes = None if args.routes is None else {r for r in args.routes.split(",") if r and r != "none"}
+    assistant = Assistant(log_path=LOG_FILE, routes=routes)
     assistant.ingest(load_corpus())
     users = {"staff": STAFF, "sales": SALES}
     requests = json.loads(TRAFFIC_FILE.read_text(encoding="utf-8"))["requests"]

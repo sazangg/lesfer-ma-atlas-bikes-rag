@@ -402,3 +402,18 @@ The fix is a separate commit. `git checkout part-08~1` shows the system as it wa
 
 **Stop here if** your whole-document questions are comparisons of versioned documents, or questions about documents that fit your model's context at an acceptable cost.
 
+## part-14: Choosing your system
+
+**Article:** Choosing your system
+
+**Closing.** No new capability: two tools for deciding which parts you need.
+
+- `python -m atlas needs FILE` routes a list of questions (a JSON file of requests or cases, or a text file with one question per line) and counts the paths they take, with the part of the series that builds each path.
+- `Assistant(routes={...})` builds only the modules you choose; a question routed to a module you didn't build gets the core's search. `python -m atlas simulate --routes list` replays the week that way (`--routes none` is the core alone).
+
+**What the tools show:** the dealer desk's week needs the core and Part 9 only (search 23, list 1). The test set needs every module, by design. The held-out set "needs" no comparison module, yet H23 is a comparison the stand-in router misses: route counts are a first look, to be checked by hand. With the core alone, r008 is a weak search again; with the list module, the week has none.
+
+**Measured:** 28 passing, 0 known gaps, 0 regressions.
+
+**Where to go from here:** companions A (access and trust), B (keeping the knowledge layer current), and C (speed and cost); a version of this repository with real models behind the same interfaces is planned.
+
