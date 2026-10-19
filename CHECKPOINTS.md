@@ -384,15 +384,14 @@ The fix is a separate commit. `git checkout part-08~1` shows the system as it wa
 
 **Module.** Add it if users ask about documents as a whole: what changed between revisions, how two documents differ, what a whole document says.
 
-**Lands in:** a sixth route, `compare`, and an answer cache.
+**Lands in:** a sixth route, `compare`.
 
 - **The gap**, on part-12 code: "What changed between revision 1 and revision 2 of the T-7 battery warranty?" retrieves all four sections of both revisions, then asks "Which purchase date is this about?": Part 6's rule for date-scoped documents assumes a question about one situation. Even answered, the model would receive pieces in score order, not aligned, and nothing would say that the exclusions are identical.
 - **Revision comparison** (`atlas/compare.py`): resolve both revisions by title (with the user's access), align sections by number and title, diff each pair in code word by word (`[-removed-] {+added+}`), and report unchanged sections too.
 - **Whole documents, within a budget**: if both revisions fit `whole_budget` (2,000 tokens here), the model receives them whole; otherwise only the changed sections. Either way it receives the computed changes.
-- **Prompt order for caching**: documents and changes first, the question last, so a provider can reuse the long prefix across questions about the same documents.
-- **An answer cache** (`atlas/cache.py`): keyed by the normalized question, the user's access groups, the settings, and a fingerprint of the collection. Only answered requests are stored; a thumbs down evicts the answer. `python -m atlas simulate` replays the week with the cache on.
+- **Prompt order**: documents and changes first, the question last, so a provider can reuse the long prefix across questions about the same documents (prompt caching; caching in general belongs to companion C, on speed and cost).
 
-**Answers:** the T-7 comparison (term changed, exclusions unchanged), the C-3 comparison, and a refusal for a revision that doesn't exist. In the replayed week, 2 of 4 repeated questions come from the cache: the dealer price isn't shared between sales and staff, and "What does E417 mean?" is recomputed after its thumbs down.
+**Answers:** the T-7 comparison (term changed, exclusions unchanged), the C-3 comparison, and a refusal for a revision that doesn't exist.
 
 **Measured:** 28 passing, 0 known gaps, 0 regressions. Held-out recall drops from 0.90 to 0.86: H23 ("How does revision 2 of the C-3 battery warranty differ from revision 1?") isn't recognized by the stand-in router's rule, goes to search, and is asked for a purchase date. Left as found: fixing the rule against a held-out question would make it a development question.
 

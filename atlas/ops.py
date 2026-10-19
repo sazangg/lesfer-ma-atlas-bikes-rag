@@ -26,9 +26,7 @@ def simulate(args) -> None:
     from atlas.pipeline import SALES, STAFF, Assistant
 
     LOG_FILE.unlink(missing_ok=True)
-    from atlas.cache import AnswerCache
-
-    assistant = Assistant(log_path=LOG_FILE, cache=AnswerCache())  # part-13: repeated questions reuse answers
+    assistant = Assistant(log_path=LOG_FILE)
     assistant.ingest(load_corpus())
     users = {"staff": STAFF, "sales": SALES}
     requests = json.loads(TRAFFIC_FILE.read_text(encoding="utf-8"))["requests"]
@@ -36,8 +34,6 @@ def simulate(args) -> None:
         assistant.ask(r["question"], users[r["user"]], request_id=r["id"], at=r["at"])
         if "feedback" in r:
             append({"type": "feedback", "id": r["id"], **r["feedback"]}, LOG_FILE)
-            if r["feedback"]["rating"] == "down":
-                assistant.forget(r["question"], users[r["user"]])
     print(f"Replayed {len(requests)} requests into {LOG_FILE.relative_to(ROOT)}")
 
 
@@ -58,8 +54,6 @@ def stats(args) -> None:
     print(f"  answered with nothing supplied: {nothing}")
     routes = Counter(r.get("route", "search") for r in records)
     print("Routes:", ", ".join(f"{route} {n}" for route, n in routes.most_common()))
-    cached = sum(1 for r in records if r.get("cached"))
-    print(f"Answered from the cache: {cached}")
 
     reasons = {r["id"]: review_reasons(r, feedback.get(r["id"])) for r in records}
     weak = sum(any(x.startswith("weak search") for x in v) for v in reasons.values())

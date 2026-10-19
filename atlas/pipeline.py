@@ -37,17 +37,14 @@ Part 9 adds a second path. A router reads the question first:
                        │                   -> evidence the tools showed -> model
                        └─ compare (part-13): see below
 
-Part 13 adds whole documents and caching:
+Part 13 adds whole documents:
 
     compare: both revisions, aligned by section -> diff in code -> whole documents
              (or changed sections, over budget) + the diff -> model explains
-    cache:   a repeated question, same access, same settings, same collection -> stored answer
 """
 
 from __future__ import annotations
 
-import hashlib
-import json
 import re
 from dataclasses import dataclass, field
 from datetime import date
@@ -63,7 +60,6 @@ from atlas.index import VectorIndex, readable
 from atlas.keyword import KeywordIndex, reciprocal_rank_fusion
 from atlas.observe import append, log_record, span
 from atlas.providers import Describer, Embedder, Extractor, Generator, Planner, Reranker, Router
-from atlas.cache import AnswerCache
 from atlas.calculate import METRICS, calculate, result_sentence
 from atlas.compare import DOCUMENT_KINDS, compare, find_revision, render
 from atlas.records import COMPONENTS, RECORD_TYPES, extract_records, load_curated
@@ -121,8 +117,6 @@ class Trace:
     # part-09: which path answered, and whether the evidence is the complete set
     route: str = "search"
     complete_by: str | None = None
-    # part-13: answered from the answer cache, without retrieval or a model call
-    cached: bool = False
 
 
 class Assistant:
@@ -139,7 +133,6 @@ class Assistant:
         candidates: int = 10,
         min_score: float = 0.4,  # part-07: chosen by measurement, see `python -m atlas measure --min-score`
         log_path=None,  # part-08: append one record per request to this file
-        cache: AnswerCache | None = None,  # part-13: reuse answers to repeated questions
         whole_budget: int = 2000,  # part-13: supply whole documents up to this many tokens
     ):
         self.embedder = embedder or ToyEmbedder()
@@ -161,9 +154,7 @@ class Assistant:
         self.documents = []  # part-09: kept to check the records against them
         self.graph = LinkGraph()  # part-11: which blocks mention the same part
         self.log_path = log_path
-        self.cache = cache
         self.whole_budget = whole_budget
-        self.collection = hashlib.sha256()  # part-13: changes whenever any document or curated record does
 
     # Preparing the documents ------------------------------------------------
 
@@ -171,7 +162,6 @@ class Assistant:
         corrections = load_corrections() if corrections is None else corrections
         for parsed in documents:
             doc = convert(parsed, self.describer, corrections)
-            self.collection.update(json.dumps([parsed.source_id, parsed.meta, parsed.elements], sort_keys=True).encode())
             if parsed.meta.get("product"):
                 self.products.add(parsed.meta["product"])
             self.reports.append(doc.report)
@@ -187,34 +177,17 @@ class Assistant:
                 self.keywords.add(chunk, text)
         # part-09: records a person added, for knowledge the extracted records miss
         known = {r.id for r in self.records}
-        curated = [r for r in load_curated() if r.id not in known]
-        self.records.extend(curated)
-        self.collection.update(json.dumps([r.text for r in curated]).encode())
+        self.records.extend(r for r in load_curated() if r.id not in known)
 
     # Answering a question ---------------------------------------------------
 
     def ask(self, question: str, user: User = STAFF, request_id: str = "", at: str = "") -> Trace:
         trace = Trace(question, request_id=request_id, at=at)
         with span(trace, "total"):
-            key = self.cache.key(question, user.groups, self.settings(), self.collection.hexdigest()) if self.cache else ""
-            stored = self.cache.get(key) if self.cache else None
-            if stored:
-                with span(trace, "cache", hit=True):
-                    for name, value in stored.items():
-                        setattr(trace, name, value)
-                    trace.cached = True
-            else:
-                self._answer(trace, user)
-                if self.cache and trace.status == "answered":
-                    self.cache.put(key, trace)
+            self._answer(trace, user)
         if self.log_path:
             append(log_record(trace, user, self.settings()), self.log_path)
         return trace
-
-    def forget(self, question: str, user: User) -> None:
-        """part-13: drop a cached answer, for example after a thumbs down."""
-        if self.cache:
-            self.cache.forget(self.cache.key(question, user.groups, self.settings(), self.collection.hexdigest()))
 
     def _answer(self, trace: Trace, user: User) -> None:
         question = trace.question
