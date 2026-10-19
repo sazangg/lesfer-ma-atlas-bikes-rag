@@ -171,6 +171,15 @@
         "BULLETIN-2026-09#1",
         "BULLETIN-2026-09#2"
       ]
+    },
+    {
+      "id": "H23",
+      "kind": "comparison",
+      "question": "How does revision 2 of the C-3 battery warranty differ from revision 1?",
+      "relevant": [
+        "WARR-R1#2",
+        "WARR-R2#2"
+      ]
     }
   ]
 }

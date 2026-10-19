@@ -164,6 +164,12 @@ class ToyExtractor:
 class ToyRouter:
     def route(self, question: str) -> dict[str, str | None]:
         q = question.lower()
+        # part-13: what changed between two revisions of a document.
+        revisions = re.search(r"\brevisions? (\d+) and (?:revision )?(\d+)\b", q)
+        if revisions and re.search(r"\b(changed?|differ\w*|compare)\b", q):
+            kind = next((k for k in ("battery warranty", "specification", "service manual", "assembly guide",
+                                     "display error codes") if k in q), None)
+            return {"path": "compare", "document": kind, "revisions": list(revisions.groups())}
         # part-12: a battery serial number means a path no fixed route knows in advance.
         if re.search(r"\b\d{4}-\d{4}\b", question):
             return {"path": "agent"}
@@ -244,6 +250,11 @@ class ToyGenerator:
         result = next((line.removeprefix(prefix) for line in lines if line.startswith(prefix)), None)
         if result:
             quoted.insert(0, f"- {result}")
+        # part-13: so do changes computed by code, one line per section.
+        if "Changes (computed by code):" in lines:
+            start = lines.index("Changes (computed by code):") + 1
+            end = lines.index("", start) if "" in lines[start:] else len(lines)
+            quoted[:0] = [f"- {line}" for line in lines[start:end]]
         if not quoted:
             return "(toy generator) No sources were supplied."
         return "(toy generator) The supplied sources say:\n" + "\n".join(quoted)

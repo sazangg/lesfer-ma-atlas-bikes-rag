@@ -24,7 +24,7 @@ Each article has a tag. Check it out to see the system exactly as that article l
 | 10 | When the answer must be calculated | `part-10` |
 | 11 | When the answer spans documents | `part-11` |
 | 12 | When the next step depends on what you find | `part-12` |
-| 13 | Modules: whole documents | coming |
+| 13 | When the model should read whole documents | `part-13` |
 | 14 | Choosing your system | coming |
 
 Parts 1 to 6 are the core every system needs. Parts 9 to 13 are independent modules: add only the ones your questions need.

@@ -538,6 +538,55 @@
           ]
         }
       ]
+    },
+    {
+      "id": "Q24-compare-revisions",
+      "question": "What changed between revision 1 and revision 2 of the T-7 battery warranty?",
+      "expected_from": "part-13",
+      "kind": "comparison",
+      "relevant": [
+        "WARR-T7-R1#2",
+        "WARR-T7-R1#3",
+        "WARR-T7-R2#2",
+        "WARR-T7-R2#3"
+      ],
+      "behavior": "Both whole revisions, aligned by section: the term changed (2 to 3 years, and a new cap of 1,000 full charge cycles), the exclusions didn't. No purchase date is needed: the question is about the documents.",
+      "checks": [
+        {
+          "type": "includes_refs",
+          "refs": [
+            "WARR-T7-R1#2",
+            "WARR-T7-R1#3",
+            "WARR-T7-R2#2",
+            "WARR-T7-R2#3"
+          ]
+        },
+        {
+          "type": "status",
+          "equals": "answered"
+        },
+        {
+          "type": "answer_contains",
+          "text": "1,000 full charge cycles"
+        },
+        {
+          "type": "answer_contains",
+          "text": "Section 3 (Exclusions): unchanged"
+        }
+      ]
+    },
+    {
+      "id": "Q25-one-revision-stays-search",
+      "question": "What is the warranty term in revision 2 of the T-7 battery warranty?",
+      "expected_from": "part-13",
+      "kind": "paraphrase",
+      "behavior": "Naming a revision isn't asking for a comparison: this stays on the search path. (A routing test only: the search path then asks for a purchase date, Part 6's rule for date-scoped documents, although the question names the revision.)",
+      "checks": [
+        {
+          "type": "route",
+          "equals": "search"
+        }
+      ]
     }
   ]
 }
